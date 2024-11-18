@@ -10,7 +10,7 @@
   "pkgManagers": {
     "rust": {
       "version": true,
-      "getPublishedVersion": "node scripts/version-check.mjs",
+      "getPublishedVersion": "node ../scripts/version-check.mjs ${ pkg.pkg } ${ pkg.pkgFile.version }",
       "publish": []
     }
   },
