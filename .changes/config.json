@@ -10,7 +10,7 @@
   "pkgManagers": {
     "rust": {
       "version": true,
-      "getPublishedVersion": "npm run version:check --silent",
+      "getPublishedVersion": "pnpm --silent version:check",
       "publish": []
     }
   },
