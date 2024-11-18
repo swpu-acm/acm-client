@@ -82,7 +82,7 @@ jobs:
           - platform: "ubuntu-22.04"
             args: ""
           - platform: "windows-latest"
-            args: "--target x86_64-pc-windows-msvc"
+            args: ""
     steps:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v4
@@ -102,6 +102,7 @@ jobs:
         if: matrix.platform == 'ubuntu-22.04'
         with:
           components: rustfmt, clippy
+          targets: ""
       - name: Install Rust nightly (macos only)
         uses: dtolnay/rust-toolchain@nightly
         if: matrix.platform =='macos-latest'
@@ -113,7 +114,7 @@ jobs:
         if: matrix.platform == 'windows-latest'
         with:
           components: rustfmt, clippy
-          targets: "x86_64-pc-windows-msvc"
+          targets: ""
 
       - name: Install dependencies (ubuntu only)
         if: matrix.platform == 'ubuntu-22.04'
@@ -127,11 +128,10 @@ jobs:
       - name: Install frontend dependencies
         run: pnpm install
 
-      - uses: ilammy/msvc-dev-cmd@v1
-        if: matrix.platform == 'windows-latest'
       - uses: tauri-apps/tauri-action@v0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          CC: ${{ matrix.platform == 'macos-latest' && 'clang' || 'gcc' }}
         with:
           releaseId: ${{ needs.version-or-publish.outputs.releaseId }}
           args: ${{ matrix.args }}
