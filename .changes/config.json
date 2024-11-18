@@ -10,12 +10,7 @@
   "pkgManagers": {
     "rust": {
       "version": true,
-      "getPublishedVersion": {
-        "use": "fetch:check",
-        "options": {
-          "url": "https://github.com/swpu-acm/algohub/releases/tag/algohub-v${ pkg.pkgFile.version }"
-        }
-      },
+      "getPublishedVersion": "node scripts/version-check.mjs ${ pkg.pkg } ${ pkg.pkgFile.version }",
       "publish": []
     }
   },
