@@ -67,7 +67,7 @@ jobs:
 
   release-tauri:
     needs: version-or-publish
-    if: needs.version-or-publish.outputs.successfulPublish == 'true'
+    if: needs.version-or-publish.outputs.releaseId
     permissions:
       contents: write
     strategy:
@@ -102,9 +102,10 @@ jobs:
           node-version: 20
           cache: "pnpm"
 
-      - name: Install Rust stable
-        uses: dtolnay/rust-toolchain@stable
+      - name: Install Rust nightly
+        uses: dtolnay/rust-toolchain@nightly
         with:
+          toolchain: nightly
           components: rustfmt, clippy
           targets: ${{ matrix.target }}
 
@@ -123,7 +124,6 @@ jobs:
       - uses: tauri-apps/tauri-action@v0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          CC: ${{ matrix.platform == 'macos-latest' && 'clang' || 'gcc' }}
         with:
           releaseId: ${{ needs.version-or-publish.outputs.releaseId }}
           args: ${{ matrix.args }}
