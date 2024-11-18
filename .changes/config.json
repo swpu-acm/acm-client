@@ -10,6 +10,12 @@
   "pkgManagers": {
     "rust": {
       "version": true,
+      "getPublishedVersion": {
+        "use": "fetch:check",
+        "options": {
+          "url": "https://api.github.com/repos/swpu-acm/algohub/git/refs/tags/${ pkg.pkg }-v${ pkg.pkgFile.version }"
+        }
+      },
       "publish": []
     }
   },
