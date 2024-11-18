@@ -8,7 +8,7 @@
     "refactor": "Refactors"
   },
   "pkgManagers": {
-    "tauri": {
+    "rust": {
       "version": true,
       "publish": []
     }
@@ -16,7 +16,7 @@
   "packages": {
     "algohub": {
       "path": "./src-tauri",
-      "manager": "tauri"
+      "manager": "rust"
     }
   }
 }
