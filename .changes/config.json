@@ -7,10 +7,16 @@
     "chore": "Chores",
     "refactor": "Refactors"
   },
+  "pkgManager": {
+    "tauri": {
+      "version": true,
+      "publish": []
+    }
+  },
   "packages": {
     "algohub": {
       "path": "./src-tauri",
-      "publish": "echo 'Ignored publish to registries."
+      "manager": "tauri"
     }
   }
 }
