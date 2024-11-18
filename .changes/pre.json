@@ -1,4 +1,6 @@
 {
   "tag": "nightly",
-  "changes": []
+  "changes": [
+    ".changes/release-nightly.md"
+  ]
 }
