@@ -2,6 +2,7 @@
   "tag": "nightly",
   "changes": [
     ".changes/fix-windows-ci.md",
-    ".changes/release-nightly.md"
+    ".changes/release-nightly.md",
+    ".changes/rust-stable.md"
   ]
 }
