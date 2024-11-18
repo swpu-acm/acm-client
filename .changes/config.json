@@ -1,0 +1,16 @@
+{
+  "gitSiteUrl": "https://github.com/swpu-acm/algohub.git/",
+  "changeTags": {
+    "feat": "New Features",
+    "fix": "Bug Fixes",
+    "perf": "Performance Improvements",
+    "chore": "Chores",
+    "refactor": "Refactors"
+  },
+  "packages": {
+    "algohub": {
+      "path": "./src-tauri",
+      "publish": "echo 'Ignored publish to registries."
+    }
+  }
+}
