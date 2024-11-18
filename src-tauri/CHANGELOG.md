@@ -1,5 +1,11 @@
 # Changelog
 
+## \[0.1.1-nightly.4]
+
+### Chores
+
+- [`d724b73`](https://github.com/swpu-acm/algohub.git/commit/d724b739eff3a11463f0827f3f2d289cc2d3da1a) Revert changes to use rust nightly in `rust-toolchain` file
+
 ## \[0.1.1-nightly.3]
 
 ### Chores
