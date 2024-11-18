@@ -1,5 +1,11 @@
 # Changelog
 
+## \[0.1.1-nightly.2]
+
+### Chores
+
+- [`4d6ae56`](https://github.com/swpu-acm/algohub.git/commit/4d6ae5633223dd93fc25357610ff20b75c9153dc) ([#8](https://github.com/swpu-acm/algohub.git/pull/8) by [@fu050409](https://github.com/swpu-acm/algohub.git/../../fu050409)) Use stable Rust version in CI
+
 ## \[0.1.1-nightly.1]
 
 ### Bug Fixes
