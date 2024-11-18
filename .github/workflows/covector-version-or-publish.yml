@@ -67,7 +67,6 @@ jobs:
 
   release-tauri:
     needs: version-or-publish
-    runs-on: ubuntu-latest
     if: needs.version-or-publish.outputs.successfulPublish == 'true'
     permissions:
       contents: write
@@ -87,6 +86,8 @@ jobs:
           - platform: "windows-latest"
             args: "--target x86_64-pc-windows-msvc"
             target: "x86_64-pc-windows-msvc"
+
+    runs-on: ${{ matrix.platform }}
     steps:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v4
