@@ -77,12 +77,16 @@ jobs:
         include:
           - platform: "macos-latest" # for Arm based macs (M1 and above).
             args: "--target aarch64-apple-darwin"
+            target: "aarch64-apple-darwin"
           - platform: "macos-latest" # for Intel based macs.
             args: "--target x86_64-apple-darwin"
+            target: "x86_64-apple-darwin"
           - platform: "ubuntu-22.04"
             args: ""
+            target: ""
           - platform: "windows-latest"
-            args: ""
+            args: "--target x86_64-pc-windows-msvc"
+            target: ""
     steps:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v4
@@ -99,22 +103,9 @@ jobs:
 
       - name: Install Rust stable
         uses: dtolnay/rust-toolchain@stable
-        if: matrix.platform == 'ubuntu-22.04'
         with:
           components: rustfmt, clippy
-          targets: ""
-      - name: Install Rust nightly (macos only)
-        uses: dtolnay/rust-toolchain@nightly
-        if: matrix.platform =='macos-latest'
-        with:
-          components: rustfmt, clippy
-          targets: "aarch64-apple-darwin,x86_64-apple-darwin"
-      - name: Install Rust nightly (windows only)
-        uses: dtolnay/rust-toolchain@nightly
-        if: matrix.platform == 'windows-latest'
-        with:
-          components: rustfmt, clippy
-          targets: ""
+          targets: ${{ matrix.target }}
 
       - name: Install dependencies (ubuntu only)
         if: matrix.platform == 'ubuntu-22.04'
