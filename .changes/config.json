@@ -7,7 +7,7 @@
     "chore": "Chores",
     "refactor": "Refactors"
   },
-  "pkgManager": {
+  "pkgManagers": {
     "tauri": {
       "version": true,
       "publish": []
