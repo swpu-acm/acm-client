@@ -118,6 +118,8 @@ jobs:
       - name: Install frontend dependencies
         run: pnpm install
 
+      - uses: ilammy/msvc-dev-cmd@v1
+        if: matrix.platform == 'windows-latest'
       - uses: tauri-apps/tauri-action@v0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
