@@ -101,20 +101,17 @@ jobs:
         uses: dtolnay/rust-toolchain@stable
         if: matrix.platform == 'ubuntu-22.04'
         with:
-          toolchain: nightly
           components: rustfmt, clippy
       - name: Install Rust nightly (macos only)
         uses: dtolnay/rust-toolchain@nightly
         if: matrix.platform =='macos-latest'
         with:
-          toolchain: nightly
           components: rustfmt, clippy
           targets: "aarch64-apple-darwin,x86_64-apple-darwin"
       - name: Install Rust nightly (windows only)
         uses: dtolnay/rust-toolchain@nightly
         if: matrix.platform == 'windows-latest'
         with:
-          toolchain: nightly
           components: rustfmt, clippy
           targets: "x86_64-pc-windows-msvc"
 
