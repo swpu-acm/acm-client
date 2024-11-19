@@ -7,6 +7,8 @@ themeStore.init();
 </script>
 
 <template>
-    <Toast />
-    <RouterView />
+    <main class="w-full h-screen">
+        <Toast />
+        <RouterView />
+    </main>
 </template>
