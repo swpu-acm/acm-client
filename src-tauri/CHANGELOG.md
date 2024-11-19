@@ -1,5 +1,12 @@
 # Changelog
 
+## \[0.1.1-nightly.5]
+
+### New Features
+
+- [`496a065`](https://github.com/swpu-acm/algohub.git/commit/496a06552a3f0135a8b3f4e7c25f8986732b040a) ([#15](https://github.com/swpu-acm/algohub.git/pull/15)) Optimize login UI and add icon in login page
+- [`af8ed4d`](https://github.com/swpu-acm/algohub.git/commit/af8ed4d906fb08e72b8c30c128330e32d9c21973) ([#13](https://github.com/swpu-acm/algohub.git/pull/13)) Refactor login page to `login.vue`.
+
 ## \[0.1.1-nightly.4]
 
 ### Chores
