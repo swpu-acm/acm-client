@@ -52,42 +52,47 @@ const onLogin = async ({ valid }: { valid: boolean }) => {
 
 <template>
   <main class="w-full h-screen">
-    <div class="flex flex-col md:flex-row h-full w-full">
-      <div class="flex items-center justify-center h-full w-full">
-        <h1 class="text-4xl font-bold">ACM Algorithm Hub</h1>
+    <div class="grid md:grid-cols-2 gap-2 h-full">
+      <div class="grid">
+        <div class="flex flex-col items-center justify-center h-full w-full">
+          <Image class="hidden md:flex" src="/acm-light.png" alt="Image" width="250" />
+          <h1 class="text-4xl font-bold mt-6 md:m-0">ACM Algorithm Hub</h1>
+        </div>
       </div>
-      <Card class="m-10 px-6 py-12 w-full">
-        <template #title>Welcome to ACM Algorithm Hub</template>
-        <template #subtitle>Association of Computing Machinery affiliated with SWPU</template>
-        <template #content class="h-full">
-          <Form v-slot="$form" :initialValues :resolver @submit="onLogin"
-            class="flex flex-col p-6 gap-4 h-full items-center justify-center">
-            <div class="flex flex-col gap-1 w-full">
-              <InputText name="identity" type="text" placeholder="Username or Email" fluid />
-              <Message v-if="$form.identity?.invalid" severity="error" size="small" variant="simple">{{
-                $form.identity.error.message }}</Message>
-            </div>
-            <div class="flex flex-col gap-1 w-full">
-              <Password name="password" type="text" placeholder="Password" :feedback="false" toggleMask fluid />
-              <Message v-if="$form.password?.invalid" severity="error" size="small" variant="simple">{{
-                $form.password.error.message }}</Message>
-            </div>
-            <div class="flex flex-col gap-1 w-full">
-              <div class="flex items-center gap-2">
-                <Checkbox inputId="terms" name="terms" binary />
-                <label for="terms" class="text-sm">I have read and agree to the <a href="#" class="underline">Affero
-                    General Public License v3</a>.</label>
+      <div class="grid md:h-full lg:w-full">
+        <Card class="m-10 px-6 py-12">
+          <template #title>Welcome to ACM Algorithm Hub</template>
+          <template #subtitle>Association of Computing Machinery affiliated with SWPU</template>
+          <template #content class="h-full">
+            <Form v-slot="$form" :initialValues :resolver @submit="onLogin"
+              class="flex flex-col p-6 gap-4 h-full items-center justify-center">
+              <div class="flex flex-col gap-1 w-full">
+                <InputText name="identity" type="text" placeholder="Username or Email" fluid />
+                <Message v-if="$form.identity?.invalid" severity="error" size="small" variant="simple">{{
+                  $form.identity.error.message }}</Message>
               </div>
-              <Message v-if="$form.terms?.invalid" severity="error" size="small" variant="simple">{{
-                $form.terms.error.message }}</Message>
-            </div>
-            <p>Do not have an account? <a @click="router.push('/signup')" class="underline">Sign up</a></p>
-            <Button type="submit" label="Login" class="w-full" secondary></Button>
-          </Form>
-        </template>
-        <template #footer>
-        </template>
-      </Card>
+              <div class="flex flex-col gap-1 w-full">
+                <Password name="password" type="text" placeholder="Password" :feedback="false" toggleMask fluid />
+                <Message v-if="$form.password?.invalid" severity="error" size="small" variant="simple">{{
+                  $form.password.error.message }}</Message>
+              </div>
+              <div class="flex flex-col gap-1 w-full">
+                <div class="flex items-center gap-2">
+                  <Checkbox inputId="terms" name="terms" binary />
+                  <label for="terms" class="text-sm">I have read and agree to the <a href="#" class="underline">Affero
+                      General Public License v3</a>.</label>
+                </div>
+                <Message v-if="$form.terms?.invalid" severity="error" size="small" variant="simple">{{
+                  $form.terms.error.message }}</Message>
+              </div>
+              <p>Do not have an account? <a @click="router.push('/signup')" class="underline">Sign up</a></p>
+              <Button type="submit" label="Login" class="w-full" secondary></Button>
+            </Form>
+          </template>
+          <template #footer>
+          </template>
+        </Card>
+      </div>
     </div>
   </main>
 </template>

@@ -1,9 +1,7 @@
 <script setup lang="ts">
 import { onMounted } from "vue";
-import { useToast } from 'primevue/usetoast';
 import { useRouter } from 'vue-router';
 
-const toast = useToast();
 const router = useRouter();
 
 onMounted(() => {
