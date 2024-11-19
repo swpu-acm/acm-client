@@ -25,3 +25,6 @@ dist-ssr
 
 # unplugin-vue-components
 components.d.ts
+
+# Tailwind CSS
+tailwind.css
