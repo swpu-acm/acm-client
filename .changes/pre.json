@@ -2,10 +2,12 @@
   "tag": "nightly",
   "changes": [
     ".changes/add-icon.md",
+    ".changes/fix-dark-mode.md",
     ".changes/fix-windows-ci.md",
     ".changes/refactor-login.md",
     ".changes/release-nightly.md",
     ".changes/rust-nightly.md",
-    ".changes/rust-stable.md"
+    ".changes/rust-stable.md",
+    ".changes/signup-panel.md"
   ]
 }
