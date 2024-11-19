@@ -1,0 +1,93 @@
+<script setup lang="ts">
+import { reactive } from "vue";
+// import { invoke } from "@tauri-apps/api/core";
+import { useToast } from 'primevue/usetoast';
+import { useRouter } from "vue-router";
+
+const toast = useToast();
+const router = useRouter();
+
+const initialValues = reactive({
+  identity: '',
+  password: '',
+  terms: false,
+});
+
+interface LoginForm {
+  identity: string;
+  password: string;
+  terms: boolean;
+}
+
+interface LoginErrors {
+  identity?: { message: string }[];
+  password?: { message: string }[];
+  terms?: { message: string }[];
+}
+
+const resolver = ({ values }: { values: LoginForm }) => {
+  const errors: LoginErrors = {};
+
+  if (!values.identity) {
+    errors.identity = [{ message: 'Please enter your username or email.' }];
+  }
+
+  if (!values.password) {
+    errors.password = [{ message: 'Missing password.' }];
+  }
+
+  if (!values.terms) {
+    errors.terms = [{ message: 'You must agree to the terms and conditions.' }];
+  }
+
+  return { errors };
+};
+
+const onLogin = async ({ valid }: { valid: boolean }) => {
+  if (valid) {
+    toast.add({ severity: 'info', summary: 'Login unsupported', detail: 'Please wait while nightly versions are being updated.' });
+  }
+}
+</script>
+
+<template>
+  <main class="w-full h-screen">
+    <div class="flex flex-col md:flex-row h-full w-full">
+      <div class="flex items-center justify-center h-full w-full">
+        <h1 class="text-4xl font-bold">ACM Algorithm Hub</h1>
+      </div>
+      <Card class="m-10 px-6 py-12 w-full">
+        <template #title>Welcome to ACM Algorithm Hub</template>
+        <template #subtitle>Association of Computing Machinery affiliated with SWPU</template>
+        <template #content class="h-full">
+          <Form v-slot="$form" :initialValues :resolver @submit="onLogin"
+            class="flex flex-col p-6 gap-4 h-full items-center justify-center">
+            <div class="flex flex-col gap-1 w-full">
+              <InputText name="identity" type="text" placeholder="Username or Email" fluid />
+              <Message v-if="$form.identity?.invalid" severity="error" size="small" variant="simple">{{
+                $form.identity.error.message }}</Message>
+            </div>
+            <div class="flex flex-col gap-1 w-full">
+              <Password name="password" type="text" placeholder="Password" :feedback="false" toggleMask fluid />
+              <Message v-if="$form.password?.invalid" severity="error" size="small" variant="simple">{{
+                $form.password.error.message }}</Message>
+            </div>
+            <div class="flex flex-col gap-1 w-full">
+              <div class="flex items-center gap-2">
+                <Checkbox inputId="terms" name="terms" binary />
+                <label for="terms" class="text-sm">I have read and agree to the <a href="#" class="underline">Affero
+                    General Public License v3</a>.</label>
+              </div>
+              <Message v-if="$form.terms?.invalid" severity="error" size="small" variant="simple">{{
+                $form.terms.error.message }}</Message>
+            </div>
+            <p>Do not have an account? <a @click="router.push('/signup')" class="underline">Sign up</a></p>
+            <Button type="submit" label="Login" class="w-full" secondary></Button>
+          </Form>
+        </template>
+        <template #footer>
+        </template>
+      </Card>
+    </div>
+  </main>
+</template>
