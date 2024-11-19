@@ -1,5 +1,15 @@
 # Changelog
 
+## \[0.1.1-nightly.6]
+
+### New Features
+
+- [`a38653a`](https://github.com/swpu-acm/algohub.git/commit/a38653aeeb0d2b349308ad716cf738b032d93cd7) ([#18](https://github.com/swpu-acm/algohub.git/pull/18) by [@fu050409](https://github.com/swpu-acm/algohub.git/../../fu050409)) Add sign up panel in `signup.vue`.
+
+### Bug Fixes
+
+- [`2ac269d`](https://github.com/swpu-acm/algohub.git/commit/2ac269d3d48b2aa16b5e3e16b1ea20fa9f52c818) ([#16](https://github.com/swpu-acm/algohub.git/pull/16) by [@fu050409](https://github.com/swpu-acm/algohub.git/../../fu050409)) Fix dark mode selector for fronted
+
 ## \[0.1.1-nightly.5]
 
 ### New Features
