@@ -13,7 +13,7 @@ const router = useRouter();
 const themeStore = useThemeStore();
 const accountStore = useAccountStore();
 
-const activeStep = ref("3");
+const activeStep = ref("1");
 const isShowAvatarCutter = ref<boolean>(false);
 const avatarString = ref<string>('');
 const croppedAvatar = ref<string>('');
@@ -281,7 +281,7 @@ const onComplete = async ({ valid, states }: { valid: boolean, states: CompleteF
 
 <template>
   <div class="flex flex-col justify-center items-center h-screen">
-    <div class="flex flex-col container h-full m-10">
+    <div class="flex flex-col container m-auto items-center justify-center h-full">
       <div class="flex flex-row justify-between mb-4 w-full">
         <Button @click="router.go(-1)" icon="pi pi-arrow-left" label="Back" plain outlined></Button>
         <Button @click="themeStore.toggle" :icon="`pi pi-${themeStore.dark ? 'moon' : 'sun'}`" plain text></Button>
@@ -332,7 +332,7 @@ const onComplete = async ({ valid, states }: { valid: boolean, states: CompleteF
                       $form.terms.error.message }}</Message>
                   </div>
                   <p>Already have an account? <a @click="router.push('/login')" class="underline">Login</a></p>
-                  <Button type="submit" label="Activate" class="w-full" :loading="inProgress" secondary></Button>
+                  <Button type="submit" label="Register" class="w-full" :loading="inProgress" secondary></Button>
                 </Form>
               </template>
             </Card>
@@ -434,7 +434,7 @@ const onComplete = async ({ valid, states }: { valid: boolean, states: CompleteF
                       $form.major.error.message }}</Message>
                   </div>
                   <p>Activate your account later? <a @click="router.push('/')" class="underline">Stay inactive</a></p>
-                  <Button type="submit" label="Save" class="w-full" :disabled="inProgress" secondary></Button>
+                  <Button type="submit" label="Activate" class="w-full" :disabled="inProgress" secondary></Button>
                 </Form>
               </template>
             </Card>
