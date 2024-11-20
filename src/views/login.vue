@@ -50,10 +50,10 @@ const onLogin = async ({ valid, states }: { valid: boolean, states: LoginForm<Re
   const res = await api.login({ identity: identity?.value!, password: password?.value! });
 
   if (!res.success) {
-    toast.add({ severity: 'error', summary: 'Login Failed', detail: res.message });
+    toast.add({ severity: 'error', summary: 'Login Failed', detail: res.message, life: 3000 });
   } else {
     accountStore.mergeProfile(res.data!);
-    toast.add({ severity: 'success', summary: 'Login Success', detail: 'Welcome back!' });
+    toast.add({ severity: 'success', summary: 'Login Success', detail: 'Welcome back!', life: 3000 });
     router.push('/dashboard');
   }
 
