@@ -1,13 +1,5 @@
 # Changelog
 
-## \[0.1.1-nightly.7]
-
-### New Features
-
-- [`21e266d`](https://github.com/swpu-acm/algohub.git/commit/21e266da2898a71f2b2137719042edc53852a736) ([#26](https://github.com/swpu-acm/algohub.git/pull/26) by [@fu050409](https://github.com/swpu-acm/algohub.git/../../fu050409)) Add index page for AlgoHub.
-- [`09e481f`](https://github.com/swpu-acm/algohub.git/commit/09e481f3ab147434ba823f597877ead61f167460) ([#25](https://github.com/swpu-acm/algohub.git/pull/25) by [@fu050409](https://github.com/swpu-acm/algohub.git/../../fu050409)) Optimize dark mode selector for tailwindcss.
-- [`7266ef9`](https://github.com/swpu-acm/algohub.git/commit/7266ef9f0ae2eaa87e6ca947dd7021d231caa3e6) ([#22](https://github.com/swpu-acm/algohub.git/pull/22) by [@fu050409](https://github.com/swpu-acm/algohub.git/../../fu050409)) Support for updating profile information and account activation.
-
 ## \[0.1.1-nightly.6]
 
 ### New Features
