@@ -3,6 +3,7 @@ import { reactive, type Ref, ref } from "vue";
 import { useToast } from 'primevue/usetoast';
 import { useRouter } from "vue-router";
 import { useThemeStore } from "../scripts/store";
+import * as api from "@/scripts/api";
 
 const toast = useToast();
 const router = useRouter();
@@ -53,11 +54,17 @@ const onRegister = async ({ valid, states }: { valid: boolean, states: RegisterF
 
   if (inProgress.value) return;
   inProgress.value = true;
-
-  console.log(states);
-
+  const res = await api.register({
+    username: states.username!.value,
+    email: states.email!.value,
+    password: states.password!.value,
+  })
   inProgress.value = false;
-  toast.add({ severity: "info", summary: "Register unsupported in nightly release now.", detail: "Please check your email for verification." });
+
+  if (res.success)
+    toast.add({ severity: "success", summary: "Registered successfully", detail: "You are now logged in, perhaps filled with your profile." });
+  else
+    toast.add({ severity: "error", summary: "Registration failed", detail: res.message });
 }
 </script>
 
