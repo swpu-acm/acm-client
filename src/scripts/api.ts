@@ -53,13 +53,7 @@ export const uploadAvatar = async (form: UploadAvatar) => {
     });
     return response.data as Response<UploadAvatarResponse>;
   } catch (error) {
-    const data = AxiosError.from(error).response?.data as ErrorResponse;
-    return {
-      success: false,
-      message:
-        AxiosError.from(error).message + ": " + data?.message ||
-        "Unknown error",
-    } as ErrorResponse;
+    return handleAxiosError(AxiosError.from(error));
   }
 };
 
@@ -69,7 +63,7 @@ interface Profile {
   links?: string[];
   nickname?: string;
   sex?: boolean;
-  birthday?: string;
+  // birthday?: string;
   name?: string;
   student_id?: string;
   school?: string;
@@ -88,13 +82,7 @@ export const updateProfile = async (form: ProfileForm) => {
     const response = await axios.post("/account/profile", form);
     return response.data as Response<undefined>;
   } catch (error) {
-    const data = AxiosError.from(error).response?.data as ErrorResponse;
-    return {
-      success: false,
-      message:
-        AxiosError.from(error).message + ": " + data?.message ||
-        "Unknown error",
-    } as ErrorResponse;
+    return handleAxiosError(AxiosError.from(error));
   }
 };
 
@@ -108,12 +96,17 @@ export const login = async (form: LoginForm) => {
     const response = await axios.post("/account/login", form);
     return response.data as Response<AuthResponse>;
   } catch (error) {
-    const data = AxiosError.from(error).response?.data as ErrorResponse;
-    return {
-      success: false,
-      message:
-        AxiosError.from(error).message + ": " + data?.message ||
-        "Unknown error",
-    } as ErrorResponse;
+    return handleAxiosError(AxiosError.from(error));
+  }
+};
+
+export const fetchProfile = async (form: AuthResponse) => {
+  try {
+    const response = await axios.post(`/account/profile/${form.id}`, {
+      token: form.token,
+    });
+    return response.data as Response<Profile>;
+  } catch (error) {
+    return handleAxiosError(AxiosError.from(error));
   }
 };
