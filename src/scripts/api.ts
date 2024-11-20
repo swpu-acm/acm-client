@@ -1,13 +1,14 @@
 import { AxiosError } from "axios";
-import axios from "./axios";
+import axios from "@/scripts/axios";
+import { handleAxiosError } from "@/scripts/utils";
 
-interface Response<D> {
+export interface Response<D> {
   success: boolean;
   message: string;
   data?: D;
 }
 
-type ErrorResponse = Response<undefined>;
+export type ErrorResponse = Response<undefined>;
 
 interface Register {
   username: string;
@@ -15,7 +16,7 @@ interface Register {
   password: string;
 }
 
-interface RegisterResponse {
+interface AuthResponse {
   id: string;
   token: string;
 }
@@ -27,12 +28,9 @@ export const register = async (form: Register) => {
       email: form.email,
       password: form.password,
     });
-    return response.data as Response<RegisterResponse>;
+    return response.data as Response<AuthResponse>;
   } catch (error) {
-    return {
-      success: false,
-      message: AxiosError.from(error).message,
-    } as ErrorResponse;
+    return handleAxiosError(AxiosError.from(error));
   }
 };
 
@@ -55,9 +53,12 @@ export const uploadAvatar = async (form: UploadAvatar) => {
     });
     return response.data as Response<UploadAvatarResponse>;
   } catch (error) {
+    const data = AxiosError.from(error).response?.data as ErrorResponse;
     return {
       success: false,
-      message: AxiosError.from(error).message,
+      message:
+        AxiosError.from(error).message + ": " + data?.message ||
+        "Unknown error",
     } as ErrorResponse;
   }
 };
@@ -87,9 +88,32 @@ export const updateProfile = async (form: ProfileForm) => {
     const response = await axios.post("/account/profile", form);
     return response.data as Response<undefined>;
   } catch (error) {
+    const data = AxiosError.from(error).response?.data as ErrorResponse;
     return {
       success: false,
-      message: AxiosError.from(error).message,
-    };
+      message:
+        AxiosError.from(error).message + ": " + data?.message ||
+        "Unknown error",
+    } as ErrorResponse;
+  }
+};
+
+interface LoginForm {
+  identity: string;
+  password: string;
+}
+
+export const login = async (form: LoginForm) => {
+  try {
+    const response = await axios.post("/account/login", form);
+    return response.data as Response<AuthResponse>;
+  } catch (error) {
+    const data = AxiosError.from(error).response?.data as ErrorResponse;
+    return {
+      success: false,
+      message:
+        AxiosError.from(error).message + ": " + data?.message ||
+        "Unknown error",
+    } as ErrorResponse;
   }
 };
