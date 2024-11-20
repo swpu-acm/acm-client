@@ -28,7 +28,9 @@ export const useThemeStore = defineStore(
         document.documentElement.classList.remove("dark");
       }
     };
-    return { dark, toggle, init };
+    const icon = computed(() => (dark.value ? "pi pi-moon" : "pi pi-sun"));
+    const logo = computed(() => (dark.value ? "/acm-light.png" : "/acm.png"));
+    return { dark, toggle, init, icon, logo };
   },
   {
     persist: true,
@@ -39,8 +41,8 @@ interface Account {
   id?: string;
   token?: string;
 
-  username: string;
-  email: string;
+  username?: string;
+  email?: string;
   avatar?: string;
   signature?: string;
   links?: string[];
@@ -63,10 +65,10 @@ interface Account {
 export const useAccountStore = defineStore(
   "account",
   () => {
-    const account = ref<Account | null>(null);
+    const account = ref<Account>({});
 
-    const isLoggedIn = computed(
-      () => account.value !== null && account.value.token
+    const isLoggedIn = computed(() =>
+      Boolean(account.value !== null && account.value.token)
     );
 
     const mergeProfile = (profile: Partial<Account>) => {
@@ -76,7 +78,7 @@ export const useAccountStore = defineStore(
     };
 
     const logout = () => {
-      account.value = null;
+      account.value = {};
     };
 
     return { account, isLoggedIn, mergeProfile, logout };
