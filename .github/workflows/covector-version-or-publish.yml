@@ -22,6 +22,8 @@ jobs:
       commandRan: ${{ steps.covector.outputs.commandRan }}
       releaseId: ${{ steps.covector.outputs.releaseId }}
       successfulPublish: ${{ steps.covector.outputs.successfulPublish }}
+      releaseTag: ${{ steps.tag.outputs.tag }}
+      releaseVersion: ${{ steps.version.outputs.version }}
 
     steps:
       - uses: actions/checkout@v4
@@ -39,9 +41,6 @@ jobs:
           cache: "pnpm"
       - name: Install dependencies
         run: pnpm install
-      - uses: actions/setup-node@v4
-        with:
-          registry-url: "https://registry.npmjs.org"
       - name: git config
         run: |
           git config --global user.name "${{ github.event.pusher.name }}"
@@ -64,6 +63,14 @@ jobs:
           labels: "version updates"
           branch: "release"
           body: ${{ steps.covector.outputs.change }}
+      - name: Persist releaseTag
+        id: tag
+        if: steps.covector.outputs.commandRan == 'publish'
+        run: cat tag.txt
+      - name: Persist releaseVersion
+        id: version
+        if: steps.covector.outputs.commandRan == 'publish'
+        run: cat version.txt
 
   release-tauri:
     needs: version-or-publish
@@ -117,12 +124,14 @@ jobs:
 
       - name: Rust Cache
         uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: "./src-tauri -> target"
 
       - name: Install frontend dependencies
         run: pnpm install
 
       - name: Build TailwindCSS
-        run: pnpx tailwindcss -i ./input.css -o ./src/assets/tailwind.css 
+        run: pnpx tailwindcss -i ./input.css -o ./src/assets/tailwind.css
 
       - uses: tauri-apps/tauri-action@v0
         env:
@@ -130,3 +139,95 @@ jobs:
         with:
           releaseId: ${{ needs.version-or-publish.outputs.releaseId }}
           args: ${{ matrix.args }}
+
+  publish-android:
+    needs: version-or-publish
+    if: needs.version-or-publish.outputs.releaseId
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        name: Install pnpm
+        with:
+          version: 9
+          run_install: false
+
+      - name: Setup Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: "pnpm"
+
+      - name: Install Rust nightly
+        uses: dtolnay/rust-toolchain@nightly
+        with:
+          toolchain: nightly
+          components: rustfmt, clippy
+          targets: aarch64-linux-android,armv7-linux-androideabi,i686-linux-android,x86_64-linux-android
+
+      - name: Install dependencies (ubuntu only)
+        if: matrix.platform == 'ubuntu-22.04'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libwebkit2gtk-4.1-dev libwebkit2gtk-4.1-dev libappindicator3-dev librsvg2-dev patchelf
+
+      - name: Rust Cache
+        uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: "./src-tauri -> target"
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: "zulu"
+          java-version: "17"
+
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Install NDK
+        run: sdkmanager "ndk;27.0.11902837"
+
+      - name: Init Android project
+        env:
+          NDK_HOME: ${{ env.ANDROID_HOME }}/ndk/27.0.11902837
+        run: |
+          pnpm tauri android init
+
+      - name: Install frontend dependencies
+        run: pnpm install
+
+      - name: Build TailwindCSS
+        run: pnpx tailwindcss -i ./input.css -o ./src/assets/tailwind.css
+
+      - name: Build app bundle
+        run: pnpm tauri android build -v
+        env:
+          NDK_HOME: ${{ env.ANDROID_HOME }}/ndk/27.0.11902837
+
+      - name: Extract android signing key from env
+        run: |
+          echo "${{ secrets.ANDROID_RELEASE_KEYSTORE }}" > src-tauri/gen/android/release.jks.base64
+          base64 -d src-tauri/gen/android/release.jks.base64 > src-tauri/gen/android/release.decrypted.jks
+
+      - name: Sign APK
+        run: |
+          ${{ env.ANDROID_HOME }}/build-tools/34.0.0/apksigner sign --ks src-tauri/gen/android/release.decrypted.jks \
+            --ks-key-alias ${{ secrets.ANDROID_RELEASE_KEY }} \
+            --ks-pass pass:${{ secrets.ANDROID_RELEASE_PASSWORD }} \
+            --key-pass pass:${{ secrets.ANDROID_RELEASE_KEY_PASSWORD }} \
+            --out src-tauri/gen/android/app/build/outputs/apk/universal/release/app-universal-release-signed.apk \
+            src-tauri/gen/android/app/build/outputs/apk/universal/release/app-universal-release-unsigned.apk
+
+      - name: Rename APK file
+        run: |
+          mv ./src-tauri/gen/android/app/build/outputs/apk/universal/release/app-universal-release-signed.apk ./algohub-v${{ needs.version-or-publish.outputs.releaseVersion }}.apk
+
+      - name: Publish
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ needs.version-or-publish.outputs.releaseTag }}
+          files: |
+            ./algohub-v${{ needs.version-or-publish.outputs.releaseVersion }}.apk

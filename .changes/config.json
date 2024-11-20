@@ -11,7 +11,11 @@
     "rust": {
       "version": true,
       "getPublishedVersion": "pnpm --silent version:check",
-      "publish": []
+      "publish": [],
+      "postpublish": [
+        "echo '${ pkg.pkg }-v${ pkgFile.version }' > tag.txt",
+        "echo '${ pkgFile.version }' > version.txt"
+    ]
     }
   },
   "packages": {
