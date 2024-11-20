@@ -10,6 +10,11 @@ const router = useRouter();
 const accountStore = useAccountStore();
 const themeStore = useThemeStore();
 
+if (accountStore.isLoggedIn) {
+  toast.add({ severity: 'info', summary: 'Already Logged In', detail: 'Redirecting to dashboard...', life: 3000 });
+  router.push('/dashboard');
+}
+
 const initialValues = reactive({
   identity: '',
   password: '',
