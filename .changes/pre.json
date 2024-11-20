@@ -11,6 +11,7 @@
     ".changes/rust-nightly.md",
     ".changes/rust-stable.md",
     ".changes/signup-panel.md",
-    ".changes/update-profile.md"
+    ".changes/update-profile.md",
+    ".changes/use-farm.md"
   ]
 }
