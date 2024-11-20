@@ -4,13 +4,10 @@
     ".changes/add-icon.md",
     ".changes/fix-dark-mode.md",
     ".changes/fix-windows-ci.md",
-    ".changes/index-page.md",
-    ".changes/optimize-dark.md",
     ".changes/refactor-login.md",
     ".changes/release-nightly.md",
     ".changes/rust-nightly.md",
     ".changes/rust-stable.md",
-    ".changes/signup-panel.md",
-    ".changes/update-profile.md"
+    ".changes/signup-panel.md"
   ]
 }
