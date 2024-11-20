@@ -39,8 +39,8 @@ interface Account {
   id?: string;
   token?: string;
 
-  username: string;
-  email: string;
+  username?: string;
+  email?: string;
   avatar?: string;
   signature?: string;
   links?: string[];
@@ -63,10 +63,10 @@ interface Account {
 export const useAccountStore = defineStore(
   "account",
   () => {
-    const account = ref<Account | null>(null);
+    const account = ref<Account>({});
 
-    const isLoggedIn = computed(
-      () => account.value !== null && account.value.token
+    const isLoggedIn = computed(() =>
+      Boolean(account.value !== null && account.value.token)
     );
 
     const mergeProfile = (profile: Partial<Account>) => {
@@ -76,7 +76,7 @@ export const useAccountStore = defineStore(
     };
 
     const logout = () => {
-      account.value = null;
+      account.value = {};
     };
 
     return { account, isLoggedIn, mergeProfile, logout };
