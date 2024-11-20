@@ -1,5 +1,11 @@
 # Changelog
 
+## \[0.1.1-nightly.8]
+
+### Refactors
+
+- [`270073b`](https://github.com/swpu-acm/algohub.git/commit/270073bf7dda64da47dbe9da2a7de2a79cb0d4a6) ([#33](https://github.com/swpu-acm/algohub.git/pull/33) by [@fu050409](https://github.com/swpu-acm/algohub.git/../../fu050409)) Use Farm instead of Vite for compiling and bundling frontend code.
+
 ## \[0.1.1-nightly.7]
 
 ### New Features
