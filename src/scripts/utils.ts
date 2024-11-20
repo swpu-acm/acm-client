@@ -7,7 +7,9 @@ export const handleAxiosError = (error: AxiosError) => {
   return {
     success: false,
     message:
-      AxiosError.from(error).message + ": " + data?.message || "Unknown error",
+      AxiosError.from(error).message +
+      ": " +
+      (data?.message || "Unknown error"),
   } as ErrorResponse;
 };
 
