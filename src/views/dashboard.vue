@@ -19,8 +19,9 @@ const themeStore = useThemeStore();
 
 const avatarUrl = computed(() => expandUrl(accountStore.account?.avatar));
 
-const inProgress = ref(true);
+const loadingProfile = ref(true);
 onMounted(async () => {
+    if (!accountStore.isLoggedIn) return;
     const response = await api.fetchProfile({
         id: accountStore.account?.id!,
         token: accountStore.account?.token!,
@@ -28,8 +29,8 @@ onMounted(async () => {
     if (!response.success) {
         return toast.add({ severity: 'error', summary: 'Error', detail: response.message });
     }
-    accountStore.mergeProfile(response.data ?? {});
-    inProgress.value = false;
+    accountStore.mergeProfile(response.data!);
+    loadingProfile.value = false;
 })
 </script>
 
@@ -52,6 +53,10 @@ onMounted(async () => {
                 <div class="inline-flex m-8 gap-8 items-center">
                     <Avatar :image="avatarUrl" shape="circle"></Avatar>
                     <span>{{ accountStore.account?.username }}</span>
+                </div>
+                <div class="inline-flex m-8 gap-8 items-center">
+                    <Skeleton></Skeleton>
+                    <Skeleton></Skeleton>
                 </div>
                 <div class="flex flex-col flex-1">
                     <div v-for="i in 's'.repeat(10)">
