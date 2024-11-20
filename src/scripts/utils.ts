@@ -1,9 +1,19 @@
 import { AxiosError } from "axios";
 import type { ErrorResponse } from "@/scripts/api";
 import { config } from "@/config";
+import { useAccountStore } from "./store";
 
 export const handleAxiosError = (error: AxiosError) => {
   const data = error.response?.data as ErrorResponse;
+  const status = error.response?.status;
+  const accountStore = useAccountStore();
+  if (status === 401) {
+    accountStore.logout();
+    return {
+      success: false,
+      message: "Unauthorized: " + (data?.message ?? "Invalid token"),
+    } as ErrorResponse;
+  }
   return {
     success: false,
     message:
