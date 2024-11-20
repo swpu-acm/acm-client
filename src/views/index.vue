@@ -17,7 +17,7 @@ const router = useRouter();
       Releases
     </a>
   </div>
-  <section class="bg-gray-900 text-white h-full">
+  <section class="bg-gray-900 text-white h-screen">
     <div class="mx-auto max-w-screen-xl px-4 py-32 lg:flex lg:h-screen lg:items-center">
       <div class="mx-auto max-w-3xl text-center">
         <h1
