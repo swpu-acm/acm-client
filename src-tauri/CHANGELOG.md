@@ -1,5 +1,15 @@
 # Changelog
 
+## \[0.1.1-nightly.9]
+
+### New Features
+
+- [`ece911a`](https://github.com/swpu-acm/algohub.git/commit/ece911a71d682ce8487ac0a76c1ea28a46b78e9e) ([#32](https://github.com/swpu-acm/algohub.git/pull/32) by [@fu050409](https://github.com/swpu-acm/algohub.git/../../fu050409)) Add api export for login.
+
+### Bug Fixes
+
+- [`ece911a`](https://github.com/swpu-acm/algohub.git/commit/ece911a71d682ce8487ac0a76c1ea28a46b78e9e) ([#32](https://github.com/swpu-acm/algohub.git/pull/32) by [@fu050409](https://github.com/swpu-acm/algohub.git/../../fu050409)) Fix sub vue layout for `100vh`.
+
 ## \[0.1.1-nightly.8]
 
 ### Refactors

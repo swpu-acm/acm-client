@@ -3,8 +3,10 @@
   "changes": [
     ".changes/add-icon.md",
     ".changes/fix-dark-mode.md",
+    ".changes/fix-layout.md",
     ".changes/fix-windows-ci.md",
     ".changes/index-page.md",
+    ".changes/login.md",
     ".changes/optimize-dark.md",
     ".changes/refactor-login.md",
     ".changes/release-nightly.md",
