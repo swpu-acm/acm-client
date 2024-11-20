@@ -1,9 +1,10 @@
-use serde::Deserialize;
+use serde::{Deserialize, Serialize};
 use std::fs;
+use tokio::fs::File;
+use tokio::io::AsyncWriteExt;
 
-
-// 结构体，表示不同类型的最新版本
-#[derive(Debug)]
+// Struct representing the latest versions of different release types
+#[derive(Debug, Serialize)]
 struct LatestVersions {
     nightly: Option<String>,
     stable: Option<String>,
@@ -14,7 +15,7 @@ struct LatestVersions {
 }
 
 impl LatestVersions {
-    // LatestVersions 的构造函数，初始化所有版本为 None，并设置错误标志
+    // Constructor for LatestVersions, initializing all versions to None and setting the error flag
     fn new(error: bool) -> Self {
         Self {
             nightly: None,
@@ -27,49 +28,46 @@ impl LatestVersions {
     }
 }
 
-// 结构体，表示来自 GitHub API 的标签响应
+// Struct representing the tag response from the GitHub API
 #[derive(Deserialize)]
 struct TagResponse {
     pub r#ref: String,
 }
 
-// 异步函数，从 GitHub API 获取最新版本
+#[tauri::command]
+// Asynchronous function to fetch the latest versions from the GitHub API
 async fn get_latest_versions() -> LatestVersions {
     let url = "https://api.github.com/repos/swpu-acm/algohub/git/refs/tags";
     let client = reqwest::Client::new();
 
-    // 发送 GET 请求到 GitHub API 获取标签信息
+    // Send a GET request to the GitHub API to get tag information
     let response = match client.get(url).header("User-Agent", "reqwest").send().await {
         Ok(resp) => resp,
-        Err(_) => return LatestVersions::new(true), // 如果请求失败，返回设置错误标志的 LatestVersions
+        Err(_) => return LatestVersions::new(true), // If request fails, return LatestVersions with error flag set
     };
 
-    // 将响应解析为 JSON 并转换为 TagResponse 的向量
+    // Parse the response as JSON and convert it into a vector of TagResponse
     let tags = match response.json::<Vec<TagResponse>>().await {
         Ok(json) => json,
-        Err(_) => return LatestVersions::new(true), // 如果解析失败，返回设置错误标志的 LatestVersions
+        Err(_) => return LatestVersions::new(true), // If parsing fails, return LatestVersions with error flag set
     };
 
     let mut latest_versions = LatestVersions::new(false);
 
-    // 反向遍历标签
+    // Iterate over the tags in reverse order
     for item in tags.into_iter().rev() {
         if let Some(tag) = item.r#ref.as_str().strip_prefix("refs/tags/") {
+            // Determine the type of version and update the latest version if necessary
             if tag.contains("nightly") {
-                if latest_versions.nightly.is_none()
-                    || latest_versions.nightly.as_deref().unwrap() < tag
-                {
+                if latest_versions.nightly.is_none() || latest_versions.nightly.as_deref().unwrap() < tag {
                     latest_versions.nightly = Some(tag.to_string());
                 }
             } else if tag.contains("alpha") {
-                if latest_versions.alpha.is_none()
-                    || latest_versions.alpha.as_deref().unwrap() < tag
-                {
+                if latest_versions.alpha.is_none() || latest_versions.alpha.as_deref().unwrap() < tag {
                     latest_versions.alpha = Some(tag.to_string());
                 }
             } else if tag.contains("beta") {
-                if latest_versions.beta.is_none() || latest_versions.beta.as_deref().unwrap() < tag
-                {
+                if latest_versions.beta.is_none() || latest_versions.beta.as_deref().unwrap() < tag {
                     latest_versions.beta = Some(tag.to_string());
                 }
             } else if tag.contains("rc") {
@@ -77,14 +75,12 @@ async fn get_latest_versions() -> LatestVersions {
                     latest_versions.rc = Some(tag.to_string());
                 }
             } else {
-                if latest_versions.stable.is_none()
-                    || latest_versions.stable.as_deref().unwrap() < tag
-                {
+                if latest_versions.stable.is_none() || latest_versions.stable.as_deref().unwrap() < tag {
                     latest_versions.stable = Some(tag.to_string());
                 }
             }
 
-            // 如果找到所有版本，退出循环
+            // If all versions are found, break out of the loop
             if latest_versions.nightly.is_some()
                 && latest_versions.alpha.is_some()
                 && latest_versions.stable.is_some()
@@ -99,25 +95,37 @@ async fn get_latest_versions() -> LatestVersions {
     latest_versions
 }
 
-// 异步函数，下载指定版本的发布包
-async fn download_release(version: &str) -> Result<(), Box<dyn std::error::Error>> {
-    let os = std::env::consts::OS; // 获取操作系统类型
-    let arch = std::env::consts::ARCH; // 获取架构类型
+#[derive(Serialize)]
+struct DownloadResult {
+    error: bool,
+    message: Option<String>,
+}
 
-    // 如果系统是 Arch Linux，提示用户使用 AUR
+impl DownloadResult {
+    fn new(error: bool, message: Option<String>) -> Self {
+        Self { error, message }
+    }
+}
+
+#[tauri::command]
+// Asynchronous function to download a specific release based on the version
+async fn download_release(version: &str) -> Result<DownloadResult, String> {
+    let os = std::env::consts::OS; // Get the operating system type
+    let arch = std::env::consts::ARCH; // Get the architecture type
+
+    // If the system is Arch Linux, provide a message to use AUR
     if os == "linux" {
         if let Ok(content) = fs::read_to_string("/etc/os-release") {
             if content.contains("Arch Linux") {
-                println!("请使用 paru 或 pacman 进行更新");
-                return Ok(());
+                return Ok(DownloadResult::new(true, Some("Please use paru or pacman to update".to_string())));
             }
         }
     }
 
-    // 将版本字符串中的 'v' 替换为 '0'
+    // Replace 'v' with '0' in the version string
     let version = version.replace("v", "0");
 
-    // 根据操作系统和架构确定合适的文件名
+    // Determine the appropriate file name based on the OS and architecture
     let file_name = match (os, arch) {
         ("macos", "x86_64") => format!("algohub_{}_x64.dmg", version),
         ("macos", "aarch64") => format!("algohub_{}_aarch64.dmg", version),
@@ -136,43 +144,50 @@ async fn download_release(version: &str) -> Result<(), Box<dyn std::error::Error
                 format!("algohub_{}_x64-setup.exe", version)
             }
         }
-        _ => return Err("不支持的操作系统或架构".into()),
+        _ => return Err("Unsupported OS or architecture".to_string()),
     };
 
-    // 构造下载 URL
+    // Construct the download URL
     let url = format!(
         "https://github.com/swpu-acm/algohub/releases/download/{}/{}",
         version, file_name
     );
 
     let client = reqwest::Client::new();
-    let response = client
-        .get(&url)
-        .header("User-Agent", "reqwest")
-        .send()
-        .await?;
+    let response = match client.get(&url).header("User-Agent", "reqwest").send().await {
+        Ok(resp) => resp,
+        Err(_) => return Err("Failed to send request".to_string()),
+    };
 
-    // 检查响应状态是否成功
+    // Check if the response status is successful
     if !response.status().is_success() {
-        return Err(format!("下载发布包失败: {}", version).into());
+        return Err(format!("Failed to download release: {}", version));
     }
 
-    let content = response.bytes().await?;
+    let content = match response.bytes().await {
+        Ok(bytes) => bytes,
+        Err(_) => return Err("Failed to read response content".to_string()),
+    };
 
-    // 将下载的内容写入文件
-    let mut file = File::create(&file_name).await?;
-    file.write_all(&content).await?;
+    // Write the downloaded content to a file
+    let mut file = match File::create(&file_name).await {
+        Ok(f) => f,
+        Err(_) => return Err("Failed to create file".to_string()),
+    };
 
-    println!("下载完成: {}", file_name);
+    if let Err(_) = file.write_all(&content).await {
+        return Err("Failed to write to file".to_string());
+    }
 
-    Ok(())
+    Ok(DownloadResult::new(false, Some(format!("Downloaded release: {}", file_name))))
 }
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
+// Entry point for running the Tauri application
 pub fn run() {
     tauri::Builder::default()
         .plugin(tauri_plugin_shell::init())
-        .invoke_handler(tauri::generate_handler![])
+        .invoke_handler(tauri::generate_handler![get_latest_versions, download_release])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }
