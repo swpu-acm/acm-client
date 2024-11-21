@@ -22,6 +22,7 @@ jobs:
       commandRan: ${{ steps.covector.outputs.commandRan }}
       releaseId: ${{ steps.covector.outputs.releaseId }}
       successfulPublish: ${{ steps.covector.outputs.successfulPublish }}
+      version: ${{ steps.covector.outputs.version-algohub }}
 
     steps:
       - uses: actions/checkout@v4
@@ -122,7 +123,7 @@ jobs:
         run: pnpm install
 
       - name: Build TailwindCSS
-        run: pnpx tailwindcss -i ./input.css -o ./src/assets/tailwind.css 
+        run: pnpx tailwindcss -i ./input.css -o ./src/assets/tailwind.css
 
       - uses: tauri-apps/tauri-action@v0
         env:
@@ -130,3 +131,5 @@ jobs:
         with:
           releaseId: ${{ needs.version-or-publish.outputs.releaseId }}
           args: ${{ matrix.args }}
+          updaterJsonPreferNsis: true
+          appVersion: ${{ needs.version-or-publish.outputs.version }}
