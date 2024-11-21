@@ -67,7 +67,7 @@ const onLogin = async ({ valid, states }: { valid: boolean, states: LoginForm<Re
 </script>
 
 <template>
-  <div class="flex flex-row h-full">
+  <div class="flex flex-row h-screen">
     <div class="hidden md:flex flex-col items-center justify-center h-full w-full">
       <div class="flex flex-1 flex-col items-center justify-center w-full h-full">
         <Image class="hidden md:flex" :src="themeStore.dark ? '/acm-light.png' : '/acm.png'" alt="Image" width="250" />
