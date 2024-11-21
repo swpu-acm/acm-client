@@ -19,6 +19,18 @@ const themeStore = useThemeStore();
 
 const avatarUrl = computed(() => expandUrl(accountStore.account?.avatar));
 
+const isShowUserPanel = ref(false);
+const userPanelItems = ref([
+    {
+        icon: 'pi pi-sign-out',
+        label: 'Sign out',
+        command: () => {
+            accountStore.logout();
+            router.push("/");
+        }
+    }
+])
+
 const loadingProfile = ref(true);
 onMounted(async () => {
     if (!accountStore.isLoggedIn) return;
@@ -35,6 +47,37 @@ onMounted(async () => {
 </script>
 
 <template>
+    <Drawer v-model:visible="isShowUserPanel" position="right">
+        <template #container>
+            <header class="flex flex-row items-center justify-between gap-1 p-4">
+                <div class="flex flex-row gap-4 items-center">
+                    <Avatar :image="avatarUrl" shape="circle"></Avatar>
+                    <div class="flex flex-col items-start">
+                        <span class="text-sm font-semibold">{{ accountStore.account?.username }}</span>
+                        <span class="text-xs text-gray-500">{{ accountStore.account?.nickname }}</span>
+                    </div>
+                </div>
+                <Button @click="isShowUserPanel = !isShowUserPanel" :icon="`pi pi-times`" plain text></Button>
+            </header>
+            <div class="border-t border-[1.2px] dark:border-gray-600 mx-6"></div>
+            <div class="flex-1 flex-col overflow-y-auto overflow-x-hidden my-3 px-4">
+                <div v-for="item in userPanelItems" class="w-full">
+                    <Button @click="item.command" class="!w-full !justify-start !px-[1rem]" :icon="item.icon"
+                        :label="item.label" plain text></Button>
+                </div>
+            </div>
+            <div class="border-t border-[1.2px] dark:border-gray-600 mx-6"></div>
+            <footer class="flex flex-row items-center justify-between gap-2 p-4">
+                <div class="flex flex-row gap-4 items-center">
+                    <Avatar :image="themeStore.logo" shape="circle" size="large"></Avatar>
+                    <div class="flex flex-col items-start">
+                        <span class="text-[1rem] font-semibold">AlgoHub</span>
+                        <span class="text-xs text-gray-500">Powered by SWPU-ACM</span>
+                    </div>
+                </div>
+            </footer>
+        </template>
+    </Drawer>
     <div class="min-h-screen h-screen flex flex-col">
         <div class="bg-gray-100 dark:bg-zinc-900 flex flex-row items-center justify-between w-full p-3 flex-wrap">
             <div class="inline-flex justify-center items-center">
@@ -45,7 +88,8 @@ onMounted(async () => {
                 <Button @click="themeStore.toggle" :icon="`pi pi-${themeStore.dark ? 'moon' : 'sun'}`" plain
                     outlined></Button>
                 <Divider layout="vertical" class="mx-2"></Divider>
-                <Avatar :image="avatarUrl" class="!cursor-pointer" shape="circle"></Avatar>
+                <Avatar @click="isShowUserPanel = !isShowUserPanel" :image="avatarUrl" class="!cursor-pointer"
+                    shape="circle"></Avatar>
             </div>
         </div>
         <div class="flex flex-col md:flex-row h-full w-full">
