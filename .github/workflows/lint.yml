@@ -63,5 +63,13 @@ jobs:
           components: rustfmt, clippy
       - name: Run Rustfmt
         run: rustfmt --check src-tauri/*.rs --verbose
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libwebkit2gtk-4.1-dev libwebkit2gtk-4.1-dev libappindicator3-dev librsvg2-dev patchelf
+      - name: Rust Cache
+        uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: "./src-tauri -> target"
       - name: Run Clippy
         run: cd src-tauri && cargo clippy --all-targets --all-features -- -D warnings
