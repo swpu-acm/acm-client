@@ -1,0 +1,75 @@
+name: Code Lint
+
+on: [pull_request]
+
+jobs:
+  lint-pr-title:
+    name: Validating PR title
+    runs-on: ubuntu-latest
+    steps:
+      - uses: amannn/action-semantic-pull-request@v5
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          types: |
+            fix
+            feat
+            docs
+            style
+            refactor
+            perf
+            test
+            build
+            ci
+            chore
+            revert
+            release
+          requireScope: false
+
+  lint-code-spell:
+    name: Code Spell Check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        name: Install pnpm
+        with:
+          version: 9
+          run_install: false
+      - name: Setup Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: "pnpm"
+      - name: Install dependencies
+        run: pnpm install
+      - name: Code Spell Check
+        uses: streetsidesoftware/cspell-action@v6
+        with:
+          files: "**"
+          config: .cspell.json
+          strict: true
+          verbose: true
+
+  lint-rust:
+    name: Lint Rust
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Rust nightly
+        uses: dtolnay/rust-toolchain@nightly
+        with:
+          toolchain: nightly
+          components: rustfmt, clippy
+      - name: Run Rustfmt
+        run: rustfmt --check src-tauri/*.rs --verbose
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libwebkit2gtk-4.1-dev libwebkit2gtk-4.1-dev libappindicator3-dev librsvg2-dev patchelf
+      - name: Rust Cache
+        uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: "./src-tauri -> target"
+      - name: Run Clippy
+        run: cd src-tauri && cargo clippy --all-targets --all-features -- -D warnings
