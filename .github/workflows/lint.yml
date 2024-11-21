@@ -1,4 +1,4 @@
-name: Lint Pr Title
+name: Code Lint
 
 on: [pull_request]
 
@@ -50,3 +50,18 @@ jobs:
           config: .cspell.json
           strict: true
           verbose: true
+
+  lint-rust:
+    name: Lint Rust
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Rust nightly
+        uses: dtolnay/rust-toolchain@nightly
+        with:
+          toolchain: nightly
+          components: rustfmt, clippy
+      - name: Run Rustfmt
+        run: cd src-tauri && cargo fmt --all -- --check
+      - name: Run Clippy
+        run: cd src-tauri && cargo clippy --all-targets --all-features -- -D warnings

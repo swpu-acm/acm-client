@@ -106,7 +106,6 @@ jobs:
         uses: dtolnay/rust-toolchain@nightly
         with:
           toolchain: nightly
-          components: rustfmt, clippy
           targets: ${{ matrix.target }}
 
       - name: Install dependencies (ubuntu only)
