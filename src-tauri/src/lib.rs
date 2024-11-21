@@ -11,19 +11,33 @@ struct LatestVersions {
     alpha: Option<String>,
     beta: Option<String>,
     rc: Option<String>,
-    error: bool,
+    status: bool,
 }
 
-impl LatestVersions {
-    // Constructor for LatestVersions, initializing all versions to None and setting the error flag
-    fn new(error: bool) -> Self {
+impl Default for LatestVersions {
+    fn default() -> Self {
         Self {
             nightly: None,
             stable: None,
             alpha: None,
             beta: None,
             rc: None,
-            error,
+            status: true,
+        }
+    }
+}
+
+#[derive(Serialize)]
+struct Error {
+    status: bool,
+    message: String,
+}
+
+impl<T: AsRef<str>> From<T> for Error {
+    fn from(value: T) -> Self {
+        Self {
+            status: false,
+            message: value.as_ref().to_string(),
         }
     }
 }
@@ -34,48 +48,58 @@ struct TagResponse {
     pub r#ref: String,
 }
 
-#[tauri::command]
 // Asynchronous function to fetch the latest versions from the GitHub API
-async fn get_latest_versions() -> LatestVersions {
+#[tauri::command]
+async fn get_latest_versions() -> Result<LatestVersions, Error> {
     let url = "https://api.github.com/repos/swpu-acm/algohub/git/refs/tags";
     let client = reqwest::Client::new();
 
     // Send a GET request to the GitHub API to get tag information
-    let response = match client.get(url).header("User-Agent", "reqwest").send().await {
-        Ok(resp) => resp,
-        Err(_) => return LatestVersions::new(true), // If request fails, return LatestVersions with error flag set
-    };
+    let response = client
+        .get(url)
+        .header("User-Agent", "AlgoHub")
+        .send()
+        .await
+        .map_err(|e| e.to_string())?;
 
     // Parse the response as JSON and convert it into a vector of TagResponse
-    let tags = match response.json::<Vec<TagResponse>>().await {
-        Ok(json) => json,
-        Err(_) => return LatestVersions::new(true), // If parsing fails, return LatestVersions with error flag set
-    };
+    let tags = response
+        .json::<Vec<TagResponse>>()
+        .await
+        .map_err(|_| "Failed to parse response".to_string())?;
 
-    let mut latest_versions = LatestVersions::new(false);
+    let mut latest_versions = LatestVersions::default();
 
     // Iterate over the tags in reverse order
     for item in tags.into_iter().rev() {
-        if let Some(tag) = item.r#ref.as_str().strip_prefix("refs/tags/") {
+        if let Some(tag) = item.r#ref.as_str().strip_prefix("refs/tags/algohub-v") {
             // Determine the type of version and update the latest version if necessary
+            let tag = tag.to_string();
             if tag.contains("nightly") {
-                if latest_versions.nightly.is_none() || latest_versions.nightly.as_deref().unwrap() < tag {
+                if latest_versions.nightly.is_none()
+                    || latest_versions.nightly.as_ref().unwrap() < &tag
+                {
                     latest_versions.nightly = Some(tag.to_string());
                 }
             } else if tag.contains("alpha") {
-                if latest_versions.alpha.is_none() || latest_versions.alpha.as_deref().unwrap() < tag {
+                if latest_versions.alpha.is_none()
+                    || latest_versions.alpha.as_ref().unwrap() < &tag
+                {
                     latest_versions.alpha = Some(tag.to_string());
                 }
             } else if tag.contains("beta") {
-                if latest_versions.beta.is_none() || latest_versions.beta.as_deref().unwrap() < tag {
+                if latest_versions.beta.is_none() || latest_versions.beta.as_ref().unwrap() < &tag
+                {
                     latest_versions.beta = Some(tag.to_string());
                 }
             } else if tag.contains("rc") {
-                if latest_versions.rc.is_none() || latest_versions.rc.as_deref().unwrap() < tag {
+                if latest_versions.rc.is_none() || latest_versions.rc.as_ref().unwrap() < &tag {
                     latest_versions.rc = Some(tag.to_string());
                 }
             } else {
-                if latest_versions.stable.is_none() || latest_versions.stable.as_deref().unwrap() < tag {
+                if latest_versions.stable.is_none()
+                    || latest_versions.stable.as_ref().unwrap() < &tag
+                {
                     latest_versions.stable = Some(tag.to_string());
                 }
             }
@@ -92,38 +116,42 @@ async fn get_latest_versions() -> LatestVersions {
         }
     }
 
-    latest_versions
+    Ok(latest_versions)
 }
+
+// Rest of the code remains the same...
 
 #[derive(Serialize)]
 struct DownloadResult {
-    error: bool,
+    status: bool,
     message: Option<String>,
 }
 
-impl DownloadResult {
-    fn new(error: bool, message: Option<String>) -> Self {
-        Self { error, message }
+impl Default for DownloadResult {
+    fn default() -> Self {
+        Self {
+            status: true,
+            message: None,
+        }
     }
 }
-
-#[tauri::command]
 // Asynchronous function to download a specific release based on the version
-async fn download_release(version: &str) -> Result<DownloadResult, String> {
+#[tauri::command]
+async fn download_release(version: &str) -> Result<DownloadResult, Error> {
     let os = std::env::consts::OS; // Get the operating system type
     let arch = std::env::consts::ARCH; // Get the architecture type
 
     // If the system is Arch Linux, provide a message to use AUR
+    let mut result = DownloadResult::default();
+
     if os == "linux" {
         if let Ok(content) = fs::read_to_string("/etc/os-release") {
             if content.contains("Arch Linux") {
-                return Ok(DownloadResult::new(true, Some("Please use paru or pacman to update".to_string())));
+                result.message=Some("please use paru or pacman".to_string());
+                return Ok(result)
             }
         }
     }
-
-    // Replace 'v' with '0' in the version string
-    let version = version.replace("v", "0");
 
     // Determine the appropriate file name based on the OS and architecture
     let file_name = match (os, arch) {
@@ -144,7 +172,14 @@ async fn download_release(version: &str) -> Result<DownloadResult, String> {
                 format!("algohub_{}_x64-setup.exe", version)
             }
         }
-        _ => return Err("Unsupported OS or architecture".to_string()),
+        _ =>  {
+            return Err(format!(
+                "Unsupported OS or architecture: OS = {}, ARCH = {}",
+                os, arch
+            )
+            .into())
+        }
+
     };
 
     // Construct the download URL
@@ -154,40 +189,53 @@ async fn download_release(version: &str) -> Result<DownloadResult, String> {
     );
 
     let client = reqwest::Client::new();
-    let response = match client.get(&url).header("User-Agent", "reqwest").send().await {
-        Ok(resp) => resp,
-        Err(_) => return Err("Failed to send request".to_string()),
-    };
+    let response = client
+        .get(&url)
+        .header("User-Agent", "AlgoHub")
+        .send()
+        .await
+        .map_err(|e| format!("Failed to send request to {}: {}", url, e).to_string())?;
 
     // Check if the response status is successful
     if !response.status().is_success() {
-        return Err(format!("Failed to download release: {}", version));
+        return Err(format!(
+            "Failed to download release from {}. HTTP Status: {}", 
+            url, 
+            response.status()
+        )
+        .into());
     }
 
-    let content = match response.bytes().await {
-        Ok(bytes) => bytes,
-        Err(_) => return Err("Failed to read response content".to_string()),
-    };
+    let content = response
+        .bytes()
+        .await 
+        .map_err(|e| format!("Failed to read response content: {}", e).to_string())?;
+
 
     // Write the downloaded content to a file
-    let mut file = match File::create(&file_name).await {
-        Ok(f) => f,
-        Err(_) => return Err("Failed to create file".to_string()),
-    };
+    let mut file = File::create(&file_name)
+        .await 
+        .map_err(|e| format!("Failed to create file {}: {}", file_name, e).to_string())?;
 
-    if let Err(_) = file.write_all(&content).await {
-        return Err("Failed to write to file".to_string());
-    }
+    file.write_all(&content)
+        .await
+        .map_err(|e| format!("Failed to write to file {}: {}", file_name, e).to_string())?;
 
-    Ok(DownloadResult::new(false, Some(format!("Downloaded release: {}", file_name))))
+    Ok(DownloadResult {
+        status: true,
+        message: Some(format!("Successfully downloaded release: {}", file_name)),
+    })
 }
 
+/// Entry point for running the Tauri application
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
-// Entry point for running the Tauri application
 pub fn run() {
     tauri::Builder::default()
         .plugin(tauri_plugin_shell::init())
-        .invoke_handler(tauri::generate_handler![get_latest_versions, download_release])
+        .invoke_handler(tauri::generate_handler![
+            get_latest_versions,
+            download_release
+        ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }
