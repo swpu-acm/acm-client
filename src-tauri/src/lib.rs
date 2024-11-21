@@ -3,7 +3,6 @@ use std::fs;
 use tokio::fs::File;
 use tokio::io::AsyncWriteExt;
 
-// Struct representing the latest versions of different release types
 #[derive(Debug, Serialize)]
 struct LatestVersions {
     nightly: Option<String>,
@@ -42,13 +41,13 @@ impl<T: AsRef<str>> From<T> for Error {
     }
 }
 
-// Struct representing the tag response from the GitHub API
+
 #[derive(Deserialize)]
 struct TagResponse {
     pub r#ref: String,
 }
 
-// Asynchronous function to fetch the latest versions from the GitHub API
+
 #[tauri::command]
 async fn get_latest_versions() -> Result<LatestVersions, Error> {
     let url = "https://api.github.com/repos/swpu-acm/algohub/git/refs/tags";
@@ -62,7 +61,7 @@ async fn get_latest_versions() -> Result<LatestVersions, Error> {
         .await
         .map_err(|e| e.to_string())?;
 
-    // Parse the response as JSON and convert it into a vector of TagResponse
+    
     let tags = response
         .json::<Vec<TagResponse>>()
         .await
@@ -70,10 +69,10 @@ async fn get_latest_versions() -> Result<LatestVersions, Error> {
 
     let mut latest_versions = LatestVersions::default();
 
-    // Iterate over the tags in reverse order
+ 
     for item in tags.into_iter().rev() {
         if let Some(tag) = item.r#ref.as_str().strip_prefix("refs/tags/algohub-v") {
-            // Determine the type of version and update the latest version if necessary
+   
             let tag = tag.to_string();
             if tag.contains("nightly") {
                 if latest_versions.nightly.is_none()
@@ -104,7 +103,7 @@ async fn get_latest_versions() -> Result<LatestVersions, Error> {
                 }
             }
 
-            // If all versions are found, break out of the loop
+       
             if latest_versions.nightly.is_some()
                 && latest_versions.alpha.is_some()
                 && latest_versions.stable.is_some()
@@ -119,7 +118,6 @@ async fn get_latest_versions() -> Result<LatestVersions, Error> {
     Ok(latest_versions)
 }
 
-// Rest of the code remains the same...
 
 #[derive(Serialize)]
 struct DownloadResult {
@@ -135,13 +133,12 @@ impl Default for DownloadResult {
         }
     }
 }
-// Asynchronous function to download a specific release based on the version
+
 #[tauri::command]
 async fn download_release(version: &str) -> Result<DownloadResult, Error> {
-    let os = std::env::consts::OS; // Get the operating system type
-    let arch = std::env::consts::ARCH; // Get the architecture type
+    let os = std::env::consts::OS;
+    let arch = std::env::consts::ARCH; 
 
-    // If the system is Arch Linux, provide a message to use AUR
     let mut result = DownloadResult::default();
 
     if os == "linux" {
@@ -153,7 +150,7 @@ async fn download_release(version: &str) -> Result<DownloadResult, Error> {
         }
     }
 
-    // Determine the appropriate file name based on the OS and architecture
+
     let file_name = match (os, arch) {
         ("macos", "x86_64") => format!("algohub_{}_x64.dmg", version),
         ("macos", "aarch64") => format!("algohub_{}_aarch64.dmg", version),
@@ -182,7 +179,7 @@ async fn download_release(version: &str) -> Result<DownloadResult, Error> {
 
     };
 
-    // Construct the download URL
+
     let url = format!(
         "https://github.com/swpu-acm/algohub/releases/download/{}/{}",
         version, file_name
@@ -196,7 +193,7 @@ async fn download_release(version: &str) -> Result<DownloadResult, Error> {
         .await
         .map_err(|e| format!("Failed to send request to {}: {}", url, e).to_string())?;
 
-    // Check if the response status is successful
+
     if !response.status().is_success() {
         return Err(format!(
             "Failed to download release from {}. HTTP Status: {}", 
@@ -212,7 +209,7 @@ async fn download_release(version: &str) -> Result<DownloadResult, Error> {
         .map_err(|e| format!("Failed to read response content: {}", e).to_string())?;
 
 
-    // Write the downloaded content to a file
+
     let mut file = File::create(&file_name)
         .await 
         .map_err(|e| format!("Failed to create file {}: {}", file_name, e).to_string())?;
@@ -227,7 +224,7 @@ async fn download_release(version: &str) -> Result<DownloadResult, Error> {
     })
 }
 
-/// Entry point for running the Tauri application
+
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
     tauri::Builder::default()
