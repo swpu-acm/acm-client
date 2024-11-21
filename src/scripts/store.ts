@@ -28,19 +28,28 @@ export const useThemeStore = defineStore(
         document.documentElement.classList.remove("dark");
       }
     };
-    return { dark, toggle, init };
+    const icon = computed(() => (dark.value ? "pi pi-moon" : "pi pi-sun"));
+    const logo = computed(() => (dark.value ? "/acm-light.png" : "/acm.png"));
+    return { dark, toggle, init, icon, logo };
   },
   {
     persist: true,
   }
 );
 
+enum Role {
+  SuperAdmin = "super_admin",
+  Admin = "admin",
+  User = "user",
+  Inactive = "inactive",
+}
+
 interface Account {
   id?: string;
   token?: string;
 
-  username: string;
-  email: string;
+  username?: string;
+  email?: string;
   avatar?: string;
   signature?: string;
   links?: string[];
@@ -56,18 +65,25 @@ interface Account {
   major?: string;
 
   rating?: number;
-  role?: number;
+  role?: Role;
   active?: boolean;
 }
 
 export const useAccountStore = defineStore(
   "account",
   () => {
-    const account = ref<Account | null>(null);
+    const account = ref<Account>({});
 
-    const isLoggedIn = computed(
-      () => account.value !== null && account.value.token
+    const isLoggedIn = computed(() =>
+      Boolean(account.value !== null && account.value.token)
     );
+
+    // const isAdmin = computed(
+    //   () =>
+    //     account.value.role == Role.SuperAdmin ||
+    //     account.value.role == Role.Admin
+    // );
+    const isAdmin = true;
 
     const mergeProfile = (profile: Partial<Account>) => {
       if (account.value) {
@@ -76,10 +92,10 @@ export const useAccountStore = defineStore(
     };
 
     const logout = () => {
-      account.value = null;
+      account.value = {};
     };
 
-    return { account, isLoggedIn, mergeProfile, logout };
+    return { account, isLoggedIn, isAdmin, mergeProfile, logout };
   },
   {
     persist: true,

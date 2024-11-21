@@ -1,5 +1,40 @@
 # Changelog
 
+## \[0.1.1-nightly.10]
+
+### New Features
+
+- [`c9bc23b`](https://github.com/swpu-acm/algohub.git/commit/c9bc23b87ee27752316ad04c05502cd93f1bec60) ([#39](https://github.com/swpu-acm/algohub.git/pull/39) by [@fu050409](https://github.com/swpu-acm/algohub.git/../../fu050409)) Add a menu for creating new components.
+
+  For examples:
+
+  - Create a new blog
+  - Create a new organization
+  - Create a new algorithm problem
+- [`38d66c3`](https://github.com/swpu-acm/algohub.git/commit/38d66c3cdd0fffaed45c028e8c592be2357ff270) ([#37](https://github.com/swpu-acm/algohub.git/pull/37) by [@fu050409](https://github.com/swpu-acm/algohub.git/../../fu050409)) Add side panel for displaying user routes and basic information.
+- [`4d0ea28`](https://github.com/swpu-acm/algohub.git/commit/4d0ea28e94eabe3ff555fd0cd6d2029240e6a758) ([#38](https://github.com/swpu-acm/algohub.git/pull/38) by [@fu050409](https://github.com/swpu-acm/algohub.git/../../fu050409)) Migrate to new icon design.
+
+### Bug Fixes
+
+- [`ef2c89c`](https://github.com/swpu-acm/algohub.git/commit/ef2c89ccfe1f053dd690d2edd68d0cbcd1c73f03) ([#35](https://github.com/swpu-acm/algohub.git/pull/35) by [@fu050409](https://github.com/swpu-acm/algohub.git/../../fu050409)) Fix login page can't cover full screen.
+- [`c9bc23b`](https://github.com/swpu-acm/algohub.git/commit/c9bc23b87ee27752316ad04c05502cd93f1bec60) ([#39](https://github.com/swpu-acm/algohub.git/pull/39) by [@fu050409](https://github.com/swpu-acm/algohub.git/../../fu050409)) Fix toast message will be displayed larger that horizontal screen.
+
+## \[0.1.1-nightly.9]
+
+### New Features
+
+- [`ece911a`](https://github.com/swpu-acm/algohub.git/commit/ece911a71d682ce8487ac0a76c1ea28a46b78e9e) ([#32](https://github.com/swpu-acm/algohub.git/pull/32) by [@fu050409](https://github.com/swpu-acm/algohub.git/../../fu050409)) Add api export for login.
+
+### Bug Fixes
+
+- [`ece911a`](https://github.com/swpu-acm/algohub.git/commit/ece911a71d682ce8487ac0a76c1ea28a46b78e9e) ([#32](https://github.com/swpu-acm/algohub.git/pull/32) by [@fu050409](https://github.com/swpu-acm/algohub.git/../../fu050409)) Fix sub vue layout for `100vh`.
+
+## \[0.1.1-nightly.8]
+
+### Refactors
+
+- [`270073b`](https://github.com/swpu-acm/algohub.git/commit/270073bf7dda64da47dbe9da2a7de2a79cb0d4a6) ([#33](https://github.com/swpu-acm/algohub.git/pull/33) by [@fu050409](https://github.com/swpu-acm/algohub.git/../../fu050409)) Use Farm instead of Vite for compiling and bundling frontend code.
+
 ## \[0.1.1-nightly.7]
 
 ### New Features

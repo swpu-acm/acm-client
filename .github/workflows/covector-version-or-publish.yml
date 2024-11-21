@@ -22,6 +22,7 @@ jobs:
       commandRan: ${{ steps.covector.outputs.commandRan }}
       releaseId: ${{ steps.covector.outputs.releaseId }}
       successfulPublish: ${{ steps.covector.outputs.successfulPublish }}
+      version: ${{ steps.covector.outputs.version-algohub }}
 
     steps:
       - uses: actions/checkout@v4
@@ -70,6 +71,7 @@ jobs:
     if: needs.version-or-publish.outputs.releaseId
     permissions:
       contents: write
+    name: Release ${{ needs.version-or-publish.outputs.version }}
     strategy:
       fail-fast: false
       matrix:
@@ -106,7 +108,6 @@ jobs:
         uses: dtolnay/rust-toolchain@nightly
         with:
           toolchain: nightly
-          components: rustfmt, clippy
           targets: ${{ matrix.target }}
 
       - name: Install dependencies (ubuntu only)
@@ -117,12 +118,14 @@ jobs:
 
       - name: Rust Cache
         uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: "./src-tauri -> target"
 
       - name: Install frontend dependencies
         run: pnpm install
 
       - name: Build TailwindCSS
-        run: pnpx tailwindcss -i ./input.css -o ./src/assets/tailwind.css 
+        run: pnpx tailwindcss -i ./input.css -o ./src/assets/tailwind.css
 
       - uses: tauri-apps/tauri-action@v0
         env:
@@ -130,3 +133,5 @@ jobs:
         with:
           releaseId: ${{ needs.version-or-publish.outputs.releaseId }}
           args: ${{ matrix.args }}
+          updaterJsonPreferNsis: true
+          appVersion: ${{ needs.version-or-publish.outputs.version }}
