@@ -71,6 +71,7 @@ jobs:
     if: needs.version-or-publish.outputs.releaseId
     permissions:
       contents: write
+    name: Release ${{ needs.version-or-publish.outputs.version }}
     strategy:
       fail-fast: false
       matrix:
