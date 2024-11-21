@@ -31,6 +31,29 @@ const userPanelItems = ref([
     }
 ])
 
+const menu = ref();
+const createMenuItems = ref([
+    {
+        label: 'New Problem',
+        icon: 'pi pi-question',
+        command: () => {
+            toast.add({ severity: 'info', summary: 'Coming soon...', detail: 'This feature is coming soon...' })
+        }
+    },
+    {
+        label: 'New Organization',
+        icon: 'pi pi-building',
+        admin: true,
+        command: () => {
+            toast.add({ severity: 'info', summary: 'Coming soon...', detail: 'This feature is coming soon...' })
+        }
+    }
+]);
+const toggleCreateMenu = (event: any) => {
+    menu.value.toggle(event);
+};
+
+
 const loadingProfile = ref(true);
 onMounted(async () => {
     if (!accountStore.isLoggedIn) return;
@@ -62,8 +85,8 @@ onMounted(async () => {
             <div class="border-t border-[1.2px] dark:border-gray-600 mx-6"></div>
             <div class="flex-1 flex-col overflow-y-auto overflow-x-hidden my-3 px-4">
                 <div v-for="item in userPanelItems" class="w-full">
-                    <Button @click="item.command" class="!w-full !justify-start !px-[1rem]" :icon="item.icon"
-                        :label="item.label" plain text></Button>
+                    <Button @click="item.command" class="!justify-start !px-[1rem]" :icon="item.icon"
+                        :label="item.label" plain text fluid></Button>
                 </div>
             </div>
             <div class="border-t border-[1.2px] dark:border-gray-600 mx-6"></div>
@@ -84,10 +107,27 @@ onMounted(async () => {
                 <img :src="themeStore.dark ? '/acm-light.png' : '/acm.png'" width="40"></img>
                 <h1 class="text-lg font-bold">Dashboard</h1>
             </div>
-            <div class="inline-flex justify-center items-center">
+            <div class="inline-flex justify-center items-center gap-3">
+                <Button @click="toggleCreateMenu" aria-haspopup="true" aria-controls="overlay_menu" plain outlined>
+                    <span class="pi pi-plus" data-pc-section="icon"></span>
+                    <span class="w-0" data-pc-section="label">&nbsp;</span>
+                    <i class="pi pi-angle-down"></i>
+                </Button>
+                <Menu ref="menu" id="overlay_menu" :model="createMenuItems" :popup="true">
+                    <template #submenuitem="{ item }">
+                        <span class="font-bold">{{ item.label }}</span>
+                    </template>
+                    <template #item="{ item, props }">
+                        <a v-if="!item.admin ? true : accountStore.isAdmin" v-ripple class="flex items-center"
+                            v-bind="props.action">
+                            <span :class="item.icon"></span>
+                            <span>{{ item.label }}</span>
+                        </a>
+                    </template>
+                </Menu>
                 <Button @click="themeStore.toggle" :icon="`pi pi-${themeStore.dark ? 'moon' : 'sun'}`" plain
                     outlined></Button>
-                <Divider layout="vertical" class="mx-2"></Divider>
+                <Divider layout="vertical" class="!mx-1"></Divider>
                 <Avatar @click="isShowUserPanel = !isShowUserPanel" :image="avatarUrl" class="!cursor-pointer"
                     shape="circle"></Avatar>
             </div>

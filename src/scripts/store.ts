@@ -37,6 +37,13 @@ export const useThemeStore = defineStore(
   }
 );
 
+enum Role {
+  SuperAdmin = "super_admin",
+  Admin = "admin",
+  User = "user",
+  Inactive = "inactive",
+}
+
 interface Account {
   id?: string;
   token?: string;
@@ -58,7 +65,7 @@ interface Account {
   major?: string;
 
   rating?: number;
-  role?: number;
+  role?: Role;
   active?: boolean;
 }
 
@@ -71,6 +78,13 @@ export const useAccountStore = defineStore(
       Boolean(account.value !== null && account.value.token)
     );
 
+    // const isAdmin = computed(
+    //   () =>
+    //     account.value.role == Role.SuperAdmin ||
+    //     account.value.role == Role.Admin
+    // );
+    const isAdmin = true;
+
     const mergeProfile = (profile: Partial<Account>) => {
       if (account.value) {
         Object.assign(account.value, profile);
@@ -81,7 +95,7 @@ export const useAccountStore = defineStore(
       account.value = {};
     };
 
-    return { account, isLoggedIn, mergeProfile, logout };
+    return { account, isLoggedIn, isAdmin, mergeProfile, logout };
   },
   {
     persist: true,
