@@ -22,7 +22,6 @@ jobs:
       commandRan: ${{ steps.covector.outputs.commandRan }}
       releaseId: ${{ steps.covector.outputs.releaseId }}
       successfulPublish: ${{ steps.covector.outputs.successfulPublish }}
-      version: ${{ steps.covector.outputs.version-algohub }}
 
     steps:
       - uses: actions/checkout@v4
@@ -71,7 +70,7 @@ jobs:
     if: needs.version-or-publish.outputs.releaseId
     permissions:
       contents: write
-    name: Release ${{ needs.version-or-publish.outputs.version }}
+    name: Release ${{ needs.version-or-publish.outputs.releaseId }}
     strategy:
       fail-fast: false
       matrix:

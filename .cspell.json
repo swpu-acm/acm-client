@@ -7,7 +7,9 @@
         "covector",
         "farmfe",
         "icns",
+        "ICPC",
         "jbolda",
+        "katex",
         "libappindicator",
         "librsvg",
         "libwebkit",
@@ -20,6 +22,7 @@
         "primeicons",
         "primevue",
         "signup",
+        "submenuitem",
         "Swatinem",
         "SWPU",
         "tailwindcss",
@@ -27,5 +30,8 @@
         "toastservice",
         "unplugin",
         "usetoast"
+    ],
+    "ignorePaths": [
+        "pnpm-lock.yaml"
     ]
 }
