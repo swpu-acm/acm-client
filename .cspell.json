@@ -28,5 +28,8 @@
         "toastservice",
         "unplugin",
         "usetoast"
+    ],
+    "ignorePaths": [
+        "pnpm-lock.yaml"
     ]
 }
