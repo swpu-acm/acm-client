@@ -38,6 +38,7 @@
         "printsrcinfo",
         "reqwest",
         "rlib",
+        "rustls",
         "serde",
         "signup",
         "SRCINFO",
