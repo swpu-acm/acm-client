@@ -90,7 +90,7 @@ jobs:
             args: ""
             target: ""
           - platform: "windows-latest"
-            args: "--target x86_64-pc-windows-msvc"
+            args: "--target x86_64-pc-windows-msvc --bundles nsis"
             target: "x86_64-pc-windows-msvc"
 
     runs-on: ${{ matrix.platform }}
@@ -141,7 +141,6 @@ jobs:
           releaseId: ${{ needs.version-or-publish.outputs.releaseId }}
           args: ${{ matrix.args }}
           updaterJsonPreferNsis: true
-          appVersion: 0.1.0-nightly
 
   release-aur:
     needs: [release-tauri, version-or-publish]
