@@ -1,5 +1,11 @@
 # Changelog
 
+## \[0.1.1-nightly.13]
+
+### Bug Fixes
+
+- [`f30f24e`](https://github.com/swpu-acm/algohub.git/commit/f30f24e95ded09eeb814e73fa855bf6003b97cd0) ([#48](https://github.com/swpu-acm/algohub.git/pull/48) by [@fu050409](https://github.com/swpu-acm/algohub.git/../../fu050409)) Automatic update of version for `tauri.conf.json`.
+
 ## \[0.1.1-nightly.12]
 
 ### New Features
