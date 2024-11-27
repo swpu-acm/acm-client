@@ -1,5 +1,11 @@
 # Changelog
 
+## \[0.1.1-nightly.12]
+
+### New Features
+
+- [`e1529bb`](https://github.com/swpu-acm/algohub.git/commit/e1529bb4ac8a966808f865f39e041549e9deea00) ([#46](https://github.com/swpu-acm/algohub.git/pull/46) by [@fu050409](https://github.com/swpu-acm/algohub.git/../../fu050409)) Release algohub to archlinux user repository (AUR).
+
 ## \[0.1.1-nightly.11]
 
 ### New Features

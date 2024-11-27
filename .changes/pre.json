@@ -15,6 +15,7 @@
     ".changes/problem-page.md",
     ".changes/refactor-login.md",
     ".changes/release-nightly.md",
+    ".changes/release-url.md",
     ".changes/rust-nightly.md",
     ".changes/rust-stable.md",
     ".changes/side-panel.md",
