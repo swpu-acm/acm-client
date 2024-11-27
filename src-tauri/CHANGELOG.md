@@ -1,5 +1,11 @@
 # Changelog
 
+## \[0.1.1-nightly.16]
+
+### Bug Fixes
+
+- [`4553c45`](https://github.com/swpu-acm/algohub.git/commit/4553c45ca3a44492c4b4c86e38f7a33c3646da41) ([#56](https://github.com/swpu-acm/algohub.git/pull/56) by [@fu050409](https://github.com/swpu-acm/algohub.git/../../fu050409)) Fix sha256 checksum while using `axios` to download files.
+
 ## \[0.1.1-nightly.15]
 
 ### New Features

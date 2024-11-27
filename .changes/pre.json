@@ -9,6 +9,7 @@
     ".changes/fix-dark-mode.md",
     ".changes/fix-layout.md",
     ".changes/fix-login.md",
+    ".changes/fix-sha256.md",
     ".changes/fix-tauri-version.md",
     ".changes/fix-toast.md",
     ".changes/fix-windows-ci.md",
