@@ -5,6 +5,8 @@ import { useToast } from 'primevue';
 import { computed, ref } from 'vue';
 import { useRouter } from 'vue-router';
 
+const props = defineProps<{ path?: { icon: string, label: string, command: () => void }[] }>()
+
 const router = useRouter();
 const toast = useToast();
 
@@ -83,7 +85,15 @@ const toggleCreateMenu = (event: any) => {
     <div class="bg-gray-100 dark:bg-zinc-900 flex flex-row items-center justify-between w-full p-3 flex-wrap">
         <div class="inline-flex justify-center items-center">
             <img :src="themeStore.dark ? '/acm-light.png' : '/acm.png'" width="40"></img>
-            <h1 class="text-lg font-bold">Dashboard</h1>
+            <Breadcrumb :model="props.path">
+                <template #item="{ item }">
+                    <a :class="item.url ? 'cursor-pointer' : ''" :href="item.url">
+                        <span :class="item.icon"></span>
+                        <span>{{ item.label }}</span>
+                    </a>
+                </template>
+                <template #separator> / </template>
+            </Breadcrumb>
         </div>
         <div class="inline-flex justify-center items-center gap-3">
             <Button @click="toggleCreateMenu" aria-haspopup="true" aria-controls="overlay_menu" plain outlined>

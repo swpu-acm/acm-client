@@ -5,6 +5,8 @@ import * as api from '@/scripts/api';
 import { useRouter } from 'vue-router';
 import { useToast } from 'primevue';
 
+const path = [{ label: 'Dashboard' }];
+
 const router = useRouter();
 const toast = useToast();
 
@@ -33,7 +35,7 @@ onMounted(async () => {
 
 <template>
     <div class="min-h-screen h-screen flex flex-col">
-        <UniversalToolBar></UniversalToolBar>
+        <UniversalToolBar :path></UniversalToolBar>
         <div class="flex flex-col md:flex-row h-full w-full">
             <aside class="w-full md:w-1/3 lg:w-1/4 flex">
                 <div
