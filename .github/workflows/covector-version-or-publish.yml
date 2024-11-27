@@ -133,4 +133,4 @@ jobs:
           releaseId: ${{ needs.version-or-publish.outputs.releaseId }}
           args: ${{ matrix.args }}
           updaterJsonPreferNsis: true
-          appVersion: ${{ needs.version-or-publish.outputs.version }}
+          appVersion: 0.1.0-nightly
