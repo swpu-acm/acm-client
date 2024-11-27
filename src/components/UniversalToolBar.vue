@@ -82,10 +82,11 @@ const toggleCreateMenu = (event: any) => {
             </footer>
         </template>
     </Drawer>
-    <div class="bg-gray-100 dark:bg-zinc-900 flex flex-row items-center justify-between w-full p-3 flex-wrap">
+    <div class="bg-gray-100 dark:bg-zinc-900 flex flex-row items-center 
+    justify-between w-full py-1 px-3 flex-wrap border-zinc-300 shadow-sm">
         <div class="inline-flex justify-center items-center">
             <img :src="themeStore.dark ? '/acm-light.png' : '/acm.png'" width="40"></img>
-            <Breadcrumb :model="props.path">
+            <Breadcrumb :model="props.path" class="!bg-transparent">
                 <template #item="{ item }">
                     <a :class="item.url ? 'cursor-pointer' : ''" :href="item.url">
                         <span :class="item.icon"></span>
