@@ -5,6 +5,7 @@
         "clippy",
         "confirmationservice",
         "covector",
+        "dtolnay",
         "farmfe",
         "icns",
         "ICPC",
