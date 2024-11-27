@@ -4,6 +4,7 @@ import { computed, reactive, ref } from 'vue';
 import * as api from "@/scripts/api";
 import { useRouter } from 'vue-router';
 import { useAccountStore } from '@/scripts/store';
+import { Thing } from '@/scripts/types';
 
 const router = useRouter();
 const toast = useToast();
@@ -34,6 +35,7 @@ interface ProblemForm<T, N> {
     time_limit: N;
     memory_limit: N;
     test_cases: { input: T, output: T }[];
+    owner: Thing,
     categories: string[];
     tags: string[];
     mode: 'ICPC' | 'OI';
@@ -70,6 +72,8 @@ const onCreateProblem = async () => {
         time_limit: timeLimit.value,
         memory_limit: memoryLimit.value,
         test_cases: testCases.map(tc => ({ input: tc.input, output: tc.output })),
+        // @ts-ignore
+        owner: "account:" + accountStore.account.id,
         categories: [],
         tags: [],
         mode: mode.value,
@@ -90,7 +94,7 @@ const onCreateProblem = async () => {
         return toast.add({ severity: 'error', summary: 'Error', detail: res.message, life: 3000 });
     }
     inProgress.value = false;
-    router.push(`/problem/${res.data?.id}`);
+    router.push(`/problem/${res.data!.id}`);
 }
 
 const totalSize = ref(0);
