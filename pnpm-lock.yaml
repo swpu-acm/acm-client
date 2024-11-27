@@ -8,6 +8,12 @@ importers:
 
   .:
     dependencies:
+      '@farmfe/plugin-worker':
+        specifier: ^0.0.6
+        version: 0.0.6
+      '@monaco-editor/loader':
+        specifier: ^1.4.0
+        version: 1.4.0(monaco-editor@0.52.0)
       '@primevue/forms':
         specifier: ^4.2.2
         version: 4.2.2(vue@3.5.13(typescript@5.6.3))
@@ -26,6 +32,9 @@ importers:
       md-editor-v3:
         specifier: ^5.0.2
         version: 5.0.2(@codemirror/view@6.35.0)(@lezer/common@1.2.3)(vue@3.5.13(typescript@5.6.3))
+      monaco-editor:
+        specifier: ^0.52.0
+        version: 0.52.0
       pinia:
         specifier: ^2.2.6
         version: 2.2.6(typescript@5.6.3)(vue@3.5.13(typescript@5.6.3))
@@ -66,9 +75,12 @@ importers:
       '@types/node':
         specifier: ^22.9.0
         version: 22.9.0
+      '@types/path-browserify':
+        specifier: ^1.0.3
+        version: 1.0.3
       '@vitejs/plugin-vue':
         specifier: ^5.2.0
-        version: 5.2.0(vite@5.4.11(@types/node@22.9.0))(vue@3.5.13(typescript@5.6.3))
+        version: 5.2.0(vite@5.4.11(@types/node@22.9.0)(terser@5.36.0))(vue@3.5.13(typescript@5.6.3))
       core-js:
         specifier: ^3.39.0
         version: 3.39.0
@@ -86,7 +98,7 @@ importers:
         version: 0.27.4(@babel/parser@7.26.2)(@nuxt/kit@3.14.159(rollup@4.27.3))(rollup@4.27.3)(vue@3.5.13(typescript@5.6.3))
       vite:
         specifier: ^5.4.11
-        version: 5.4.11(@types/node@22.9.0)
+        version: 5.4.11(@types/node@22.9.0)(terser@5.36.0)
       vue-tsc:
         specifier: ^2.1.10
         version: 2.1.10(typescript@5.6.3)
@@ -586,6 +598,9 @@ packages:
     resolution: {integrity: sha512-5DHsqwrl8i0lax+BGSosrPyeaGDnYIqfWRGp49QB1+dt0NM1gGs03w/elsVHiIVhzPjHBFxjLMym9xXPoz2Row==}
     engines: {node: '>=16.15.1'}
 
+  '@farmfe/plugin-worker@0.0.6':
+    resolution: {integrity: sha512-eCZcloccm0KYZ0wMvJr/HY/AxL7o1kq/X55Z0YRJKW/PxmXiDTD+/q2VBDL6ZARWpbeEbseJRqnW5dea0VuqvA==}
+
   '@farmfe/runtime-plugin-hmr@3.5.7':
     resolution: {integrity: sha512-6vFwVOKcD++fe1ji+MVFV3CMSBF6A/lxpbPqvjVh30KcE0CXWSGcu8XOycgRZAieoRPRsojGRNNVePil6NFv6g==}
 
@@ -616,6 +631,9 @@ packages:
   '@jridgewell/set-array@1.2.1':
     resolution: {integrity: sha512-R8gLRTZeyp03ymzP/6Lil/28tGeGEzhx1q2k703KGWRAI1VdvPIXdG70VJc2pAMw3NA6JKL5hhFu1sJX0Mnn/A==}
     engines: {node: '>=6.0.0'}
+
+  '@jridgewell/source-map@0.3.6':
+    resolution: {integrity: sha512-1ZJTZebgqllO79ue2bm3rIGud/bOe0pP5BjSRCRxxYkEZS8STV7zN84UBbiYu7jy+eCKSnVIUgoWWE/tt+shMQ==}
 
   '@jridgewell/sourcemap-codec@1.5.0':
     resolution: {integrity: sha512-gv3ZRaISU3fjPAgNsriBRqGWQL6quFx04YMPW/zD8XMLsU32mhCCbfbO6KZFLjvYpCZ8zyDEgqsgf+PwPaM7GQ==}
@@ -690,6 +708,11 @@ packages:
 
   '@mdn/browser-compat-data@5.6.17':
     resolution: {integrity: sha512-Cik21uEp29W9YcRiWHkZM1SEHIinxLIb6EzmPIj7Hc8qPoqMW4oJ5bpDBNl+CkEjvtblKrp94b1cTa4opaNQDA==}
+
+  '@monaco-editor/loader@1.4.0':
+    resolution: {integrity: sha512-00ioBig0x642hytVspPl7DbQyaSWRaolYie/UFNjoTdvoKPzo6xrXLhTk9ixgIKcLH5b5vDOjVNiGyY+uDCUlg==}
+    peerDependencies:
+      monaco-editor: '>= 0.21.0 < 1'
 
   '@nodelib/fs.scandir@2.1.5':
     resolution: {integrity: sha512-vq24Bq3ym5HEQm2NKCr3yXDwjc7vTsEThRDnkp2DK9p1uqLR+DHurm/NOTo0KG7HYHU7eppKZj3MyqYuMBf62g==}
@@ -957,6 +980,9 @@ packages:
   '@types/object-path@0.11.4':
     resolution: {integrity: sha512-4tgJ1Z3elF/tOMpA8JLVuR9spt9Ynsf7+JjqsQ2IqtiPJtcLoHoXcT6qU4E10cPFqyXX5HDm9QwIzZhBSkLxsw==}
 
+  '@types/path-browserify@1.0.3':
+    resolution: {integrity: sha512-ZmHivEbNCBtAfcrFeBCiTjdIc2dey0l7oCGNGpSuRTy8jP6UVND7oUowlvDujBy8r2Hoa8bfFUOCiPWfmtkfxw==}
+
   '@types/semver@7.5.8':
     resolution: {integrity: sha512-I8EUhyrgfLrcTkzV3TSsGyl1tSuPrEDzr0yd5m90UgNxQkyDXULk3b6MlQqTCpZpNtWe1K0hzclnZkTcLBe2UQ==}
 
@@ -1143,6 +1169,9 @@ packages:
     resolution: {integrity: sha512-ZIc+Q62revdMcqC6aChtW4jz3My3klmCO1fEmINZY/8J3EpBg5/A/D0AKmBveUh6pgoeycoMkVMko84tuYS+Gg==}
     engines: {node: ^6 || ^7 || ^8 || ^9 || ^10 || ^11 || ^12 || >=13.7}
     hasBin: true
+
+  buffer-from@1.1.2:
+    resolution: {integrity: sha512-E+XQCRwSbaaiChtv6k6Dwgc+bx+Bs6vuKJHHl5kox/BaKbhiXzqQOwK4cO22yElGp2OCmjwVhT3HmxgyPGnJfQ==}
 
   buffer@5.7.1:
     resolution: {integrity: sha512-EHcyIPBQ4BSGlvjB16k5KgAJ27CIsHY/2JBmCRReo48y9rQ3MaUzWX3KVlBa4U7MyX02HdVj0K7C3WaB3ju7FQ==}
@@ -1609,6 +1638,60 @@ packages:
 
   farm-plugin-replace-dirname@0.2.1:
     resolution: {integrity: sha512-aJ4euQzxoq0sVu4AwXrNQflHJrSZdrdApGEyVRtN6KiCop3CHXnTg9ydlyCNXN2unQB283aNjojvCd5E/32KgA==}
+
+  farmfe-plugin-worker-darwin-arm64@0.0.6:
+    resolution: {integrity: sha512-8ZqgVMrnb6X0wk4/X2joVF8pSmEFJBA9Z9jYJZ5XZ3D8RMriW0ZWmczzCzVNXhn31zjwSamUXbFTHhk5lg51AQ==}
+    engines: {node: '>= 10'}
+    cpu: [arm64]
+    os: [darwin]
+
+  farmfe-plugin-worker-darwin-x64@0.0.6:
+    resolution: {integrity: sha512-hcxs+BGVVJdXVPbUaLRyIzvhzUGt+XrMPopoVuXwzCYxG3RgXV2CH5fq7+OsgbMpf2O5+FjpLD0CcsUtyFlsBg==}
+    engines: {node: '>= 10'}
+    cpu: [x64]
+    os: [darwin]
+
+  farmfe-plugin-worker-linux-arm64-gnu@0.0.6:
+    resolution: {integrity: sha512-+u8b8H6rWcPEL7rfLx9gfpETPYLo4cPp9OuLlK14bQePek6Hln8qmdxOw1srtdrx11q56V4YxyiZwkRLZjbIqA==}
+    engines: {node: '>= 10'}
+    cpu: [arm64]
+    os: [linux]
+
+  farmfe-plugin-worker-linux-arm64-musl@0.0.6:
+    resolution: {integrity: sha512-bsxu0Wbbd8Hp4kl8XsG/g7A5CtbEtlBjjkr9nXePeO3gIvbAxX6DI1ASkzGKpMiVLtn/foR5DUsmuUpN9vZTMw==}
+    engines: {node: '>= 10'}
+    cpu: [arm64]
+    os: [linux]
+
+  farmfe-plugin-worker-linux-x64-gnu@0.0.6:
+    resolution: {integrity: sha512-0N/qfn1KzqsxAFy4SMHfCZOO0PNAgmtCPYfkuMFFY/haItusEZfJIo/qnhyOy/jgEN2Jn+cz2n8SbAUD9fH/Wg==}
+    engines: {node: '>= 10'}
+    cpu: [x64]
+    os: [linux]
+
+  farmfe-plugin-worker-linux-x64-musl@0.0.6:
+    resolution: {integrity: sha512-HvOU5PmU4slGdui1Njc1WP0oAKLhaZeOzNdLhBzEMRlcwafyeYQRtHyDpftfMfAfzg8YchSTsM3yE82WBh8CXQ==}
+    engines: {node: '>= 10'}
+    cpu: [x64]
+    os: [linux]
+
+  farmfe-plugin-worker-win32-arm64-msvc@0.0.6:
+    resolution: {integrity: sha512-VdOhjlibrpaDWcNhfX2bA8mmtvr4ttp8shg/VnrQ0D68on+Ww4ONzbBntcMyVqhkbbj9C4LJCriQgoil+7iPoA==}
+    engines: {node: '>= 10'}
+    cpu: [arm64]
+    os: [win32]
+
+  farmfe-plugin-worker-win32-ia32-msvc@0.0.6:
+    resolution: {integrity: sha512-ET/K8F/lwV+/MNW/nlo9K0Z6hz7TV6at0qrLG8GL/wpx6WF1A3QReBFrMaLEqSVqIU73qGU14lXsGlReQBeRrw==}
+    engines: {node: '>= 10'}
+    cpu: [ia32]
+    os: [win32]
+
+  farmfe-plugin-worker-win32-x64-msvc@0.0.6:
+    resolution: {integrity: sha512-IDvwzckDFppAOik31b88tDGUjElpkK7OWd5qLgbeau2u52EaUeGW+8Ii2XQ1hXUTQ2HfRR3OqJoKcvzlVhGd6A==}
+    engines: {node: '>= 10'}
+    cpu: [x64]
+    os: [win32]
 
   fast-glob@3.3.2:
     resolution: {integrity: sha512-oX2ruAFQwf/Orj8m737Y5adxDQO0LAB7/S5MnxCdTNDd4p6BsyIVsv9JQsATbTSq8KHRpLwIHbVlUNatxd+1Ow==}
@@ -2221,6 +2304,9 @@ packages:
     engines: {node: '>= 14.0.0'}
     hasBin: true
 
+  monaco-editor@0.52.0:
+    resolution: {integrity: sha512-OeWhNpABLCeTqubfqLMXGsqf6OmPU6pHM85kF3dhy6kq5hnhuVS1p3VrEW/XhWHc71P2tHyS5JFySD8mgs1crw==}
+
   mri@1.2.0:
     resolution: {integrity: sha512-tzzskb3bG8LvYGFF/mDTpq3jpI6Q9wc3LEmBaghu+DdCssd1FakN7Bc0hVNmEyGq1bq3RgfkCb3cmQLpNPOroA==}
     engines: {node: '>=4'}
@@ -2713,6 +2799,13 @@ packages:
     resolution: {integrity: sha512-UXWMKhLOwVKb728IUtQPXxfYU+usdybtUrK/8uGE8CQMvrhOpwvzDBwj0QhSL7MQc7vIsISBG8VQ8+IDQxpfQA==}
     engines: {node: '>=0.10.0'}
 
+  source-map-support@0.5.21:
+    resolution: {integrity: sha512-uBHU3L3czsIyYXKX88fdrGovxdSCoTGDRZ6SYXtSRxLZUzHg5P/66Ht6uoUlHu9EZod+inXhKo3qQgwXUT/y1w==}
+
+  source-map@0.6.1:
+    resolution: {integrity: sha512-UjgapumWlbMhkBgzT7Ykc5YXUT46F0iKu8SGXq0bcwP5dz/h0Plj6enJqjz1Zbq2l5WaqYnrVbwWOWMyF3F47g==}
+    engines: {node: '>=0.10.0'}
+
   spawndamnit@3.0.1:
     resolution: {integrity: sha512-MmnduQUuHCoFckZoWnXsTg7JaiLBJrKFj9UI2MbRPGaJeVpsLcVBu6P/IGZovziM/YBsellCmsprgNA+w0CzVg==}
 
@@ -2726,6 +2819,9 @@ packages:
   stacktrace-parser@0.1.10:
     resolution: {integrity: sha512-KJP1OCML99+8fhOHxwwzyWrlUuVX5GQ0ZpJTd1DFXhdkrvg1szxfHhawXUZ3g9TkXORQd4/WG68jMlQZ2p8wlg==}
     engines: {node: '>=6'}
+
+  state-local@1.0.7:
+    resolution: {integrity: sha512-HTEHMNieakEnoe33shBYcZ7NX83ACUjCu8c40iOGEZsngj9zRnkqS9j1pqQPXwobB0ZcVTk27REb7COQ0UR59w==}
 
   statuses@1.5.0:
     resolution: {integrity: sha512-OpZ3zP+jT1PI7I8nemJX4AKmAX070ZkYPVWV/AaKTJl+tXCTGyVdC1a4SL8RUQYEwk/f34ZX8UTykN68FwrqAA==}
@@ -2804,6 +2900,11 @@ packages:
   term-size@2.2.1:
     resolution: {integrity: sha512-wK0Ri4fOGjv/XPy8SBHZChl8CM7uMc5VML7SqiQ0zG7+J5Vr+RMQDoHa2CNT6KHUnTGIXH34UDMkPzAUyapBZg==}
     engines: {node: '>=8'}
+
+  terser@5.36.0:
+    resolution: {integrity: sha512-IYV9eNMuFAV4THUspIRXkLakHnV6XO7FEdtKjf/mDyrnqUg9LnlOn6/RwRvM9SZjR4GUq8Nk8zj67FzVARr74w==}
+    engines: {node: '>=10'}
+    hasBin: true
 
   thenify-all@1.6.0:
     resolution: {integrity: sha512-RNxQH/qI8/t3thXJDwcstUO4zeqo64+Uy/+sNVRBx4Xn2OX+OZ9oP+iJnNFqplFra2ZUVeKCSa2oVWi3T4uVmA==}
@@ -3661,18 +3762,17 @@ snapshots:
       style-mod: 4.1.2
       w3c-keyname: 2.2.8
 
-  '@covector/apply@0.10.0(mocha@10.8.2)':
+  '@covector/apply@0.10.0':
     dependencies:
       '@covector/files': 0.8.0
       effection: 2.0.8(mocha@10.8.2)
       semver: 7.6.3
     transitivePeerDependencies:
       - encoding
-      - mocha
 
-  '@covector/assemble@0.12.0':
+  '@covector/assemble@0.12.0(mocha@10.8.2)':
     dependencies:
-      '@covector/command': 0.8.0
+      '@covector/command': 0.8.0(mocha@10.8.2)
       '@covector/files': 0.8.0
       effection: 2.0.8(mocha@10.8.2)
       js-yaml: 4.1.0
@@ -3683,6 +3783,7 @@ snapshots:
       unified: 9.2.2
     transitivePeerDependencies:
       - encoding
+      - mocha
       - supports-color
 
   '@covector/changelog@0.12.0':
@@ -3697,12 +3798,13 @@ snapshots:
       - encoding
       - supports-color
 
-  '@covector/command@0.8.0':
+  '@covector/command@0.8.0(mocha@10.8.2)':
     dependencies:
       '@effection/process': 2.1.4
       effection: 2.0.8(mocha@10.8.2)
     transitivePeerDependencies:
       - encoding
+      - mocha
 
   '@covector/files@0.8.0':
     dependencies:
@@ -3917,6 +4019,18 @@ snapshots:
       - supports-color
       - utf-8-validate
 
+  '@farmfe/plugin-worker@0.0.6':
+    optionalDependencies:
+      farmfe-plugin-worker-darwin-arm64: 0.0.6
+      farmfe-plugin-worker-darwin-x64: 0.0.6
+      farmfe-plugin-worker-linux-arm64-gnu: 0.0.6
+      farmfe-plugin-worker-linux-arm64-musl: 0.0.6
+      farmfe-plugin-worker-linux-x64-gnu: 0.0.6
+      farmfe-plugin-worker-linux-x64-musl: 0.0.6
+      farmfe-plugin-worker-win32-arm64-msvc: 0.0.6
+      farmfe-plugin-worker-win32-ia32-msvc: 0.0.6
+      farmfe-plugin-worker-win32-x64-msvc: 0.0.6
+
   '@farmfe/runtime-plugin-hmr@3.5.7':
     dependencies:
       core-js: 3.39.0
@@ -3951,6 +4065,12 @@ snapshots:
   '@jridgewell/resolve-uri@3.1.2': {}
 
   '@jridgewell/set-array@1.2.1': {}
+
+  '@jridgewell/source-map@0.3.6':
+    dependencies:
+      '@jridgewell/gen-mapping': 0.3.5
+      '@jridgewell/trace-mapping': 0.3.25
+    optional: true
 
   '@jridgewell/sourcemap-codec@1.5.0': {}
 
@@ -4077,6 +4197,11 @@ snapshots:
       read-yaml-file: 1.1.0
 
   '@mdn/browser-compat-data@5.6.17': {}
+
+  '@monaco-editor/loader@1.4.0(monaco-editor@0.52.0)':
+    dependencies:
+      monaco-editor: 0.52.0
+      state-local: 1.0.7
 
   '@nodelib/fs.scandir@2.1.5':
     dependencies:
@@ -4325,6 +4450,8 @@ snapshots:
 
   '@types/object-path@0.11.4': {}
 
+  '@types/path-browserify@1.0.3': {}
+
   '@types/semver@7.5.8': {}
 
   '@types/ua-parser-js@0.7.39': {}
@@ -4333,9 +4460,9 @@ snapshots:
 
   '@vavt/util@2.1.0': {}
 
-  '@vitejs/plugin-vue@5.2.0(vite@5.4.11(@types/node@22.9.0))(vue@3.5.13(typescript@5.6.3))':
+  '@vitejs/plugin-vue@5.2.0(vite@5.4.11(@types/node@22.9.0)(terser@5.36.0))(vue@3.5.13(typescript@5.6.3))':
     dependencies:
-      vite: 5.4.11(@types/node@22.9.0)
+      vite: 5.4.11(@types/node@22.9.0)(terser@5.36.0)
       vue: 3.5.13(typescript@5.6.3)
 
   '@volar/language-core@2.4.10':
@@ -4527,6 +4654,9 @@ snapshots:
       node-releases: 2.0.18
       update-browserslist-db: 1.1.1(browserslist@4.24.2)
 
+  buffer-from@1.1.2:
+    optional: true
+
   buffer@5.7.1:
     dependencies:
       base64-js: 1.5.1
@@ -4700,10 +4830,10 @@ snapshots:
   covector@0.12.3(mocha@10.8.2):
     dependencies:
       '@clack/prompts': 0.7.0
-      '@covector/apply': 0.10.0(mocha@10.8.2)
-      '@covector/assemble': 0.12.0
+      '@covector/apply': 0.10.0
+      '@covector/assemble': 0.12.0(mocha@10.8.2)
       '@covector/changelog': 0.12.0
-      '@covector/command': 0.8.0
+      '@covector/command': 0.8.0(mocha@10.8.2)
       '@covector/files': 0.8.0
       effection: 2.0.8(mocha@10.8.2)
       globby: 11.1.0
@@ -5005,6 +5135,33 @@ snapshots:
       farm-plugin-replace-dirname-win32-arm64-msvc: 0.2.1
       farm-plugin-replace-dirname-win32-ia32-msvc: 0.2.1
       farm-plugin-replace-dirname-win32-x64-msvc: 0.2.1
+
+  farmfe-plugin-worker-darwin-arm64@0.0.6:
+    optional: true
+
+  farmfe-plugin-worker-darwin-x64@0.0.6:
+    optional: true
+
+  farmfe-plugin-worker-linux-arm64-gnu@0.0.6:
+    optional: true
+
+  farmfe-plugin-worker-linux-arm64-musl@0.0.6:
+    optional: true
+
+  farmfe-plugin-worker-linux-x64-gnu@0.0.6:
+    optional: true
+
+  farmfe-plugin-worker-linux-x64-musl@0.0.6:
+    optional: true
+
+  farmfe-plugin-worker-win32-arm64-msvc@0.0.6:
+    optional: true
+
+  farmfe-plugin-worker-win32-ia32-msvc@0.0.6:
+    optional: true
+
+  farmfe-plugin-worker-win32-x64-msvc@0.0.6:
+    optional: true
 
   fast-glob@3.3.2:
     dependencies:
@@ -5664,6 +5821,8 @@ snapshots:
       yargs-parser: 20.2.9
       yargs-unparser: 2.0.0
 
+  monaco-editor@0.52.0: {}
+
   mri@1.2.0: {}
 
   ms@2.1.3: {}
@@ -6126,6 +6285,15 @@ snapshots:
 
   source-map-js@1.2.1: {}
 
+  source-map-support@0.5.21:
+    dependencies:
+      buffer-from: 1.1.2
+      source-map: 0.6.1
+    optional: true
+
+  source-map@0.6.1:
+    optional: true
+
   spawndamnit@3.0.1:
     dependencies:
       cross-spawn: 7.0.6
@@ -6138,6 +6306,8 @@ snapshots:
   stacktrace-parser@0.1.10:
     dependencies:
       type-fest: 0.7.1
+
+  state-local@1.0.7: {}
 
   statuses@1.5.0: {}
 
@@ -6238,6 +6408,14 @@ snapshots:
       yallist: 4.0.0
 
   term-size@2.2.1: {}
+
+  terser@5.36.0:
+    dependencies:
+      '@jridgewell/source-map': 0.3.6
+      acorn: 8.14.0
+      commander: 2.20.3
+      source-map-support: 0.5.21
+    optional: true
 
   thenify-all@1.6.0:
     dependencies:
@@ -6402,7 +6580,7 @@ snapshots:
       unist-util-stringify-position: 2.0.3
       vfile-message: 2.0.4
 
-  vite@5.4.11(@types/node@22.9.0):
+  vite@5.4.11(@types/node@22.9.0)(terser@5.36.0):
     dependencies:
       esbuild: 0.21.5
       postcss: 8.4.49
@@ -6410,6 +6588,7 @@ snapshots:
     optionalDependencies:
       '@types/node': 22.9.0
       fsevents: 2.3.3
+      terser: 5.36.0
 
   vscode-uri@3.0.8: {}
 
