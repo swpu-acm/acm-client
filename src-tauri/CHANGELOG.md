@@ -1,5 +1,85 @@
 # Changelog
 
+## \[0.1.1-nightly.16]
+
+### Bug Fixes
+
+- [`4553c45`](https://github.com/swpu-acm/algohub.git/commit/4553c45ca3a44492c4b4c86e38f7a33c3646da41) ([#56](https://github.com/swpu-acm/algohub.git/pull/56) by [@fu050409](https://github.com/swpu-acm/algohub.git/../../fu050409)) Fix sha256 checksum while using `axios` to download files.
+
+## \[0.1.1-nightly.15]
+
+### New Features
+
+- [`8851f19`](https://github.com/swpu-acm/algohub.git/commit/8851f1989d7bb68eae8938ff4eefa37360bb09a8) ([#54](https://github.com/swpu-acm/algohub.git/pull/54) by [@fu050409](https://github.com/swpu-acm/algohub.git/../../fu050409)) Support for breadcrumbs in the AlgoHub toolbar.
+
+### Bug Fixes
+
+- [`ae84180`](https://github.com/swpu-acm/algohub.git/commit/ae8418060ec6f9b45974dd255e0bc5da2c333205) ([#53](https://github.com/swpu-acm/algohub.git/pull/53) by [@fu050409](https://github.com/swpu-acm/algohub.git/../../fu050409)) Fix git ssh key read and write permission issue when publishing to AUR.
+
+## \[0.1.1-nightly.14]
+
+### Bug Fixes
+
+- [`04080ce`](https://github.com/swpu-acm/algohub.git/commit/04080ce145e257f6e55e567e7bd3f9c3e9a15628) ([#51](https://github.com/swpu-acm/algohub.git/pull/51) by [@fu050409](https://github.com/swpu-acm/algohub.git/../../fu050409)) Fix windows semver compatibility, uses `nsis` only now.
+
+## \[0.1.1-nightly.13]
+
+### Bug Fixes
+
+- [`f30f24e`](https://github.com/swpu-acm/algohub.git/commit/f30f24e95ded09eeb814e73fa855bf6003b97cd0) ([#48](https://github.com/swpu-acm/algohub.git/pull/48) by [@fu050409](https://github.com/swpu-acm/algohub.git/../../fu050409)) Automatic update of version for `tauri.conf.json`.
+
+## \[0.1.1-nightly.12]
+
+### New Features
+
+- [`e1529bb`](https://github.com/swpu-acm/algohub.git/commit/e1529bb4ac8a966808f865f39e041549e9deea00) ([#46](https://github.com/swpu-acm/algohub.git/pull/46) by [@fu050409](https://github.com/swpu-acm/algohub.git/../../fu050409)) Release algohub to archlinux user repository (AUR).
+
+## \[0.1.1-nightly.11]
+
+### New Features
+
+- [`ded0848`](https://github.com/swpu-acm/algohub.git/commit/ded0848add538f4a8a2b79fc76ded269121dcf48) ([#41](https://github.com/swpu-acm/algohub.git/pull/41) by [@fu050409](https://github.com/swpu-acm/algohub.git/../../fu050409)) Support create new algorithm problem and upload test cases.
+- [`1ef441e`](https://github.com/swpu-acm/algohub.git/commit/1ef441e4a29c7c011797083cba20800992ddb11b) ([#43](https://github.com/swpu-acm/algohub.git/pull/43) by [@fu050409](https://github.com/swpu-acm/algohub.git/../../fu050409)) Add page for problem
+
+  - Add support for microsoft Monaco editor and setup to run Monaco locally.
+  - Initial commit for submit code with specific language.
+  - Set `Rust` as default language for submit code.
+
+## \[0.1.1-nightly.10]
+
+### New Features
+
+- [`c9bc23b`](https://github.com/swpu-acm/algohub.git/commit/c9bc23b87ee27752316ad04c05502cd93f1bec60) ([#39](https://github.com/swpu-acm/algohub.git/pull/39) by [@fu050409](https://github.com/swpu-acm/algohub.git/../../fu050409)) Add a menu for creating new components.
+
+  For examples:
+
+  - Create a new blog
+  - Create a new organization
+  - Create a new algorithm problem
+- [`38d66c3`](https://github.com/swpu-acm/algohub.git/commit/38d66c3cdd0fffaed45c028e8c592be2357ff270) ([#37](https://github.com/swpu-acm/algohub.git/pull/37) by [@fu050409](https://github.com/swpu-acm/algohub.git/../../fu050409)) Add side panel for displaying user routes and basic information.
+- [`4d0ea28`](https://github.com/swpu-acm/algohub.git/commit/4d0ea28e94eabe3ff555fd0cd6d2029240e6a758) ([#38](https://github.com/swpu-acm/algohub.git/pull/38) by [@fu050409](https://github.com/swpu-acm/algohub.git/../../fu050409)) Migrate to new icon design.
+
+### Bug Fixes
+
+- [`ef2c89c`](https://github.com/swpu-acm/algohub.git/commit/ef2c89ccfe1f053dd690d2edd68d0cbcd1c73f03) ([#35](https://github.com/swpu-acm/algohub.git/pull/35) by [@fu050409](https://github.com/swpu-acm/algohub.git/../../fu050409)) Fix login page can't cover full screen.
+- [`c9bc23b`](https://github.com/swpu-acm/algohub.git/commit/c9bc23b87ee27752316ad04c05502cd93f1bec60) ([#39](https://github.com/swpu-acm/algohub.git/pull/39) by [@fu050409](https://github.com/swpu-acm/algohub.git/../../fu050409)) Fix toast message will be displayed larger that horizontal screen.
+
+## \[0.1.1-nightly.9]
+
+### New Features
+
+- [`ece911a`](https://github.com/swpu-acm/algohub.git/commit/ece911a71d682ce8487ac0a76c1ea28a46b78e9e) ([#32](https://github.com/swpu-acm/algohub.git/pull/32) by [@fu050409](https://github.com/swpu-acm/algohub.git/../../fu050409)) Add api export for login.
+
+### Bug Fixes
+
+- [`ece911a`](https://github.com/swpu-acm/algohub.git/commit/ece911a71d682ce8487ac0a76c1ea28a46b78e9e) ([#32](https://github.com/swpu-acm/algohub.git/pull/32) by [@fu050409](https://github.com/swpu-acm/algohub.git/../../fu050409)) Fix sub vue layout for `100vh`.
+
+## \[0.1.1-nightly.8]
+
+### Refactors
+
+- [`270073b`](https://github.com/swpu-acm/algohub.git/commit/270073bf7dda64da47dbe9da2a7de2a79cb0d4a6) ([#33](https://github.com/swpu-acm/algohub.git/pull/33) by [@fu050409](https://github.com/swpu-acm/algohub.git/../../fu050409)) Use Farm instead of Vite for compiling and bundling frontend code.
+
 ## \[0.1.1-nightly.7]
 
 ### New Features

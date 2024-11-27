@@ -5,7 +5,7 @@ const router = useRouter();
 </script>
 
 <template>
-  <div class="fixed w-full py-2 bg-indigo-600 text-white sm:flex sm:items-center sm:justify-between sm:px-6 lg:px-8">
+  <div class="fixed bottom-0 sm:bottom-unset w-full py-2 bg-indigo-600 text-white sm:flex sm:items-center sm:justify-between sm:px-6 lg:px-8">
     <p class="text-center font-medium sm:text-left">
       AlgoHub is on nightly build now! Want to try it out?
       <br class="sm:hidden" />
@@ -17,7 +17,7 @@ const router = useRouter();
       Releases
     </a>
   </div>
-  <section class="bg-gray-900 text-white h-full">
+  <section class="bg-gray-900 text-white h-screen">
     <div class="mx-auto max-w-screen-xl px-4 py-32 lg:flex lg:h-screen lg:items-center">
       <div class="mx-auto max-w-3xl text-center">
         <h1

@@ -2,15 +2,31 @@
   "tag": "nightly",
   "changes": [
     ".changes/add-icon.md",
+    ".changes/breadcrumb.md",
+    ".changes/create-panel.md",
+    ".changes/create-problem.md",
+    ".changes/fix-aur.md",
     ".changes/fix-dark-mode.md",
+    ".changes/fix-layout.md",
+    ".changes/fix-login.md",
+    ".changes/fix-sha256.md",
+    ".changes/fix-tauri-version.md",
+    ".changes/fix-toast.md",
     ".changes/fix-windows-ci.md",
+    ".changes/fix-windows.md",
     ".changes/index-page.md",
+    ".changes/login.md",
     ".changes/optimize-dark.md",
+    ".changes/problem-page.md",
     ".changes/refactor-login.md",
     ".changes/release-nightly.md",
+    ".changes/release-url.md",
     ".changes/rust-nightly.md",
     ".changes/rust-stable.md",
+    ".changes/side-panel.md",
     ".changes/signup-panel.md",
-    ".changes/update-profile.md"
+    ".changes/update-icon.md",
+    ".changes/update-profile.md",
+    ".changes/use-farm.md"
   ]
 }

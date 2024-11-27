@@ -7,3 +7,9 @@
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
 }
+
+html, body, #app {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}

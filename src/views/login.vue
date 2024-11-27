@@ -1,13 +1,19 @@
 <script setup lang="ts">
-import { reactive } from "vue";
-// import { invoke } from "@tauri-apps/api/core";
+import { reactive, ref, type Ref } from "vue";
 import { useToast } from 'primevue/usetoast';
 import { useRouter } from "vue-router";
-import { useThemeStore } from "../scripts/store";
+import { useAccountStore, useThemeStore } from "@/scripts/store";
+import * as api from "@/scripts/api";
 
 const toast = useToast();
 const router = useRouter();
+const accountStore = useAccountStore();
 const themeStore = useThemeStore();
+
+if (accountStore.isLoggedIn) {
+  toast.add({ severity: 'info', summary: 'Already Logged In', detail: 'Redirecting to dashboard...', life: 3000 });
+  router.push('/dashboard');
+}
 
 const initialValues = reactive({
   identity: '',
@@ -15,20 +21,14 @@ const initialValues = reactive({
   terms: false,
 });
 
-interface LoginForm {
-  identity: string;
-  password: string;
-  terms: boolean;
+interface LoginForm<T> {
+  identity?: T;
+  password?: T;
+  terms?: T;
 }
 
-interface LoginErrors {
-  identity?: { message: string }[];
-  password?: { message: string }[];
-  terms?: { message: string }[];
-}
-
-const resolver = ({ values }: { values: LoginForm }) => {
-  const errors: LoginErrors = {};
+const resolver = ({ values }: { values: LoginForm<string> }) => {
+  const errors: LoginForm<{ message: string }[]> = {};
 
   if (!values.identity) {
     errors.identity = [{ message: 'Please enter your username or email.' }];
@@ -45,15 +45,29 @@ const resolver = ({ values }: { values: LoginForm }) => {
   return { errors };
 };
 
-const onLogin = async ({ valid }: { valid: boolean }) => {
-  if (valid) {
-    toast.add({ severity: 'info', summary: 'Login unsupported', detail: 'Please wait while nightly versions are being updated.' });
+const inProgress = ref(false);
+const onLogin = async ({ valid, states }: { valid: boolean, states: LoginForm<Ref<string>> }) => {
+  if (!valid) return;
+
+  inProgress.value = true;
+
+  const { identity, password } = states;
+  const res = await api.login({ identity: identity?.value!, password: password?.value! });
+
+  if (!res.success) {
+    toast.add({ severity: 'error', summary: 'Login Failed', detail: res.message, life: 3000 });
+  } else {
+    accountStore.mergeProfile(res.data!);
+    toast.add({ severity: 'success', summary: 'Login Success', detail: 'Welcome back!', life: 3000 });
+    router.push('/dashboard');
   }
+
+  inProgress.value = false;
 }
 </script>
 
 <template>
-  <div class="flex flex-row h-full">
+  <div class="flex flex-row h-screen">
     <div class="hidden md:flex flex-col items-center justify-center h-full w-full">
       <div class="flex flex-1 flex-col items-center justify-center w-full h-full">
         <Image class="hidden md:flex" :src="themeStore.dark ? '/acm-light.png' : '/acm.png'" alt="Image" width="250" />
@@ -94,7 +108,7 @@ const onLogin = async ({ valid }: { valid: boolean }) => {
                 $form.terms.error.message }}</Message>
             </div>
             <p>Do not have an account? <a @click="router.push('/signup')" class="underline">Sign up</a></p>
-            <Button type="submit" label="Login" class="w-full" secondary></Button>
+            <Button type="submit" label="Login" class="w-full" secondary :loading="inProgress"></Button>
           </Form>
         </template>
       </Card>

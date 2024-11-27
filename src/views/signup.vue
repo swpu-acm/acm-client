@@ -121,7 +121,7 @@ const selectAvatar = async (event: FileUploadSelectEvent) => {
           fileName: file.name,
         })
         if (cropped) {
-          const res = await api.uploadAvatar({
+          const res = await api.uploadContent({
             id: accountStore.account!.id!,
             token: accountStore.account!.token!,
             file: cropped,

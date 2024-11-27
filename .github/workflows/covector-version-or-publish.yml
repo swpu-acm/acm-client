@@ -22,6 +22,7 @@ jobs:
       commandRan: ${{ steps.covector.outputs.commandRan }}
       releaseId: ${{ steps.covector.outputs.releaseId }}
       successfulPublish: ${{ steps.covector.outputs.successfulPublish }}
+      version: ${{ steps.get-release-version.outputs.version }}
 
     steps:
       - uses: actions/checkout@v4
@@ -64,12 +65,17 @@ jobs:
           labels: "version updates"
           branch: "release"
           body: ${{ steps.covector.outputs.change }}
+      - name: Get Release Version
+        id: get-release-version
+        if: steps.covector.outputs.commandRan == 'publish'
+        run: echo "version=$(cat .version)" >> "$GITHUB_OUTPUT"
 
   release-tauri:
     needs: version-or-publish
     if: needs.version-or-publish.outputs.releaseId
     permissions:
       contents: write
+    name: Release ${{ needs.version-or-publish.outputs.version }} on ${{ matrix.platform }}
     strategy:
       fail-fast: false
       matrix:
@@ -84,7 +90,7 @@ jobs:
             args: ""
             target: ""
           - platform: "windows-latest"
-            args: "--target x86_64-pc-windows-msvc"
+            args: "--target x86_64-pc-windows-msvc --bundles nsis"
             target: "x86_64-pc-windows-msvc"
 
     runs-on: ${{ matrix.platform }}
@@ -106,7 +112,6 @@ jobs:
         uses: dtolnay/rust-toolchain@nightly
         with:
           toolchain: nightly
-          components: rustfmt, clippy
           targets: ${{ matrix.target }}
 
       - name: Install dependencies (ubuntu only)
@@ -117,12 +122,17 @@ jobs:
 
       - name: Rust Cache
         uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: "./src-tauri -> target"
 
       - name: Install frontend dependencies
         run: pnpm install
 
       - name: Build TailwindCSS
-        run: pnpx tailwindcss -i ./input.css -o ./src/assets/tailwind.css 
+        run: pnpx tailwindcss -i ./input.css -o ./src/assets/tailwind.css
+
+      - name: Bump Tauri version
+        run: pnpm version:bump tauri --version ${{ needs.version-or-publish.outputs.version }}
 
       - uses: tauri-apps/tauri-action@v0
         env:
@@ -130,3 +140,28 @@ jobs:
         with:
           releaseId: ${{ needs.version-or-publish.outputs.releaseId }}
           args: ${{ matrix.args }}
+          updaterJsonPreferNsis: true
+
+  release-aur:
+    needs: [release-tauri, version-or-publish]
+    if: needs.version-or-publish.outputs.successfulPublish
+    name: Publish to AUR
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        name: Install pnpm
+        with:
+          version: 9
+          run_install: false
+      - name: Setup Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: "pnpm"
+      - name: Install dependencies
+        run: pnpm install
+      - name: Publish to AUR
+        run: pnpm publish:aur --version ${{ needs.version-or-publish.outputs.version }}
+        env:
+          AUR_SSH_KEY: ${{ secrets.AUR_SSH_KEY }}
