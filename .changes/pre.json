@@ -10,6 +10,7 @@
     ".changes/fix-tauri-version.md",
     ".changes/fix-toast.md",
     ".changes/fix-windows-ci.md",
+    ".changes/fix-windows.md",
     ".changes/index-page.md",
     ".changes/login.md",
     ".changes/optimize-dark.md",

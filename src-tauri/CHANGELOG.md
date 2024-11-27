@@ -1,5 +1,11 @@
 # Changelog
 
+## \[0.1.1-nightly.14]
+
+### Bug Fixes
+
+- [`04080ce`](https://github.com/swpu-acm/algohub.git/commit/04080ce145e257f6e55e567e7bd3f9c3e9a15628) ([#51](https://github.com/swpu-acm/algohub.git/pull/51) by [@fu050409](https://github.com/swpu-acm/algohub.git/../../fu050409)) Fix windows semver compatibility, uses `nsis` only now.
+
 ## \[0.1.1-nightly.13]
 
 ### Bug Fixes
