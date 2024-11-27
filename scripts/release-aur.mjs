@@ -61,16 +61,27 @@ const releaseAur = defineCommand({
     },
   },
   callback: async (ctx) => {
+    const AUR_SSH_KEY = process.env.AUR_SSH_KEY;
+
+    if (!AUR_SSH_KEY) {
+      console.error("AUR_SSH_KEY environment variable is not set.");
+      return;
+    }
+
+    writeFileSync(`${process.env.HOME}/.ssh/aur`, AUR_SSH_KEY + "\n");
+    execSync("chmod 600 ~/.ssh/aur");
+    execSync(`git -C aur config core.sshCommand "ssh -i ~/.ssh/aur"`);
+
     if (!existsSync("aur")) {
       execSync(
-        "git -c init.defaultBranch=master clone ssh://aur@aur.archlinux.org/algohub.git aur"
+        `git -c init.defaultBranch=master -c core.sshCommand="ssh -i ~/.ssh/aur" clone ssh://aur@aur.archlinux.org/algohub.git aur`
       );
     }
 
     const { version } = ctx.args;
 
-    // const url = `https://github.com/swpu-acm/algohub/releases/download/algohub-v${version}/algohub_${version}_amd64.deb`;
-    const url = `https://github.com/swpu-acm/algohub/releases/download/algohub-v${version}/algohub_0.1.0_amd64.deb`;
+    const url = `https://github.com/swpu-acm/algohub/releases/download/algohub-v${version}/algohub_${version}_amd64.deb`;
+    // const url = `https://github.com/swpu-acm/algohub/releases/download/algohub-v${version}/algohub_0.1.0_amd64.deb`;
     try {
       console.log(`Downloading ${url}...`);
       const response = await axios.get(url, {
@@ -98,17 +109,6 @@ const releaseAur = defineCommand({
     });
 
     unlinkSync("aur/algohub.deb");
-
-    const AUR_SSH_KEY = process.env.AUR_SSH_KEY;
-
-    if (!AUR_SSH_KEY) {
-      console.error("AUR_SSH_KEY environment variable is not set.");
-      return;
-    }
-
-    writeFileSync(`${process.env.HOME}/.ssh/aur`, AUR_SSH_KEY + "\n");
-    execSync("chmod 600 ~/.ssh/aur");
-    execSync(`git -C aur config core.sshCommand "ssh -i ~/.ssh/aur"`);
 
     execSync("git -C aur add PKGBUILD .SRCINFO algohub.install", {
       stdio: "inherit",
