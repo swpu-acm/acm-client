@@ -131,6 +131,9 @@ jobs:
       - name: Build TailwindCSS
         run: pnpx tailwindcss -i ./input.css -o ./src/assets/tailwind.css
 
+      - name: Bump Tauri version
+        run: pnpm version:bump tauri --version ${{ needs.version-or-publish.outputs.version }}
+
       - uses: tauri-apps/tauri-action@v0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
