@@ -12,7 +12,8 @@
     "preview": "vite preview",
     "tauri": "tauri",
     "version:check": "node scripts/version-check.mjs",
-    "version:bump": "node scripts/bump.mjs"
+    "version:bump": "node scripts/bump.mjs",
+    "publish:aur": "node scripts/release-aur.mjs"
   },
   "dependencies": {
     "@farmfe/plugin-worker": "^0.0.6",
