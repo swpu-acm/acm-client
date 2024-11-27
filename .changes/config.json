@@ -11,7 +11,7 @@
     "rust": {
       "version": true,
       "getPublishedVersion": "pnpm --silent version:check",
-      "publish": []
+      "publish": ["pnpm version:bump --version \"${ pkgFile.version }\""]
     }
   },
   "packages": {

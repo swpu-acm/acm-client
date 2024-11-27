@@ -22,6 +22,7 @@ jobs:
       commandRan: ${{ steps.covector.outputs.commandRan }}
       releaseId: ${{ steps.covector.outputs.releaseId }}
       successfulPublish: ${{ steps.covector.outputs.successfulPublish }}
+      version: ${{ steps.get-release-version.outputs.version }}
 
     steps:
       - uses: actions/checkout@v4
@@ -64,13 +65,17 @@ jobs:
           labels: "version updates"
           branch: "release"
           body: ${{ steps.covector.outputs.change }}
+      - name: Get Release Version
+        id: get-release-version
+        if: steps.covector.outputs.commandRan == 'publish'
+        run: echo "version=$(cat .version)" >> "$GITHUB_OUTPUT"
 
   release-tauri:
     needs: version-or-publish
     if: needs.version-or-publish.outputs.releaseId
     permissions:
       contents: write
-    name: Release ${{ needs.version-or-publish.outputs.releaseId }}
+    name: Release ${{ needs.version-or-publish.outputs.version }} on ${{ matrix.platform }}
     strategy:
       fail-fast: false
       matrix:
