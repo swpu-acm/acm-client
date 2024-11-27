@@ -51,6 +51,12 @@ const onSubmitCode = async (code: string, language: string) => {
     toast.add({ severity: 'success', summary: 'Success', detail: 'Your code has been submitted successfully.' });
 }
 
+const path = ref([
+    { label: 'fu050409' },
+    { label: 'problem' },
+    { label: id },
+]);
+
 const loading = ref(true);
 onMounted(async () => {
     const res = await api.fetchProblem(id, {
@@ -67,7 +73,7 @@ onMounted(async () => {
 
 <template>
     <div class="h-full w-full flex flex-col">
-        <UniversalToolBar></UniversalToolBar>
+        <UniversalToolBar :path></UniversalToolBar>
         <Splitter :gutterSize="2" class="flex-1 max-h-screen">
             <SplitterPanel>
                 <Panel v-if="!loading" :header="problem?.title" class="w-full h-full overflow-auto">

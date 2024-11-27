@@ -6,6 +6,8 @@ import { useRouter } from 'vue-router';
 import { useAccountStore } from '@/scripts/store';
 import { Thing } from '@/scripts/types';
 
+const path = [{ label: 'New problem' }];
+
 const router = useRouter();
 const toast = useToast();
 const $primevue = usePrimeVue();
@@ -220,7 +222,7 @@ const formatSize = (bytes: number) => {
 
 <template>
     <div class="min-h-screen h-full flex flex-col">
-        <UniversalToolBar></UniversalToolBar>
+        <UniversalToolBar :path></UniversalToolBar>
         <div class="max-w-full md:max-w-[768px] mx-auto">
             <Panel class="mt-10">
                 <div class="flex flex-col gap-8">
