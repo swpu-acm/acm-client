@@ -95,13 +95,12 @@ async fn get_latest_versions() -> Result<LatestVersions, Error> {
                 if latest_versions.rc.is_none() || latest_versions.rc.as_ref().unwrap() < &tag {
                     latest_versions.rc = Some(tag.to_string());
                 }
-            } else {
-                if latest_versions.stable.is_none()
+            } else if latest_versions.stable.is_none()
                     || latest_versions.stable.as_ref().unwrap() < &tag
                 {
                     latest_versions.stable = Some(tag.to_string());
                 }
-            }
+
 
        
             if latest_versions.nightly.is_some()
@@ -161,7 +160,7 @@ async fn download_release(version: &str) -> Result<DownloadResult, Error> {
                 format!("algohub_{}_amd64.deb", version)
             }
         }
-        ("linux", "aarch64") => format!("algohub_aarch64.app.tar.gz"),
+        ("linux", "aarch64") => "algohub_aarch64.app.tar.gz".to_string(),
         ("windows", "x86_64") => {
             if cfg!(target_env = "msvc") {
                 format!("algohub_{}_x64_en-US.msi", version)
