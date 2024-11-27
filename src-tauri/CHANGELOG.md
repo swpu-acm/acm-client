@@ -1,5 +1,50 @@
 # Changelog
 
+## \[0.1.1-nightly.16]
+
+### Bug Fixes
+
+- [`4553c45`](https://github.com/swpu-acm/algohub.git/commit/4553c45ca3a44492c4b4c86e38f7a33c3646da41) ([#56](https://github.com/swpu-acm/algohub.git/pull/56) by [@fu050409](https://github.com/swpu-acm/algohub.git/../../fu050409)) Fix sha256 checksum while using `axios` to download files.
+
+## \[0.1.1-nightly.15]
+
+### New Features
+
+- [`8851f19`](https://github.com/swpu-acm/algohub.git/commit/8851f1989d7bb68eae8938ff4eefa37360bb09a8) ([#54](https://github.com/swpu-acm/algohub.git/pull/54) by [@fu050409](https://github.com/swpu-acm/algohub.git/../../fu050409)) Support for breadcrumbs in the AlgoHub toolbar.
+
+### Bug Fixes
+
+- [`ae84180`](https://github.com/swpu-acm/algohub.git/commit/ae8418060ec6f9b45974dd255e0bc5da2c333205) ([#53](https://github.com/swpu-acm/algohub.git/pull/53) by [@fu050409](https://github.com/swpu-acm/algohub.git/../../fu050409)) Fix git ssh key read and write permission issue when publishing to AUR.
+
+## \[0.1.1-nightly.14]
+
+### Bug Fixes
+
+- [`04080ce`](https://github.com/swpu-acm/algohub.git/commit/04080ce145e257f6e55e567e7bd3f9c3e9a15628) ([#51](https://github.com/swpu-acm/algohub.git/pull/51) by [@fu050409](https://github.com/swpu-acm/algohub.git/../../fu050409)) Fix windows semver compatibility, uses `nsis` only now.
+
+## \[0.1.1-nightly.13]
+
+### Bug Fixes
+
+- [`f30f24e`](https://github.com/swpu-acm/algohub.git/commit/f30f24e95ded09eeb814e73fa855bf6003b97cd0) ([#48](https://github.com/swpu-acm/algohub.git/pull/48) by [@fu050409](https://github.com/swpu-acm/algohub.git/../../fu050409)) Automatic update of version for `tauri.conf.json`.
+
+## \[0.1.1-nightly.12]
+
+### New Features
+
+- [`e1529bb`](https://github.com/swpu-acm/algohub.git/commit/e1529bb4ac8a966808f865f39e041549e9deea00) ([#46](https://github.com/swpu-acm/algohub.git/pull/46) by [@fu050409](https://github.com/swpu-acm/algohub.git/../../fu050409)) Release algohub to archlinux user repository (AUR).
+
+## \[0.1.1-nightly.11]
+
+### New Features
+
+- [`ded0848`](https://github.com/swpu-acm/algohub.git/commit/ded0848add538f4a8a2b79fc76ded269121dcf48) ([#41](https://github.com/swpu-acm/algohub.git/pull/41) by [@fu050409](https://github.com/swpu-acm/algohub.git/../../fu050409)) Support create new algorithm problem and upload test cases.
+- [`1ef441e`](https://github.com/swpu-acm/algohub.git/commit/1ef441e4a29c7c011797083cba20800992ddb11b) ([#43](https://github.com/swpu-acm/algohub.git/pull/43) by [@fu050409](https://github.com/swpu-acm/algohub.git/../../fu050409)) Add page for problem
+
+  - Add support for microsoft Monaco editor and setup to run Monaco locally.
+  - Initial commit for submit code with specific language.
+  - Set `Rust` as default language for submit code.
+
 ## \[0.1.1-nightly.10]
 
 ### New Features

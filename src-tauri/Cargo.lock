@@ -28,7 +28,7 @@ dependencies = [
 
 [[package]]
 name = "algohub"
-version = "0.1.1-nightly.10"
+version = "0.1.1-nightly.12"
 dependencies = [
  "reqwest",
  "serde",

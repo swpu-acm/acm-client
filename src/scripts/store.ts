@@ -1,5 +1,6 @@
 import { defineStore } from "pinia";
 import { computed, ref } from "vue";
+import { expandUrl } from "./utils";
 
 const prefersDarkMode = () => {
   return (
@@ -78,6 +79,8 @@ export const useAccountStore = defineStore(
       Boolean(account.value !== null && account.value.token)
     );
 
+    const avatarUrl = computed(() => expandUrl(account?.value?.avatar));
+
     // const isAdmin = computed(
     //   () =>
     //     account.value.role == Role.SuperAdmin ||
@@ -95,7 +98,7 @@ export const useAccountStore = defineStore(
       account.value = {};
     };
 
-    return { account, isLoggedIn, isAdmin, mergeProfile, logout };
+    return { account, avatarUrl, isLoggedIn, isAdmin, mergeProfile, logout };
   },
   {
     persist: true,

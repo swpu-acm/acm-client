@@ -1,6 +1,7 @@
 import { AxiosError } from "axios";
 import axios from "@/scripts/axios";
 import { handleAxiosError } from "@/scripts/utils";
+import type { ProblemDetail } from "./types";
 
 export interface Response<D> {
   success: boolean;
@@ -34,24 +35,25 @@ export const register = async (form: Register) => {
   }
 };
 
-interface UploadAvatar {
+interface Upload {
   id: string;
   token: string;
   file: File;
 }
 
-interface UploadAvatarResponse {
+interface UploadResponse {
   uri: string;
+  path: string;
 }
 
-export const uploadAvatar = async (form: UploadAvatar) => {
+export const uploadContent = async (form: Upload) => {
   try {
     const response = await axios.put("/account/content/upload", form, {
       headers: {
         "Content-Type": "multipart/form-data",
       },
     });
-    return response.data as Response<UploadAvatarResponse>;
+    return response.data as Response<UploadResponse>;
   } catch (error) {
     return handleAxiosError(AxiosError.from(error));
   }
@@ -106,6 +108,63 @@ export const fetchProfile = async (form: AuthResponse) => {
       token: form.token,
     });
     return response.data as Response<Profile>;
+  } catch (error) {
+    return handleAxiosError(AxiosError.from(error));
+  }
+};
+
+interface ProblemForm {
+  id: string;
+  token: string;
+
+  title: string;
+  description: string;
+  input?: string;
+  output?: string;
+  samples: { input: string; output: string }[];
+  hint?: string;
+  time_limit: number;
+  memory_limit: number;
+  test_cases: { input: string; output: string }[];
+  categories: string[];
+  tags: string[];
+  mode: "ICPC" | "OI";
+  private: boolean;
+}
+
+interface ProblemResponse {
+  id: string;
+}
+
+export const createProblem = async (form: ProblemForm) => {
+  try {
+    const response = await axios.post("/problem/create", form);
+    return response.data as Response<ProblemResponse>;
+  } catch (error) {
+    return handleAxiosError(AxiosError.from(error));
+  }
+};
+
+export const fetchProblem = async (id: string, form?: AuthResponse) => {
+  try {
+    const response = await axios.post(`/problem/get/${id}`, form);
+    return response.data as Response<ProblemDetail>;
+  } catch (error) {
+    return handleAxiosError(AxiosError.from(error));
+  }
+};
+
+interface SubmitCodeForm {
+  id: string;
+  token: string;
+  language: string;
+  code: string;
+}
+
+export const submitCode = async (problem_id: string, form: SubmitCodeForm) => {
+  try {
+    const response = await axios.post(`/problem/submit/${problem_id}`, form);
+    return response.data as Response<undefined>;
   } catch (error) {
     return handleAxiosError(AxiosError.from(error));
   }

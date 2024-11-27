@@ -1,10 +1,11 @@
 <script setup lang="ts">
 import { useAccountStore, useThemeStore } from '@/scripts/store';
-import { expandUrl } from '@/scripts/utils';
-import { computed, onMounted, ref } from 'vue';
+import { onMounted, ref } from 'vue';
 import * as api from '@/scripts/api';
 import { useRouter } from 'vue-router';
 import { useToast } from 'primevue';
+
+const path = [{ label: 'Dashboard' }];
 
 const router = useRouter();
 const toast = useToast();
@@ -16,43 +17,6 @@ if (!accountStore.isLoggedIn) {
 }
 
 const themeStore = useThemeStore();
-
-const avatarUrl = computed(() => expandUrl(accountStore.account?.avatar));
-
-const isShowUserPanel = ref(false);
-const userPanelItems = ref([
-    {
-        icon: 'pi pi-sign-out',
-        label: 'Sign out',
-        command: () => {
-            accountStore.logout();
-            router.push("/");
-        }
-    }
-])
-
-const menu = ref();
-const createMenuItems = ref([
-    {
-        label: 'New Problem',
-        icon: 'pi pi-question',
-        command: () => {
-            toast.add({ severity: 'info', summary: 'Coming soon...', detail: 'This feature is coming soon...' })
-        }
-    },
-    {
-        label: 'New Organization',
-        icon: 'pi pi-building',
-        admin: true,
-        command: () => {
-            toast.add({ severity: 'info', summary: 'Coming soon...', detail: 'This feature is coming soon...' })
-        }
-    }
-]);
-const toggleCreateMenu = (event: any) => {
-    menu.value.toggle(event);
-};
-
 
 const loadingProfile = ref(true);
 onMounted(async () => {
@@ -70,75 +34,15 @@ onMounted(async () => {
 </script>
 
 <template>
-    <Drawer v-model:visible="isShowUserPanel" position="right">
-        <template #container>
-            <header class="flex flex-row items-center justify-between gap-1 p-4">
-                <div class="flex flex-row gap-4 items-center">
-                    <Avatar :image="avatarUrl" shape="circle"></Avatar>
-                    <div class="flex flex-col items-start">
-                        <span class="text-sm font-semibold">{{ accountStore.account?.username }}</span>
-                        <span class="text-xs text-gray-500">{{ accountStore.account?.nickname }}</span>
-                    </div>
-                </div>
-                <Button @click="isShowUserPanel = !isShowUserPanel" :icon="`pi pi-times`" plain text></Button>
-            </header>
-            <div class="border-t border-[1.2px] dark:border-gray-600 mx-6"></div>
-            <div class="flex-1 flex-col overflow-y-auto overflow-x-hidden my-3 px-4">
-                <div v-for="item in userPanelItems" class="w-full">
-                    <Button @click="item.command" class="!justify-start !px-[1rem]" :icon="item.icon"
-                        :label="item.label" plain text fluid></Button>
-                </div>
-            </div>
-            <div class="border-t border-[1.2px] dark:border-gray-600 mx-6"></div>
-            <footer class="flex flex-row items-center justify-between gap-2 p-4">
-                <div class="flex flex-row gap-4 items-center">
-                    <Avatar :image="themeStore.logo" shape="circle" size="large"></Avatar>
-                    <div class="flex flex-col items-start">
-                        <span class="text-[1rem] font-semibold">AlgoHub</span>
-                        <span class="text-xs text-gray-500">Powered by SWPU-ACM</span>
-                    </div>
-                </div>
-            </footer>
-        </template>
-    </Drawer>
     <div class="min-h-screen h-screen flex flex-col">
-        <div class="bg-gray-100 dark:bg-zinc-900 flex flex-row items-center justify-between w-full p-3 flex-wrap">
-            <div class="inline-flex justify-center items-center">
-                <img :src="themeStore.dark ? '/acm-light.png' : '/acm.png'" width="40"></img>
-                <h1 class="text-lg font-bold">Dashboard</h1>
-            </div>
-            <div class="inline-flex justify-center items-center gap-3">
-                <Button @click="toggleCreateMenu" aria-haspopup="true" aria-controls="overlay_menu" plain outlined>
-                    <span class="pi pi-plus" data-pc-section="icon"></span>
-                    <span class="w-0" data-pc-section="label">&nbsp;</span>
-                    <i class="pi pi-angle-down"></i>
-                </Button>
-                <Menu ref="menu" id="overlay_menu" :model="createMenuItems" :popup="true">
-                    <template #submenuitem="{ item }">
-                        <span class="font-bold">{{ item.label }}</span>
-                    </template>
-                    <template #item="{ item, props }">
-                        <a v-if="!item.admin ? true : accountStore.isAdmin" v-ripple class="flex items-center"
-                            v-bind="props.action">
-                            <span :class="item.icon"></span>
-                            <span>{{ item.label }}</span>
-                        </a>
-                    </template>
-                </Menu>
-                <Button @click="themeStore.toggle" :icon="`pi pi-${themeStore.dark ? 'moon' : 'sun'}`" plain
-                    outlined></Button>
-                <Divider layout="vertical" class="!mx-1"></Divider>
-                <Avatar @click="isShowUserPanel = !isShowUserPanel" :image="avatarUrl" class="!cursor-pointer"
-                    shape="circle"></Avatar>
-            </div>
-        </div>
+        <UniversalToolBar :path></UniversalToolBar>
         <div class="flex flex-col md:flex-row h-full w-full">
             <aside class="w-full md:w-1/3 lg:w-1/4 flex">
                 <div
                     class="w-full bg-zinc-50 dark:bg-zinc-800 md:sticky md:top-0 md:bottom-0 z-30 flex flex-col min-h-50vh max-h-screen">
                     <div class="flex flex-col top-0 px-4 overflow-auto">
                         <div v-if="!loadingProfile" class="inline-flex m-8 mb-3 gap-8 items-center">
-                            <Avatar :image="avatarUrl" shape="circle"></Avatar>
+                            <Avatar :image="accountStore.avatarUrl" shape="circle"></Avatar>
                             <span>{{ accountStore.account?.username }}</span>
                         </div>
                         <div v-if="loadingProfile" class="inline-flex m-8 mb-3 gap-8 items-center">
