@@ -139,3 +139,27 @@ jobs:
           args: ${{ matrix.args }}
           updaterJsonPreferNsis: true
           appVersion: 0.1.0-nightly
+
+  release-aur:
+    needs: [release-tauri, version-or-publish]
+    if: needs.version-or-publish.outputs.successfulPublish
+    name: Publish to AUR
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        name: Install pnpm
+        with:
+          version: 9
+          run_install: false
+      - name: Setup Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: "pnpm"
+      - name: Install dependencies
+        run: pnpm install
+      - name: Publish to AUR
+        run: pnpm publish:aur --version ${{ needs.version-or-publish.outputs.version }}
+        env:
+          AUR_SSH_KEY: ${{ secrets.AUR_SSH_KEY }}
