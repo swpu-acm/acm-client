@@ -68,20 +68,18 @@ const releaseAur = defineCommand({
       return;
     }
 
-    writeFileSync(`${process.env.HOME}/.ssh/aur`, AUR_SSH_KEY + "\n");
-    execSync("chmod 600 ~/.ssh/aur");
-    execSync(`git -C aur config core.sshCommand "ssh -i ~/.ssh/aur"`);
-
+    writeFileSync(`.aur_ssh_key`, AUR_SSH_KEY + "\n");
+    execSync(`chmod 400 .aur_ssh_key`)
     if (!existsSync("aur")) {
       execSync(
-        `git -c init.defaultBranch=master -c core.sshCommand="ssh -i ~/.ssh/aur" clone ssh://aur@aur.archlinux.org/algohub.git aur`
+        `git -c init.defaultBranch=master -c core.sshCommand="ssh -i ../.aur_ssh_key" clone ssh://aur@aur.archlinux.org/algohub.git aur`
       );
     }
+    execSync(`git -C aur config core.sshCommand "ssh -i ../.aur_ssh_key"`);
 
     const { version } = ctx.args;
 
     const url = `https://github.com/swpu-acm/algohub/releases/download/algohub-v${version}/algohub_${version}_amd64.deb`;
-    // const url = `https://github.com/swpu-acm/algohub/releases/download/algohub-v${version}/algohub_0.1.0_amd64.deb`;
     try {
       console.log(`Downloading ${url}...`);
       const response = await axios.get(url, {
