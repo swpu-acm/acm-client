@@ -144,7 +144,7 @@ async fn download_release(version: &str) -> Result<DownloadResult, Error> {
     if os == "linux" {
         if let Ok(content) = fs::read_to_string("/etc/os-release") {
             if content.contains("Arch Linux") {
-                result.message=Some("please use paru or pacman".to_string());
+                result.message=Some("Please install the latest version manually".to_string());
                 return Ok(result)
             }
         }

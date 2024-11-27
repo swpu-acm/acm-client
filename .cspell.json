@@ -36,6 +36,7 @@
         "primeicons",
         "primevue",
         "printsrcinfo",
+        "reqwest",
         "rlib",
         "serde",
         "signup",
