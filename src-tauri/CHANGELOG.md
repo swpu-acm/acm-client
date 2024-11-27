@@ -1,5 +1,15 @@
 # Changelog
 
+## \[0.1.1-nightly.15]
+
+### New Features
+
+- [`8851f19`](https://github.com/swpu-acm/algohub.git/commit/8851f1989d7bb68eae8938ff4eefa37360bb09a8) ([#54](https://github.com/swpu-acm/algohub.git/pull/54) by [@fu050409](https://github.com/swpu-acm/algohub.git/../../fu050409)) Support for breadcrumbs in the AlgoHub toolbar.
+
+### Bug Fixes
+
+- [`ae84180`](https://github.com/swpu-acm/algohub.git/commit/ae8418060ec6f9b45974dd255e0bc5da2c333205) ([#53](https://github.com/swpu-acm/algohub.git/pull/53) by [@fu050409](https://github.com/swpu-acm/algohub.git/../../fu050409)) Fix git ssh key read and write permission issue when publishing to AUR.
+
 ## \[0.1.1-nightly.14]
 
 ### Bug Fixes
