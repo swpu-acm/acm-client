@@ -93,10 +93,11 @@ const onChangeLanguage = (value: SelectChangeEvent) => {
 </script>
 
 <template>
-    <div class="flex flex-col">
-        <div class="flex flex-row w-full m-[6px]">
+    <div class="w-full h-full flex flex-col">
+        <div class="flex flex-row m-[6px] justify-between">
             <Select v-model="language" @change="onChangeLanguage" :options="languageOptions" optionLabel="name"
                 optionValue="value" placeholder="Select a Language" />
+            <Button label="Submit" icon="pi pi-send" size="small" severity="contrast" outlined></Button>
         </div>
         <div class="flex-1" ref="editorContainer"></div>
     </div>
