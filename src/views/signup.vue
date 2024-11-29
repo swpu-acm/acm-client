@@ -280,7 +280,7 @@ const onComplete = async ({ valid, states }: { valid: boolean, states: CompleteF
 </script>
 
 <template>
-  <div class="flex flex-col justify-center items-center h-screen">
+  <div class="flex flex-col justify-center items-center flex-1">
     <div class="flex flex-col container m-auto items-center justify-center h-full">
       <div class="flex flex-row justify-between mb-4 w-full">
         <Button @click="router.go(-1)" icon="pi pi-arrow-left" label="Back" plain outlined></Button>
