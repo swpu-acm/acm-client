@@ -7,7 +7,7 @@ themeStore.init();
 </script>
 
 <template>
-    <main class="min-h-screen w-full flex bg-zinc-200 dark:bg-zinc-950">
+    <main class="h-screen w-full">
         <Toast class="max-w-xs sm:max-w-full" />
         <RouterView />
     </main>

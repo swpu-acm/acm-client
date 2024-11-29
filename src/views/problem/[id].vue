@@ -75,17 +75,17 @@ onMounted(async () => {
 </script>
 
 <template>
-    <div class="flex-1 w-full flex flex-col">
+    <div class="flex flex-col h-full">
         <UniversalToolBar :path></UniversalToolBar>
-        <Splitter :gutterSize="2" class="h-full h-full overflow-hidden">
-            <SplitterPanel class="h-full">
+        <Splitter :gutterSize="2" class="flex-1 overflow-hidden">
+            <SplitterPanel>
                 <Panel v-if="!loading" :header="problem?.title" class="w-full h-full overflow-auto">
                     <MdPreview class="!bg-transparent" :modelValue="formatProblem(problem!)" :theme="themeStore.dark ? 'dark' : 'light'"
                         codeTheme="github" previewTheme="github">
                     </MdPreview>
                 </Panel>
             </SplitterPanel>
-            <SplitterPanel class="h-full">
+            <SplitterPanel>
                 <MonacoEditor :code="code" :language="language" :onSubmitCode="onSubmitCode">
                 </MonacoEditor>
             </SplitterPanel>

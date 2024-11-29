@@ -1,8 +1,7 @@
 <script setup lang="ts">
 import { useAccountStore, useThemeStore } from '@/scripts/store';
-import { expandUrl } from '@/scripts/utils';
 import { useToast } from 'primevue';
-import { computed, ref } from 'vue';
+import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 
 const props = defineProps<{
@@ -19,8 +18,6 @@ const toast = useToast();
 
 const accountStore = useAccountStore();
 const themeStore = useThemeStore();
-
-const avatarUrl = computed(() => expandUrl(accountStore.account?.avatar));
 
 const isShowUserPanel = ref(false);
 const userPanelItems = ref([
@@ -62,7 +59,7 @@ const toggleCreateMenu = (event: any) => {
         <template #container>
             <header class="flex flex-row items-center justify-between gap-1 p-4">
                 <div class="flex flex-row gap-4 items-center">
-                    <Avatar :image="avatarUrl" shape="circle"></Avatar>
+                    <Avatar :image="accountStore.avatarUrl" shape="circle"></Avatar>
                     <div class="flex flex-col items-start">
                         <span class="text-sm font-semibold">{{ accountStore.account?.username }}</span>
                         <span class="text-xs text-gray-500">{{ accountStore.account?.nickname }}</span>
@@ -104,7 +101,7 @@ const toggleCreateMenu = (event: any) => {
             </Breadcrumb>
         </div>
         <div class="inline-flex justify-center items-center gap-3">
-            <Button @click="toggleCreateMenu" aria-haspopup="true" aria-controls="overlay_menu" plain outlined>
+            <Button v-ripple @click="toggleCreateMenu" aria-haspopup="true" aria-controls="overlay_menu" plain outlined>
                 <span class="pi pi-plus" data-pc-section="icon"></span>
                 <span class="w-0" data-pc-section="label">&nbsp;</span>
                 <i class="pi pi-angle-down"></i>
@@ -121,12 +118,15 @@ const toggleCreateMenu = (event: any) => {
                     </a>
                 </template>
             </Menu>
-            <Button @click="themeStore.toggle" :icon="`pi pi-${themeStore.dark ? 'moon' : 'sun'}`" plain
+            <Button v-ripple @click="router.push('/problems')" icon="pi pi-book" plain outlined></Button>
+            <Button v-ripple @click="themeStore.toggle" :icon="`pi pi-${themeStore.dark ? 'moon' : 'sun'}`" plain
                 outlined></Button>
             <Divider layout="vertical" class="!mx-1"></Divider>
-            <Avatar @click="isShowUserPanel = !isShowUserPanel" :image="avatarUrl" class="!cursor-pointer"
-                shape="circle">
+            <Avatar v-if="accountStore.avatarUrl" @click="isShowUserPanel = !isShowUserPanel"
+                :image="accountStore.avatarUrl" class="!cursor-pointer" shape="circle">
             </Avatar>
+            <Avatar v-else-if="accountStore.isLoggedIn" @click="isShowUserPanel = !isShowUserPanel"
+                class="!cursor-pointer" shape="circle" :label="accountStore.account.username![0]"></Avatar>
         </div>
     </div>
 </template>

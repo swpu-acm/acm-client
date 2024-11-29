@@ -48,7 +48,7 @@ onMounted(async () => {
 </script>
 
 <template>
-    <div class="flex-1 min-h-screen h-screen flex flex-col">
+    <div class="h-screen flex flex-col">
         <UniversalToolBar :path></UniversalToolBar>
         <div class="flex flex-col md:flex-row h-full w-full">
             <aside class="w-full md:w-1/3 lg:w-1/4 flex">
@@ -65,10 +65,12 @@ onMounted(async () => {
                         </div>
                         <Divider></Divider>
                         <div class="flex flex-col flex-1 items-center">
-                            <div class="inline-flex flex-wrap gap-2 justify-between items-center w-full px-8">
-                                <h3 class="text-sm font-bold">Your Problems</h3>
-                                <Button @click="router.push('/problem/create')" icon="pi pi-book" label="New"
-                                    size="small"></Button>
+                            <div class="flex flex-col gap-2 justify-between items-center w-full px-6">
+                                <div class="flex flex-row items-center justify-between w-full">
+                                    <h3 class="text-sm font-bold">Your Problems</h3>
+                                    <Button @click="router.push('/problem/create')" icon="pi pi-book" label="New"
+                                        size="small"></Button>
+                                </div>
                                 <div class="flex flex-col items-center mb-4 w-full">
                                     <div class="flex flex-col gap-3 w-full justify-start">
                                         <div v-if="loadingProblems" class="my-5 flex flex-col gap-2">
@@ -90,7 +92,7 @@ onMounted(async () => {
                                                 <img :src="accountStore.avatarUrl" class="w-5 h-5 rounded"></img>
                                                 <a @click="router.push('/problem/' + problem.id)"
                                                     class="cursor-pointer text-xs font-bold hover:underline">{{
-                                                    problem.id }}</a>
+                                                        problem.id }}</a>
                                             </div>
                                         </div>
                                     </div>
