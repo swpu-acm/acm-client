@@ -134,9 +134,9 @@ export const fetchProblem = async (id: string, form?: Credentials) => {
 };
 
 interface ListProblem {
-  id: string;
-  auth: Credentials;
-  limit: number;
+  identity: string;
+  auth?: Credentials;
+  limit?: number;
 }
 
 export const listProblems = async (form: ListProblem) => {

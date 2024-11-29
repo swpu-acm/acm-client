@@ -23,7 +23,7 @@ export default defineConfig({
         "@": path.resolve(__dirname, "src"),
       },
     },
-    treeShaking: false
+    treeShaking: false,
   },
   server: {
     port: 1420,

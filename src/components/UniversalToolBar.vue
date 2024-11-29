@@ -20,7 +20,29 @@ const accountStore = useAccountStore();
 const themeStore = useThemeStore();
 
 const isShowUserPanel = ref(false);
-const userPanelItems = ref([
+const userPanelItems = ref<{
+    icon?: string,
+    label?: string,
+    command?: () => void,
+    separator?: boolean
+}[]>([
+    {
+        icon: 'pi pi-user',
+        label: 'Your Profile',
+        command: () => {
+            router.push(`/account/${accountStore.account?.username}`);
+        }
+    },
+    {
+        icon: 'pi pi-book',
+        label: 'Your Problems',
+        command: () => {
+            router.push(`/account/${accountStore.account?.username}?tab=problems`);
+        }
+    },
+    {
+        separator: true
+    },
     {
         icon: 'pi pi-sign-out',
         label: 'Sign out',
@@ -43,7 +65,6 @@ const createMenuItems = ref([
     {
         label: 'New Organization',
         icon: 'pi pi-building',
-        admin: true,
         command: () => {
             toast.add({ severity: 'info', summary: 'Coming soon...', detail: 'This feature is coming soon...' })
         }
@@ -70,8 +91,9 @@ const toggleCreateMenu = (event: any) => {
             <div class="border-t border-[1.2px] dark:border-gray-600 mx-6"></div>
             <div class="flex-1 flex-col overflow-y-auto overflow-x-hidden my-3 px-4">
                 <div v-for="item in userPanelItems" class="w-full">
-                    <Button @click="item.command" class="!justify-start !px-[1rem]" :icon="item.icon"
-                        :label="item.label" plain text fluid></Button>
+                    <div v-if="item.separator" class="border-t border-[1.2px] dark:border-gray-600 mx-3 my-1"></div>
+                    <Button v-else @click="item.command" class="!justify-start !px-[1rem]" :icon="item.icon"
+                        :label="item.label" size="small" plain text fluid></Button>
                 </div>
             </div>
             <div class="border-t border-[1.2px] dark:border-gray-600 mx-6"></div>
@@ -90,7 +112,7 @@ const toggleCreateMenu = (event: any) => {
     justify-between w-full py-1 px-3 flex-wrap border-zinc-300 shadow-sm">
         <div class="inline-flex justify-center items-center">
             <img :src="themeStore.dark ? '/acm-light.png' : '/acm.png'" width="40"></img>
-            <Breadcrumb :model="props.path" class="!bg-transparent">
+            <Breadcrumb v-if="props.path?.length" :model="props.path" class="!bg-transparent">
                 <template #item="{ item }">
                     <a :class="item.link ? 'cursor-pointer' : ''" :href="item.link">
                         <span :class="item.icon"></span>
@@ -99,6 +121,7 @@ const toggleCreateMenu = (event: any) => {
                 </template>
                 <template #separator> / </template>
             </Breadcrumb>
+            <Skeleton v-else width="100px" height="20px"></Skeleton>
         </div>
         <div class="inline-flex justify-center items-center gap-3">
             <Button v-ripple @click="toggleCreateMenu" aria-haspopup="true" aria-controls="overlay_menu" plain outlined>
@@ -111,14 +134,14 @@ const toggleCreateMenu = (event: any) => {
                     <span class="font-bold">{{ item.label }}</span>
                 </template>
                 <template #item="{ item, props }">
-                    <a v-if="!item.admin ? true : accountStore.isAdmin" v-ripple class="flex items-center"
-                        v-bind="props.action">
+                    <a v-ripple class="flex items-center" v-bind="props.action">
                         <span :class="item.icon"></span>
                         <span>{{ item.label }}</span>
                     </a>
                 </template>
             </Menu>
-            <Button v-ripple @click="router.push('/problems')" icon="pi pi-book" plain outlined></Button>
+            <Button v-ripple @click="router.push(`/account/${accountStore.account?.username}?tab=problems`)"
+                icon="pi pi-book" plain outlined></Button>
             <Button v-ripple @click="themeStore.toggle" :icon="`pi pi-${themeStore.dark ? 'moon' : 'sun'}`" plain
                 outlined></Button>
             <Divider layout="vertical" class="!mx-1"></Divider>

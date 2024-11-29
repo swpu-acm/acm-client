@@ -32,6 +32,7 @@ export interface Profile {
   school?: string;
   college?: string;
   major?: string;
+  rating: number;
 }
 
 export interface ProblemDetail {

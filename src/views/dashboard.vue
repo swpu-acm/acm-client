@@ -32,7 +32,7 @@ onMounted(async () => {
     accountStore.mergeProfile(profile.data!);
     loadingProfile.value = false;
     const problems = await api.listProblems({
-        id: accountStore.account.id!,
+        identity: accountStore.account.id!,
         auth: {
             id: accountStore.account.id!,
             token: accountStore.account.token!
