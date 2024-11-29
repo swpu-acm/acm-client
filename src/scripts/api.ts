@@ -1,7 +1,7 @@
 import { AxiosError } from "axios";
 import axios from "@/scripts/axios";
 import { handleAxiosError } from "@/scripts/utils";
-import type { ProblemDetail, Profile } from "./types";
+import type { Credentials, ProblemDetail, Profile } from "./types";
 
 export interface Response<D> {
   success: boolean;
@@ -17,11 +17,6 @@ interface Register {
   password: string;
 }
 
-interface AuthResponse {
-  id: string;
-  token: string;
-}
-
 export const register = async (form: Register) => {
   try {
     const response = await axios.post("/account/create", {
@@ -29,7 +24,7 @@ export const register = async (form: Register) => {
       email: form.email,
       password: form.password,
     });
-    return response.data as Response<AuthResponse>;
+    return response.data as Response<Credentials>;
   } catch (error) {
     return handleAxiosError(AxiosError.from(error));
   }
@@ -62,7 +57,7 @@ export const uploadContent = async (form: Upload) => {
 interface ProfileForm {
   id: string;
   token: string;
-  profile: Profile;
+  profile: Partial<Profile>;
 }
 
 export const updateProfile = async (form: ProfileForm) => {
@@ -82,7 +77,7 @@ interface LoginForm {
 export const login = async (form: LoginForm) => {
   try {
     const response = await axios.post("/account/login", form);
-    return response.data as Response<AuthResponse>;
+    return response.data as Response<Credentials>;
   } catch (error) {
     return handleAxiosError(AxiosError.from(error));
   }
@@ -129,10 +124,25 @@ export const createProblem = async (form: ProblemForm) => {
   }
 };
 
-export const fetchProblem = async (id: string, form?: AuthResponse) => {
+export const fetchProblem = async (id: string, form?: Credentials) => {
   try {
     const response = await axios.post(`/problem/get/${id}`, form);
     return response.data as Response<ProblemDetail>;
+  } catch (error) {
+    return handleAxiosError(AxiosError.from(error));
+  }
+};
+
+interface ListProblem {
+  id: string;
+  auth: Credentials;
+  limit: number;
+}
+
+export const listProblems = async (form: ListProblem) => {
+  try {
+    const response = await axios.post("/problem/list", form);
+    return response.data as Response<ProblemDetail[]>;
   } catch (error) {
     return handleAxiosError(AxiosError.from(error));
   }

@@ -1,4 +1,9 @@
-export interface Thing {
+export interface Credentials {
+  id: string;
+  token: string;
+}
+
+export interface RecordId {
   tb: string;
   id: string;
 }
@@ -30,7 +35,7 @@ export interface Profile {
 }
 
 export interface ProblemDetail {
-  id: Thing;
+  id: RecordId;
   title: string;
   description: string;
   input?: string;
@@ -40,8 +45,8 @@ export interface ProblemDetail {
   time_limit: number;
   memory_limit: number;
   test_cases: Sample[];
-  creator: Thing;
-  owner: Thing;
+  creator: RecordId;
+  owner: RecordId;
   categories: string[];
   tags: string[];
   mode: Mode;

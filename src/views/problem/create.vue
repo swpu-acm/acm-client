@@ -4,7 +4,7 @@ import { computed, reactive, ref } from 'vue';
 import * as api from "@/scripts/api";
 import { useRouter } from 'vue-router';
 import { useAccountStore } from '@/scripts/store';
-import { Thing } from '@/scripts/types';
+import type { RecordId } from '@/scripts/types';
 
 const path = [{ label: 'New problem' }];
 
@@ -37,7 +37,7 @@ interface ProblemForm<T, N> {
     time_limit: N;
     memory_limit: N;
     test_cases: { input: T, output: T }[];
-    owner: Thing,
+    owner: RecordId,
     categories: string[];
     tags: string[];
     mode: 'ICPC' | 'OI';
