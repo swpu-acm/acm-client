@@ -51,7 +51,7 @@ const onSubmitCode = async (code: string, language: string) => {
     toast.add({ severity: 'success', summary: 'Success', detail: 'Your code has been submitted successfully.' });
 }
 
-const path = ref([
+const path = ref<{ label?: string, link?: string }[]>([
     { label: 'fu050409' },
     { label: 'problem' },
     { label: id },
@@ -67,22 +67,25 @@ onMounted(async () => {
         return toast.add({ severity: 'error', summary: 'Error', detail: res.message });
     }
     problem.value = res.data;
+    path.value = [
+        { label: problem.value?.owner.id }
+    ]
     loading.value = false;
 })
 </script>
 
 <template>
-    <div class="h-screen w-full flex flex-col">
+    <div class="flex flex-col h-full">
         <UniversalToolBar :path></UniversalToolBar>
-        <Splitter :gutterSize="2" class="h-full h-full overflow-hidden">
-            <SplitterPanel class="h-full">
+        <Splitter :gutterSize="2" class="flex-1 overflow-hidden">
+            <SplitterPanel>
                 <Panel v-if="!loading" :header="problem?.title" class="w-full h-full overflow-auto">
                     <MdPreview class="!bg-transparent" :modelValue="formatProblem(problem!)" :theme="themeStore.dark ? 'dark' : 'light'"
                         codeTheme="github" previewTheme="github">
                     </MdPreview>
                 </Panel>
             </SplitterPanel>
-            <SplitterPanel class="h-full">
+            <SplitterPanel>
                 <MonacoEditor :code="code" :language="language" :onSubmitCode="onSubmitCode">
                 </MonacoEditor>
             </SplitterPanel>

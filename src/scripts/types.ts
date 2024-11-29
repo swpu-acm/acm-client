@@ -1,4 +1,9 @@
-export interface Thing {
+export interface Credentials {
+  id: string;
+  token: string;
+}
+
+export interface RecordId {
   tb: string;
   id: string;
 }
@@ -13,8 +18,25 @@ export enum Mode {
   OI = "OI",
 }
 
+export interface Profile {
+  username: string;
+  email: string;
+  avatar?: string;
+  signature?: string;
+  links?: string[];
+  nickname?: string;
+  sex?: boolean;
+  birthday?: string;
+  name?: string;
+  student_id?: string;
+  school?: string;
+  college?: string;
+  major?: string;
+  rating: number;
+}
+
 export interface ProblemDetail {
-  id: Thing;
+  id: RecordId;
   title: string;
   description: string;
   input?: string;
@@ -24,8 +46,8 @@ export interface ProblemDetail {
   time_limit: number;
   memory_limit: number;
   test_cases: Sample[];
-  creator: Thing;
-  owner: Thing;
+  creator: RecordId;
+  owner: RecordId;
   categories: string[];
   tags: string[];
   mode: Mode;
@@ -33,4 +55,3 @@ export interface ProblemDetail {
   created_at: Date;
   updated_at: Date;
 }
-
