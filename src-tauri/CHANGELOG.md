@@ -1,5 +1,25 @@
 # Changelog
 
+## \[0.1.1-nightly.17]
+
+### New Features
+
+- [`2ad6c71`](https://github.com/swpu-acm/algohub.git/commit/2ad6c71098076385c1d281007af89673f94ba2f9) ([#19](https://github.com/swpu-acm/algohub.git/pull/19) by [@K0nnyaku](https://github.com/swpu-acm/algohub.git/../../K0nnyaku)) Support fetch released versions.
+- [`2412d98`](https://github.com/swpu-acm/algohub.git/commit/2412d9821c2ecb5d5edeac6316d48993d5dcf598) ([#60](https://github.com/swpu-acm/algohub.git/pull/60) by [@fu050409](https://github.com/swpu-acm/algohub.git/../../fu050409)) Support to show the list of problems in the dashboard.
+- [`2412d98`](https://github.com/swpu-acm/algohub.git/commit/2412d9821c2ecb5d5edeac6316d48993d5dcf598) ([#60](https://github.com/swpu-acm/algohub.git/pull/60) by [@fu050409](https://github.com/swpu-acm/algohub.git/../../fu050409)) Add pages for user profile and list user's problems.
+
+### Bug Fixes
+
+- [`75a8d4f`](https://github.com/swpu-acm/algohub.git/commit/75a8d4f43e60cd26cac11b08f17350b20b17fb91) ([#59](https://github.com/swpu-acm/algohub.git/pull/59) by [@fu050409](https://github.com/swpu-acm/algohub.git/../../fu050409)) Mark breadcurmb background as transparent.
+- [`75a8d4f`](https://github.com/swpu-acm/algohub.git/commit/75a8d4f43e60cd26cac11b08f17350b20b17fb91) ([#59](https://github.com/swpu-acm/algohub.git/pull/59) by [@fu050409](https://github.com/swpu-acm/algohub.git/../../fu050409)) Fix the background color of the panel in the create page.
+
+### Refactors
+
+- [`75a8d4f`](https://github.com/swpu-acm/algohub.git/commit/75a8d4f43e60cd26cac11b08f17350b20b17fb91) ([#59](https://github.com/swpu-acm/algohub.git/pull/59) by [@fu050409](https://github.com/swpu-acm/algohub.git/../../fu050409)) -   Refactor monaco editor to fit user webview size automatically.
+
+  - Fixed monaco editor larger than browser window size.
+- [`75a8d4f`](https://github.com/swpu-acm/algohub.git/commit/75a8d4f43e60cd26cac11b08f17350b20b17fb91) ([#59](https://github.com/swpu-acm/algohub.git/pull/59) by [@fu050409](https://github.com/swpu-acm/algohub.git/../../fu050409)) Resize toolbar to fit the user scenario.
+
 ## \[0.1.1-nightly.16]
 
 ### Bug Fixes
