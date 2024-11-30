@@ -53,6 +53,7 @@
         "usetoast"
     ],
     "ignorePaths": [
-        "pnpm-lock.yaml"
+        "pnpm-lock.yaml",
+        "CHANGELOG.md"
     ]
 }
