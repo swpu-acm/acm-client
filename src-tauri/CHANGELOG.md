@@ -1,5 +1,11 @@
 # Changelog
 
+## \[0.1.1-alpha.6]
+
+### Bug Fixes
+
+- [`ae84180`](https://github.com/swpu-acm/algohub.git/commit/ae8418060ec6f9b45974dd255e0bc5da2c333205) ([#53](https://github.com/swpu-acm/algohub.git/pull/53) by [@fu050409](https://github.com/swpu-acm/algohub.git/../../fu050409)) Fix git ssh key read and write permission issue when publishing to AUR.
+
 ## \[0.1.1-alpha.5]
 
 ### New Features
