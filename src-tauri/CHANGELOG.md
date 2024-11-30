@@ -1,5 +1,19 @@
 # Changelog
 
+## \[0.1.1-alpha.0]
+
+### Performance Improvements
+
+- [`c59cd4d`](https://github.com/swpu-acm/algohub.git/commit/c59cd4d2cafc5c89a3e7c97037560e41cb799e4a) ([#61](https://github.com/swpu-acm/algohub.git/pull/61) by [@fu050409](https://github.com/swpu-acm/algohub.git/../../fu050409)) Optimize UI for better performance
+
+  - Use `postcss` instead of use `tailwindcss` directly.
+  - Optimize color design in light mode.
+  - Add `loading` state for pages.
+  - Wrap problems list with PrimeVue `Panel` component.
+  - Fix bread crumps padding if no links.
+  - Remove `mode` and add `owner` when creating a problem.
+  - Prepare for `alpha` release.
+
 ## \[0.1.1-nightly.17]
 
 ### New Features
