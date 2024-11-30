@@ -1,5 +1,11 @@
 # Changelog
 
+## \[0.1.1-alpha.7]
+
+### New Features
+
+- [`0117ae8`](https://github.com/swpu-acm/algohub.git/commit/0117ae82cd0ca86ab3ec4c7314ef35f1e4c6cae9) ([#76](https://github.com/swpu-acm/algohub.git/pull/76) by [@fu050409](https://github.com/swpu-acm/algohub.git/../../fu050409)) Optimize monaco editor error notification.
+
 ## \[0.1.1-alpha.6]
 
 ### Bug Fixes
