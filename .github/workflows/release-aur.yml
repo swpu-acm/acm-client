@@ -1,10 +1,6 @@
 name: Publish to AUR
 
 on:
-  push:
-    branches:
-      - main
-      - alpha
   workflow_call:
     inputs:
       version:
