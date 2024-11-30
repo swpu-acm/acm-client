@@ -24,6 +24,7 @@
     ".changes/optimize-monaco.md",
     ".changes/optimize-ui.md",
     ".changes/problem-page.md",
+    ".changes/problem-panel.md",
     ".changes/refactor-login.md",
     ".changes/release-nightly.md",
     ".changes/release-url.md",
