@@ -82,8 +82,14 @@ const releaseAur = defineCommand({
     execSync(`chmod 400 ${aurSSHKeyPath}`);
 
     // Add aur to known hosts
-    const knownHosts = readFileSync(`${process.env.HOME}/.ssh/known_hosts`, { encoding: "utf-8" });
-    if (!knownHosts.includes("aur.archlinux.org")) {
+    if (existsSync(`${process.env.HOME}/.ssh/known_hosts`)) {
+      const knownHosts = readFileSync(`${process.env.HOME}/.ssh/known_hosts`, {
+        encoding: "utf-8",
+      });
+      if (!knownHosts.includes("aur.archlinux.org")) {
+        execSync(`ssh-keyscan -H aur.archlinux.org >> ~/.ssh/known_hosts`);
+      }
+    } else {
       execSync(`ssh-keyscan -H aur.archlinux.org >> ~/.ssh/known_hosts`);
     }
 
