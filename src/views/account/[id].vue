@@ -135,8 +135,8 @@ onMounted(async () => {
                                 </div>
                             </Panel>
 
-                            <Panel pt:header:class="!hidden" pt:content:class="!p-[1.125rem]">
-                                <DataView v-if="tab === 'problems'" :value="problemList" dataKey="id">
+                            <Panel v-if="tab === 'problems'" pt:header:class="!hidden" pt:content:class="!p-[1.125rem]">
+                                <DataView :value="problemList" dataKey="id">
                                     <template #header>
                                         <div class="inline-flex flex-wrap justify-between items-center gap-4 w-full">
                                             <InputText placeholder="Find a problem..." size="small" disabled>
