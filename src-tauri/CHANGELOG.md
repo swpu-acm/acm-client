@@ -1,5 +1,11 @@
 # Changelog
 
+## \[0.1.1-alpha.5]
+
+### New Features
+
+- [`61747c3`](https://github.com/swpu-acm/algohub.git/commit/61747c3d426f6bd4805065f3519afc5db4a85e9b) ([#73](https://github.com/swpu-acm/algohub.git/pull/73) by [@fu050409](https://github.com/swpu-acm/algohub.git/../../fu050409)) Full rewrite asset logic, use latest api and support get assets by api.
+
 ## \[0.1.1-alpha.4]
 
 ### Bug Fixes
