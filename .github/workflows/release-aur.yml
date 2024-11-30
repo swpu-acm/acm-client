@@ -5,12 +5,16 @@ on:
     branches:
       - main
       - alpha
+  workflow_call:
+    inputs:
+      version:
+        description: "Release version"
+        required: true
   workflow_dispatch:
-
-inputs:
-  version:
-    description: "Release version"
-    required: true
+    inputs:
+      version:
+        description: "Release version"
+        required: true
 
 jobs:
   release-aur:
