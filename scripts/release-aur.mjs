@@ -27,6 +27,15 @@ source_x86_64=("<source_x86>")
 sha256sums_x86_64=('<sha256sums>')
 package() {
   tar -xz -f data.tar.gz -C "\${pkgdir}"
+  echo "[Desktop Entry]
+Categories=Network;
+Comment=ACM Algorithm Hub
+Exec=WEBKIT_DISABLE_COMPOSITING_MODE=1 algohub
+Icon=algohub
+Name=algohub
+Terminal=false
+Type=Application
+" > "\${pkgdir}/usr/share/applications/algohub.desktop"
 }
 `;
 
