@@ -26,6 +26,7 @@
     ".changes/optimize-ui.md",
     ".changes/problem-page.md",
     ".changes/problem-panel.md",
+    ".changes/refactor-asset.md",
     ".changes/refactor-login.md",
     ".changes/refactor-submit.md",
     ".changes/release-nightly.md",
