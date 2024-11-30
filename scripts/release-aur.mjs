@@ -1,5 +1,11 @@
 import { execSync } from "child_process";
-import { createReadStream, existsSync, unlinkSync, writeFileSync } from "fs";
+import {
+  createReadStream,
+  existsSync,
+  readFileSync,
+  unlinkSync,
+  writeFileSync,
+} from "fs";
 import { defineCommand, run } from "archons";
 import { createHash } from "crypto";
 import axios from "axios";
@@ -74,6 +80,12 @@ const releaseAur = defineCommand({
     // Write new SSH key file
     writeFileSync(aurSSHKeyPath, AUR_SSH_KEY + "\n");
     execSync(`chmod 400 ${aurSSHKeyPath}`);
+
+    // Add aur to known hosts
+    const knownHosts = readFileSync(`~.ssh/known_hosts`, { encoding: "utf-8" });
+    if (!knownHosts.includes("aur.archlinux.org")) {
+      execSync(`ssh-keyscan -H aur.archlinux.org >> ~/.ssh/known_hosts`);
+    }
 
     // Clone AUR repository if not exists
     if (!existsSync("aur")) {
