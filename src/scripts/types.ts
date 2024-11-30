@@ -55,3 +55,10 @@ export interface ProblemDetail {
   created_at: Date;
   updated_at: Date;
 }
+
+export enum Language {
+  Rust = "Rust",
+  Python = "Python",
+  C = "C",
+  Cpp = "Cpp",
+}
