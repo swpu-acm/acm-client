@@ -148,15 +148,14 @@ export const listProblems = async (form: ListProblem) => {
 };
 
 interface SubmitCodeForm {
-  id: string;
-  token: string;
-  language: string;
+  auth: Credentials;
   code: string;
+  lang: string;
 }
 
 export const submitCode = async (problem_id: string, form: SubmitCodeForm) => {
   try {
-    const response = await axios.post(`/problem/submit/${problem_id}`, form);
+    const response = await axios.post(`/code/submit/${problem_id}`, form);
     return response.data as Response<undefined>;
   } catch (error) {
     return handleAxiosError(AxiosError.from(error));

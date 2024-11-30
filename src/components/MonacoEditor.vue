@@ -11,9 +11,10 @@ import htmlWorker from 'monaco-editor/esm/vs/language/html/html.worker?worker';
 import tsWorker from 'monaco-editor/esm/vs/language/typescript/ts.worker?worker';
 import { useThemeStore } from '@/scripts/store';
 import type { SelectChangeEvent } from 'primevue';
+import { Language } from '@/scripts/types';
 
-const code = defineModel<string>('code', { required: true });
-const language = defineModel<string>('language', { default: 'rust' });
+const language = defineModel<Language>('language', { default: Language.Rust });
+const emit = defineEmits(['submit'])
 
 const themeStore = useThemeStore();
 
@@ -55,7 +56,7 @@ onMounted(async () => {
     }
     loader.config({ monaco })
     editor.value = await loader.init().then((monaco) => monaco.editor.create(editorContainer.value, {
-        value: code.value,
+        value: '',
         language: 'rust',
         theme: themeStore.dark ? 'vs-dark' : 'vs',
         fontFamily: 'Cascadia Code, Consolas, Menlo, Monaco, "Courier New", monospace',
@@ -77,10 +78,10 @@ onBeforeUnmount(disposeEditor)
 onBeforeRouteLeave(disposeEditor)
 
 const languageOptions = [
-    { name: 'Rust', value: 'rust' },
-    { name: 'Python', value: 'python' },
-    { name: 'C', value: 'c' },
-    { name: 'C++', value: 'cpp' },
+    { name: 'Rust', value: Language.Rust },
+    { name: 'Python', value: Language.Python },
+    { name: 'C', value: Language.C },
+    { name: 'C++', value: Language.Cpp },
 ]
 
 const onChangeLanguage = (value: SelectChangeEvent) => {
@@ -97,7 +98,8 @@ const onChangeLanguage = (value: SelectChangeEvent) => {
         <div class="flex flex-row m-[6px] justify-between">
             <Select v-model="language" @change="onChangeLanguage" :options="languageOptions" optionLabel="name"
                 optionValue="value" placeholder="Select a Language" />
-            <Button label="Submit" icon="pi pi-send" size="small" severity="contrast" outlined></Button>
+            <Button @click="emit('submit', rawEditor?.getValue(), language)" label="Submit" icon="pi pi-send"
+                size="small" severity="contrast" outlined></Button>
         </div>
         <div class="flex-1" ref="editorContainer"></div>
     </div>
