@@ -22,6 +22,7 @@
     ".changes/login.md",
     ".changes/n-progress.md",
     ".changes/optimize-dark.md",
+    ".changes/optimize-editor.md",
     ".changes/optimize-monaco.md",
     ".changes/optimize-ui.md",
     ".changes/problem-page.md",
