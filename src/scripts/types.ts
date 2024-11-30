@@ -35,6 +35,16 @@ export interface Profile {
   rating: number;
 }
 
+export interface CreateAsset {
+  auth: Credentials;
+  owner: string;
+  file: File;
+}
+
+export interface UserContent {
+  id: string;
+}
+
 export interface ProblemDetail {
   id: RecordId;
   title: string;
