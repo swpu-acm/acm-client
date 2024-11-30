@@ -143,6 +143,7 @@ jobs:
   release-aur:
     needs: [release-tauri, version-or-publish]
     if: needs.version-or-publish.outputs.successfulPublish
+    runs-on: ubuntu-latest
     steps:
       - uses: ./release-aur.yml
         with:
