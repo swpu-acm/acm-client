@@ -1,5 +1,11 @@
 # Changelog
 
+## \[0.1.1-alpha.2]
+
+### New Features
+
+- [`3cf98fb`](https://github.com/swpu-acm/algohub.git/commit/3cf98fba714a2fe14c7109f897bcfbfe7525eef7) ([#67](https://github.com/swpu-acm/algohub.git/pull/67) by [@fu050409](https://github.com/swpu-acm/algohub.git/../../fu050409)) Add `NProgress` loading bar to the whole frontend.
+
 ## \[0.1.1-alpha.1]
 
 ### Bug Fixes
