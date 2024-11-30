@@ -1,5 +1,11 @@
 # Changelog
 
+## \[0.1.1-alpha.3]
+
+### Refactors
+
+- [`bbc298c`](https://github.com/swpu-acm/algohub.git/commit/bbc298c6d7ff67736b55241f8afbdd7aedd78612) ([#69](https://github.com/swpu-acm/algohub.git/pull/69) by [@fu050409](https://github.com/swpu-acm/algohub.git/../../fu050409)) Refactor and enable code submission in monaco editor.
+
 ## \[0.1.1-alpha.2]
 
 ### New Features
