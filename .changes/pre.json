@@ -1,5 +1,5 @@
 {
-  "tag": "nightly",
+  "tag": "alpha",
   "changes": [
     ".changes/add-icon.md",
     ".changes/breadcrumb.md",
