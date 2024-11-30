@@ -1,5 +1,11 @@
 # Changelog
 
+## \[0.1.1-alpha.1]
+
+### Bug Fixes
+
+- [`514f839`](https://github.com/swpu-acm/algohub.git/commit/514f839831155b1e90de8791fd3154b09b67b79e) ([#65](https://github.com/swpu-acm/algohub.git/pull/65) by [@fu050409](https://github.com/swpu-acm/algohub.git/../../fu050409)) Fix multiple panels displaying on the user profile page.
+
 ## \[0.1.1-alpha.0]
 
 ### Performance Improvements
