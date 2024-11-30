@@ -109,7 +109,7 @@ onMounted(async () => {
                                 </div>
                             </div>
                             <span class="my-1">{{ profile.signature }}</span>
-                            <Button class="my-4" size="small" v-if="accountStore.account.username === profile.username"
+                            <Button class="my-4" size="small" v-if="accountStore.account?.username === profile.username"
                                 label="Edit Profile" severity="secondary" disabled fluid></Button>
                             <div class="flex flex-col gap-2 my-2">
                                 <div class="inline-flex items-center gap-2">

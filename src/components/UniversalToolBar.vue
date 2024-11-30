@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useAccountStore, useThemeStore } from '@/scripts/store';
-import { useToast } from 'primevue';
+import { Avatar, Skeleton, useToast } from 'primevue';
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 
@@ -125,7 +125,7 @@ const toString = (value: any) => {
     <div class="bg-gray-100 dark:bg-zinc-900 flex flex-row items-center justify-between w-full py-3 px-5 flex-wrap"
         :class="{ 'border-b-[1.2px] border-zinc-300 dark:border-zinc-600 shadow-sm': separateBottom ?? true }">
         <div class="inline-flex justify-center items-center">
-            <img :src="themeStore.dark ? '/acm-light.png' : '/acm.png'" width="40"></img>
+            <img @click="router.push('/')" class="cursor-pointer" :src="themeStore.dark ? '/acm-light.png' : '/acm.png'" width="40"></img>
             <Breadcrumb v-if="path?.length" :model="path" class="!bg-transparent !p-0">
                 <template #item="{ item }">
                     <Button v-if="item.link" v-ripple @click="router.push(item.link)" :icon="item.icon"
@@ -166,8 +166,10 @@ const toString = (value: any) => {
             <Avatar v-if="accountStore.isLoggedIn && accountStore.avatarUrl" @click="isShowUserPanel = !isShowUserPanel"
                 :image="accountStore.avatarUrl" class="!cursor-pointer" shape="circle">
             </Avatar>
-            <Avatar v-else-if="accountStore.isLoggedIn" @click="isShowUserPanel = !isShowUserPanel"
-                class="!cursor-pointer" shape="circle" :label="accountStore.account.username![0]"></Avatar>
+            <Avatar v-else-if="accountStore.isLoggedIn && accountStore.account?.username"
+                @click="isShowUserPanel = !isShowUserPanel" class="!cursor-pointer" shape="circle"
+                :label="accountStore.account.username[0]"></Avatar>
+            <Skeleton v-else shape="circle" size="2em"></Skeleton>
         </div>
     </div>
 </template>

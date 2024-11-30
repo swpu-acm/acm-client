@@ -77,7 +77,7 @@ export const useAccountStore = defineStore(
     const account = ref<Account>({});
 
     const isLoggedIn = computed(() =>
-      Boolean(account.value !== null && account.value.token)
+      Boolean(account.value !== null && (account.value.token?.length ?? 0) > 0)
     );
 
     const auth = computed<Credentials | undefined>(() => {
