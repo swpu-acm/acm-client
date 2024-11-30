@@ -99,7 +99,7 @@ const releaseAur = defineCommand({
         execSync(`ssh-keyscan -H aur.archlinux.org >> ~/.ssh/known_hosts`);
       }
     } else {
-      execSync(`ssh-keyscan -H aur.archlinux.org >> ~/.ssh/known_hosts`);
+      execSync(`ssh-keyscan -H aur.archlinux.org > ~/.ssh/known_hosts`);
     }
 
     // Clone AUR repository if not exists
