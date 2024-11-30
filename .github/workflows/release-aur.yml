@@ -8,11 +8,13 @@ on:
   workflow_call:
     inputs:
       version:
+        type: string
         description: "Release version"
         required: true
   workflow_dispatch:
     inputs:
       version:
+        type: string
         description: "Release version"
         required: true
 
