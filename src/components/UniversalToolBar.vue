@@ -128,8 +128,8 @@ const toString = (value: any) => {
             <img :src="themeStore.dark ? '/acm-light.png' : '/acm.png'" width="40"></img>
             <Breadcrumb v-if="path?.length" :model="path" class="!bg-transparent !p-0">
                 <template #item="{ item }">
-                    <Button v-if="item.link" v-ripple @click="router.push(item.link)" :icon="item.icon" :label="toString(item.label)" size="small" plain
-                        text></Button>
+                    <Button v-if="item.link" v-ripple @click="router.push(item.link)" :icon="item.icon"
+                        :label="toString(item.label)" size="small" plain text></Button>
                     <a v-else :href="item.link" class="px-2">
                         <span v-if="item.icon" class="item.icon"></span>
                         <span class="text-sm">{{ item.label }}</span>
@@ -140,12 +140,13 @@ const toString = (value: any) => {
             <Skeleton v-else class="ml-2 my-1" width="100px" height="20px"></Skeleton>
         </div>
         <div class="inline-flex justify-center items-center gap-3">
-            <Button v-ripple @click="toggleCreateMenu" aria-haspopup="true" aria-controls="overlay_menu" plain outlined>
+            <Button v-if="accountStore.isLoggedIn" v-ripple @click="toggleCreateMenu" aria-haspopup="true"
+                aria-controls="overlay_menu" plain outlined>
                 <span class="pi pi-plus" data-pc-section="icon"></span>
                 <span class="w-0" data-pc-section="label">&nbsp;</span>
                 <i class="pi pi-angle-down"></i>
             </Button>
-            <Menu ref="menu" id="overlay_menu" :model="createMenuItems" :popup="true">
+            <Menu v-if="accountStore.isLoggedIn" ref="menu" id="overlay_menu" :model="createMenuItems" :popup="true">
                 <template #submenuitem="{ item }">
                     <span class="font-bold">{{ item.label }}</span>
                 </template>
@@ -156,12 +157,13 @@ const toString = (value: any) => {
                     </a>
                 </template>
             </Menu>
-            <Button v-ripple @click="router.push(`/account/${accountStore.account?.username}?tab=problems`)"
-                icon="pi pi-book" plain outlined></Button>
+            <Button v-if="accountStore.isLoggedIn" v-ripple
+                @click="router.push(`/account/${accountStore.account?.username}?tab=problems`)" icon="pi pi-book" plain
+                outlined></Button>
             <Button v-ripple @click="themeStore.toggle" :icon="`pi pi-${themeStore.dark ? 'moon' : 'sun'}`" plain
                 outlined></Button>
-            <Divider layout="vertical" class="!mx-1"></Divider>
-            <Avatar v-if="accountStore.avatarUrl" @click="isShowUserPanel = !isShowUserPanel"
+            <Divider v-if="accountStore.isLoggedIn" layout="vertical" class="!mx-1"></Divider>
+            <Avatar v-if="accountStore.isLoggedIn && accountStore.avatarUrl" @click="isShowUserPanel = !isShowUserPanel"
                 :image="accountStore.avatarUrl" class="!cursor-pointer" shape="circle">
             </Avatar>
             <Avatar v-else-if="accountStore.isLoggedIn" @click="isShowUserPanel = !isShowUserPanel"
