@@ -24,7 +24,7 @@ license=('agplv3')
 depends=('cairo' 'desktop-file-utils' 'gdk-pixbuf2' 'glib2' 'gtk3' 'hicolor-icon-theme' 'libsoup' 'pango' 'webkit2gtk-4.1')
 options=('!strip' '!emptydirs')
 install=\${pkgname}.install
-source_x86_64=("<source_x86>")
+source_x86_64=("https://github.com/swpu-acm/algohub/releases/download/algohub-v\${pkgver//_/-}/algohub_\${pkgver//_/-}_amd64.deb")
 sha256sums_x86_64=('<sha256sums>')
 package() {
   tar -xz -f data.tar.gz -C "\${pkgdir}"
@@ -149,9 +149,10 @@ const releaseAur = defineCommand({
     const sha256sums = await generateSHA256(binaryPath);
     console.log(`SHA256 checksums: ${sha256sums}`);
 
-    const PKGBUILD = PKGBUILD_TEMPLATE.replaceAll("<source_x86>", url)
-      .replaceAll("<pkgver>", version.replaceAll("-", "_"))
-      .replaceAll("<sha256sums>", sha256sums);
+    const PKGBUILD = PKGBUILD_TEMPLATE.replaceAll(
+      "<pkgver>",
+      version.replaceAll("-", "_")
+    ).replaceAll("<sha256sums>", sha256sums);
     writeFileSync(path.resolve(basePath, "aur/PKGBUILD"), PKGBUILD);
 
     execSync("makepkg --printsrcinfo > .SRCINFO", {
@@ -163,8 +164,9 @@ const releaseAur = defineCommand({
     unlinkSync(binaryPath);
 
     // Setup Git repository
-    execSync("git -C aur add PKGBUILD .SRCINFO algohub.install", {
+    execSync("git add .", {
       stdio: "inherit",
+      cwd: "aur",
       env,
     });
     execSync(`git -C aur config user.name "苏向夜"`, { stdio: "inherit", env });

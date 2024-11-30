@@ -91,16 +91,37 @@ const onChangeLanguage = (value: SelectChangeEvent) => {
         model && monaco.editor.setModelLanguage(model, value.value);
     }
 }
+
+type Severity = 'info' | "secondary" | 'warn' | 'error';
+
+const submitting = ref(false)
+const message = ref<{ text?: string, severity: Severity }>({ text: undefined, severity: 'info' })
+const onSubmit = () => {
+    if (!rawEditor.value) {
+        return
+    }
+    submitting.value = true
+    emit(
+        'submit',
+        rawEditor.value.getValue(),
+        language,
+        (text: string, severity: Severity) => {
+            submitting.value = false
+            message.value = { text, severity }
+        }
+    )
+}
 </script>
 
 <template>
     <div class="w-full h-full flex flex-col">
         <div class="flex flex-row m-[6px] justify-between">
             <Select v-model="language" @change="onChangeLanguage" :options="languageOptions" optionLabel="name"
-                optionValue="value" placeholder="Select a Language" />
-            <Button @click="emit('submit', rawEditor?.getValue(), language)" label="Submit" icon="pi pi-send"
-                size="small" severity="contrast" outlined></Button>
+                optionValue="value" placeholder="Select a Language"></Select>
+            <Button @click="onSubmit" label="Submit" icon="pi pi-send" size="small" severity="contrast" outlined
+                :loading="submitting"></Button>
         </div>
+        <Message size="small" v-if="message.text" :severity="message.severity">{{ message.text }}</Message>
         <div class="flex-1" ref="editorContainer"></div>
     </div>
 </template>

@@ -38,9 +38,12 @@ const formatProblem = (problem: ProblemDetail) => {
 
 const code = ref('');
 const language = ref(Language.Rust);
-const onSubmit = async (code: string, lang: Language) => {
+const onSubmit = async (code: string, lang: Language, finish: (text: string, severity: string) => void) => {
     if (!code) {
-        return toast.add({ severity: 'error', summary: 'Error', detail: 'Please enter your code.' });
+        return finish('Code submission should not be a blank.', 'error')
+    }
+    if (!problem.value) {
+        return finish('Failed to access problem data.', 'error')
     }
     const res = await api.submitCode(id, {
         auth: accountStore.auth!,
@@ -48,9 +51,9 @@ const onSubmit = async (code: string, lang: Language) => {
         code,
     });
     if (!res.success) {
-        return toast.add({ severity: 'error', summary: 'Error', detail: res.message });
+        return finish(res.message, 'error');
     }
-    toast.add({ severity: 'success', summary: 'Success', detail: 'Your code has been submitted successfully.' });
+    finish('Code submitted', 'success');
 }
 
 const path = ref<{ label?: string, link?: string }[]>([]);
