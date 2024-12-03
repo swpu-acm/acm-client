@@ -4,7 +4,7 @@ import { useRoute } from 'vue-router';
 import * as api from '@/scripts/api';
 import { useAccountStore, useThemeStore } from '@/scripts/store';
 import { useToast } from 'primevue';
-import { Language, ProblemDetail } from '@/scripts/types';
+import { Language, UserProblem } from '@/scripts/types';
 import { MdPreview } from 'md-editor-v3';
 import 'md-editor-v3/lib/style.css';
 
@@ -15,8 +15,8 @@ const toast = useToast();
 const accountStore = useAccountStore();
 const themeStore = useThemeStore();
 
-const problem = ref<ProblemDetail>();
-const formatProblem = (problem: ProblemDetail) => {
+const problem = ref<UserProblem>();
+const formatProblem = (problem: UserProblem) => {
     let formattedText = '';
     const { description, input, output, samples, hint } = problem;
 
@@ -81,7 +81,7 @@ onMounted(async () => {
         <UniversalToolBar :path></UniversalToolBar>
         <Splitter :gutterSize="2" class="flex-1 overflow-hidden">
             <SplitterPanel>
-                <Panel class="w-full h-full overflow-auto">
+                <Panel class="w-full h-full overflow-auto" pt:header:class="!hidden">
                     <MdPreview v-if="!loading" class="!bg-transparent" :modelValue="formatProblem(problem!)"
                         :theme="themeStore.dark ? 'dark' : 'light'" codeTheme="github" previewTheme="github">
                     </MdPreview>

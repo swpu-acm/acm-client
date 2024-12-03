@@ -2,7 +2,7 @@
 import * as api from "@/scripts/api";
 import { useAccountStore, useThemeStore } from "@/scripts/store";
 import { timeAgo } from "@/scripts/time";
-import { ProblemDetail, type Profile } from "@/scripts/types";
+import { UserProblem, type Profile } from "@/scripts/types";
 import { expandAssetUrl } from "@/scripts/utils";
 import { Avatar, useToast } from "primevue";
 import { onMounted, ref, watch } from "vue";
@@ -38,7 +38,7 @@ const toggleTab = async (to: string) => {
     }
 }
 
-const problemList = ref<ProblemDetail[]>([]);
+const problemList = ref<UserProblem[]>([]);
 problemList.value.length = 1;
 
 const loadingProblems = ref(true);
