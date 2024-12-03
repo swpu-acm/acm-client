@@ -4,9 +4,10 @@ import { handleAxiosError } from "@/scripts/utils";
 import type {
   CreateAsset,
   Credentials,
-  ProblemDetail,
+  UserProblem,
   Profile,
   UserContent,
+  CreateProblem,
 } from "./types";
 
 export interface Response<D> {
@@ -87,24 +88,6 @@ export const fetchProfile = async (id: string) => {
   }
 };
 
-interface CreateProblem {
-  id: string;
-  token: string;
-
-  title: string;
-  description: string;
-  input?: string;
-  output?: string;
-  samples: { input: string; output: string }[];
-  hint?: string;
-  time_limit: number;
-  memory_limit: number;
-  test_cases: { input: string; output: string }[];
-  categories: string[];
-  tags: string[];
-  private: boolean;
-}
-
 interface ProblemResponse {
   id: string;
 }
@@ -121,7 +104,7 @@ export const createProblem = async (form: CreateProblem) => {
 export const fetchProblem = async (id: string, form?: Credentials) => {
   try {
     const response = await axios.post(`/problem/get/${id}`, form);
-    return response.data as Response<ProblemDetail>;
+    return response.data as Response<UserProblem>;
   } catch (error) {
     return handleAxiosError(AxiosError.from(error));
   }
@@ -136,7 +119,7 @@ interface ListProblem {
 export const listProblems = async (form: ListProblem) => {
   try {
     const response = await axios.post("/problem/list", form);
-    return response.data as Response<ProblemDetail[]>;
+    return response.data as Response<UserProblem[]>;
   } catch (error) {
     return handleAxiosError(AxiosError.from(error));
   }

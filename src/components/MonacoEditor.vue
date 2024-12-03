@@ -57,7 +57,7 @@ onMounted(async () => {
     loader.config({ monaco })
     editor.value = await loader.init().then((monaco) => monaco.editor.create(editorContainer.value, {
         value: '',
-        language: 'rust',
+        language: language.value,
         theme: themeStore.dark ? 'vs-dark' : 'vs',
         fontFamily: 'Cascadia Code, Consolas, Menlo, Monaco, "Courier New", monospace',
         inlineSuggest: {
@@ -77,12 +77,12 @@ onUnmounted(disposeEditor)
 onBeforeUnmount(disposeEditor)
 onBeforeRouteLeave(disposeEditor)
 
-const languageOptions = [
-    { name: 'Rust', value: Language.Rust },
-    { name: 'Python', value: Language.Python },
-    { name: 'C', value: Language.C },
-    { name: 'C++', value: Language.Cpp },
-]
+console.log(Language)
+console.log(Object.values(Language))
+console.log(Object.keys(Language))
+console.log(Object.entries(Language))
+
+const languageOptions = Object.entries(Language).map(([name, value]) => ({ name, value }))
 
 const onChangeLanguage = (value: SelectChangeEvent) => {
     const editor = rawEditor.value;
