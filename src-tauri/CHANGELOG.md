@@ -1,5 +1,15 @@
 # Changelog
 
+## \[0.1.1-alpha.8]
+
+### Refactors
+
+- [`0bf2284`](https://github.com/swpu-acm/algohub.git/commit/0bf22846250a05b3be7acdb1f39c9c60785c961d) ([#78](https://github.com/swpu-acm/algohub.git/pull/78) by [@fu050409](https://github.com/swpu-acm/algohub.git/../../fu050409)) Fully refactored the problem api to sync changes with the `algohub-server`, also:
+
+  - Fixed icon sizes in markdown editor.
+  - Extract supported languages from ts enum.
+  - Refactored problem editor.
+
 ## \[0.1.1-alpha.7]
 
 ### New Features

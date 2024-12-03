@@ -29,6 +29,7 @@
     ".changes/problem-panel.md",
     ".changes/refactor-asset.md",
     ".changes/refactor-login.md",
+    ".changes/refactor-problem.md",
     ".changes/refactor-submit.md",
     ".changes/release-nightly.md",
     ".changes/release-url.md",
