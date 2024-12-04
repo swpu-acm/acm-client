@@ -1,5 +1,11 @@
 # Changelog
 
+## \[0.1.1-alpha.9]
+
+### New Features
+
+- [`5413014`](https://github.com/swpu-acm/algohub.git/commit/5413014ff957cdee0b3561a0c45665d71e390749) ([#80](https://github.com/swpu-acm/algohub.git/pull/80) by [@fu050409](https://github.com/swpu-acm/algohub.git/../../fu050409)) Add splash screen before loading index page.
+
 ## \[0.1.1-alpha.8]
 
 ### Refactors
