@@ -123,6 +123,15 @@ export const createProblem = async (form: CreateProblem) => {
   }
 };
 
+export const updateProblem = async (id: string, form: CreateProblem) => {
+  try {
+    const response = await axios.post(`/problem/update/${id}`, form);
+    return response.data as Response<undefined>;
+  } catch (error) {
+    return handleAxiosError(AxiosError.from(error));
+  }
+};
+
 export const fetchProblem = async (id: string, form?: Credentials) => {
   try {
     const response = await axios.post(`/problem/get/${id}`, form);

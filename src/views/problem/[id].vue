@@ -34,7 +34,7 @@ const formatProblem = (problem: UserProblem) => {
     }
     hint && (formattedText += `## Hint\n\n${hint}\n\n`);
 
-    return formattedText.repeat(10);
+    return formattedText;
 }
 
 const code = ref('');
