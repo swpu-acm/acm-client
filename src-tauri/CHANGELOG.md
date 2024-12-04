@@ -1,5 +1,15 @@
 # Changelog
 
+## \[0.1.1-alpha.10]
+
+### New Features
+
+- [`a4de3d2`](https://github.com/swpu-acm/algohub.git/commit/a4de3d27fe799664d13aa19003fca5e42a76eb13) ([#84](https://github.com/swpu-acm/algohub.git/pull/84) by [@fu050409](https://github.com/swpu-acm/algohub.git/../../fu050409)) Optimize problem pages, including create and edit pages.
+
+### Refactors
+
+- [`7cdf917`](https://github.com/swpu-acm/algohub.git/commit/7cdf91747bcea34667ba8d92cdf37468685bcbf1) ([#82](https://github.com/swpu-acm/algohub.git/pull/82) by [@fu050409](https://github.com/swpu-acm/algohub.git/../../fu050409)) Refactored problem creation page.
+
 ## \[0.1.1-alpha.9]
 
 ### New Features
