@@ -28,6 +28,8 @@ onMounted(async () => {
         samples.splice(0, samples.length);
         data.samples.forEach(sample => samples.push({ input: sample.input, output: sample.output }));
         hint.value = data.hint || '';
+        testCases.splice(0, testCases.length);
+        data.test_cases?.forEach(tc => testCases.push({ input: tc.input, output: tc.output }));
         loading.value = false;
     }
 })
@@ -38,7 +40,8 @@ const input = ref<string>('');
 const output = ref<string>('');
 const samples = reactive<Sample[]>([{ input: '', output: '' }]);
 const hint = ref<string>('');
-const isPrivate = ref(false);
+const owner = ref<string>(accountStore.account.id!);
+const visibility = ref<ProblemVisibility>(ProblemVisibility.Public);
 const testCases = reactive<TestCase[]>([]);
 
 const timeLimit = ref<number>(1000);
@@ -57,7 +60,7 @@ interface ProblemForm<T, N> {
     owner: RecordId,
     categories: string[];
     tags: string[];
-    private: boolean;
+    visibility: ProblemVisibility;
 }
 
 const validate = (form: ProblemForm<string, number>): boolean => {
@@ -92,11 +95,11 @@ const onCreateProblem = async () => {
         test_cases: testCases.map(tc => ({ input: tc.input, output: tc.output })),
         owner: {
             tb: "account",
-            id: accountStore.account.id!
+            id: owner.value
         },
         categories: [],
         tags: [],
-        private: isPrivate.value
+        visibility: visibility.value,
     }
     const valid = validate(problem);
     if (!valid) return;
@@ -106,7 +109,6 @@ const onCreateProblem = async () => {
     const res = await api.createProblem({
         id: accountStore.account.id!,
         token: accountStore.account.token!,
-        visibility: ProblemVisibility.Public,
         ...problem,
     });
     if (!res.success) {
@@ -236,15 +238,31 @@ const formatSize = (bytes: number) => {
 
     return `${formattedSize} ${sizes[i]}`;
 };
+
+const onRemoveTestCases = async (testCase: TestCase) => {
+    const removeInput = await api.removeAsset(testCase.input, accountStore.auth!);
+    const removeOutput = await api.removeAsset(testCase.output, accountStore.auth!);
+    if (!removeInput.success || !removeOutput.success) {
+        return toast.add({ severity: 'error', summary: 'Error', detail: removeInput.message || removeOutput.message, life: 3000 });
+    }
+    const index = testCases.indexOf(testCase);
+    if (index !== -1) {
+        testCases.splice(index, 1);
+    }
+}
 </script>
 
 <template>
     <div class="max-w-full md:max-w-[768px] mx-auto">
         <Panel v-if="!loading" class="mt-10">
             <div class="flex flex-col gap-8">
-                <div class="mt-10 text-center">
+                <div v-if="!props.id" class="mt-10 text-center">
                     <span class="text-gray-500 mb-4">Share your algorithm problem with the community</span>
                     <h1 class="text-3xl font-bold mb-4">Create a new algorithm problem</h1>
+                </div>
+                <div v-else class="mt-10 text-center">
+                    <span class="text-gray-500 mb-4">Edit your algorithm problem</span>
+                    <h1 class="text-3xl font-bold mb-4">Edit Problem</h1>
                 </div>
                 <div class="flex flex-col gap-8">
                     <div class="flex flex-col gap-1">
@@ -292,7 +310,16 @@ const formatSize = (bytes: number) => {
                             <InputGroupAddon>
                                 <i class="pi pi-building"></i>
                             </InputGroupAddon>
-                            <Select placeholder="Owner" disabled></Select>
+                            <Select
+                                :options="[{ label: accountStore.account.username, value: accountStore.account.id }]"
+                                optionLabel="label" optionValue="value" placeholder="Owner" v-model="owner"></Select>
+                        </InputGroup>
+                        <InputGroup>
+                            <InputGroupAddon>
+                                <i class="pi pi-eye"></i>
+                            </InputGroupAddon>
+                            <Select :options="Object.values(ProblemVisibility)" placeholder="Visibility"
+                                v-model="visibility"></Select>
                         </InputGroup>
                     </div>
                     <FileUpload customUpload :multiple="true" accept=".in,.out" :maxFileSize="12 * 1024 * 1024"
@@ -362,14 +389,16 @@ const formatSize = (bytes: number) => {
                             </div>
                         </template>
                     </FileUpload>
-                    <DataTable :value="testCases" tableStyle="min-width: 50rem">
-                        <Column field="input" header="Code"></Column>
-                        <Column field="output" header="Name"></Column>
+                    <DataTable v-if="testCases.length > 0" :value="testCases" tableStyle="w-full" showGridlines>
+                        <Column field="input" header="Input"></Column>
+                        <Column field="output" header="Output"></Column>
+                        <Column :exportable="false" style="min-width: 12rem">
+                            <template #body="slotProps">
+                                <Button icon="pi pi-trash" outlined rounded severity="danger"
+                                    @click="onRemoveTestCases(slotProps.data)"></Button>
+                            </template>
+                        </Column>
                     </DataTable>
-                    <div class="flex items-center gap-2">
-                        <Checkbox name="private" v-model="isPrivate" binary></Checkbox>
-                        <span>Mark as private</span>
-                    </div>
                     <Button @click="onCreateProblem" type="submit" label="Save Changes"></Button>
                 </div>
             </div>

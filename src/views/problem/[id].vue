@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { onMounted, onUnmounted, ref } from 'vue';
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import * as api from '@/scripts/api';
 import { useAccountStore, useThemeStore } from '@/scripts/store';
 import { useToast } from 'primevue';
@@ -9,6 +9,7 @@ import { MdPreview } from 'md-editor-v3';
 import 'md-editor-v3/lib/style.css';
 
 const route = useRoute();
+const router = useRouter();
 const id = route.params.id as string;
 
 const toast = useToast();
@@ -100,7 +101,8 @@ onUnmounted(() => {
                     <div class="p-3 flex flex-wrap flex-row items-center justify-between w-full">
                         <Button size="small" icon="pi pi-arrow-left" plain outlined></Button>
                         <div class="inline-flex items-center gap-1">
-                            <Button icon="pi pi-pencil" size="small" plain outlined></Button>
+                            <Button @click="router.push(`/problem/edit/${id}`)" icon="pi pi-pencil" size="small" plain
+                                outlined></Button>
                             <Button size="small" severity="danger" icon="pi pi-trash" outlined></Button>
                         </div>
                     </div>

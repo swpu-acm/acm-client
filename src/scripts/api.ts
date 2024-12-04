@@ -52,6 +52,17 @@ export const uploadContent = async (form: CreateAsset) => {
   }
 };
 
+export const removeAsset = async (id: string, auth: Credentials) => {
+  try {
+    const response = await axios.delete(`/asset/delete/${id}`, {
+      data: auth,
+    });
+    return response.data as Response<undefined>;
+  } catch (error) {
+    return handleAxiosError(AxiosError.from(error));
+  }
+};
+
 interface ProfileForm {
   id: string;
   token: string;
@@ -160,9 +171,9 @@ interface Submission {
   lang: Language;
   problem: RecordId;
   code: string;
-  status: 'in_queue' | 'judging' | 'ready';
-  judge_details: { status: any, timeUsed: number, memoryUsed: number }[],
-  judge_result: { status: any, timeUsed: number, memoryUsed: number },
+  status: "in_queue" | "judging" | "ready";
+  judge_details: { status: any; timeUsed: number; memoryUsed: number }[];
+  judge_result: { status: any; timeUsed: number; memoryUsed: number };
   // contest
 }
 

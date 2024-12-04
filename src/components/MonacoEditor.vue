@@ -77,11 +77,6 @@ onUnmounted(disposeEditor)
 onBeforeUnmount(disposeEditor)
 onBeforeRouteLeave(disposeEditor)
 
-console.log(Language)
-console.log(Object.values(Language))
-console.log(Object.keys(Language))
-console.log(Object.entries(Language))
-
 const languageOptions = Object.entries(Language).map(([name, value]) => ({ name, value }))
 
 const onChangeLanguage = (value: SelectChangeEvent) => {
