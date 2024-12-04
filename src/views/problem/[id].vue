@@ -92,12 +92,11 @@ onUnmounted(() => {
 </script>
 
 <template>
-    <div class="flex flex-col h-full">
+    <div class="flex flex-col h-screen">
         <UniversalToolBar :path></UniversalToolBar>
-        <Splitter :gutterSize="2" class="flex-1 overflow-hidden"
-            :layout="windowWidth > 768 ? 'horizontal' : 'vertical'">
+        <Splitter :gutterSize="2" class="h-full overflow-hidden" :layout="windowWidth > 768 ? 'horizontal' : 'vertical'">
             <SplitterPanel>
-                <div class="flex flex-col gap-2 w-full h-full">
+                <div class="flex flex-col gap-2 h-full">
                     <div class="p-3 flex flex-wrap flex-row items-center justify-between w-full">
                         <Button size="small" icon="pi pi-arrow-left" plain outlined></Button>
                         <div class="inline-flex items-center gap-1">
@@ -106,21 +105,24 @@ onUnmounted(() => {
                             <Button size="small" severity="danger" icon="pi pi-trash" outlined></Button>
                         </div>
                     </div>
-                    <div class="flex flex-row w-full h-full">
+                    <div class="flex flex-row h-full overflow-auto">
                         <div class="flex flex-col w-20 gap-4">
                             <Button pt:label:class="text-xs" label="Problem" icon="pi pi-code" size="small"
                                 iconPos="top" plain text disabled></Button>
                             <Button pt:label:class="text-xs" label="Records" icon="pi pi-file" size="small"
                                 iconPos="top" plain text disabled></Button>
                         </div>
-                        <MdPreview v-if="!loading" class="!bg-transparent" :modelValue="formatProblem(problem!)"
-                            :theme="themeStore.dark ? 'dark' : 'light'" codeTheme="github" previewTheme="github">
-                        </MdPreview>
-                        <div v-else class="flex flex-col gap-4 m-3">
-                            <Skeleton height="2em" width="15vw"></Skeleton>
-                            <Skeleton height="5em" width="40vw"></Skeleton>
-                            <Skeleton height="2em" width="30vw"></Skeleton>
-                            <Skeleton height="10em" width="40vw"></Skeleton>
+                        <div class="flex w-full h-full overflow-auto">
+                            <MdPreview v-if="!loading" class="!bg-transparent"
+                                :modelValue="formatProblem(problem!)" :theme="themeStore.dark ? 'dark' : 'light'"
+                                codeTheme="github" previewTheme="github">
+                            </MdPreview>
+                            <div v-else class="flex flex-col gap-4 m-3">
+                                <Skeleton height="2em" width="12vw"></Skeleton>
+                                <Skeleton height="5em" width="36vw"></Skeleton>
+                                <Skeleton height="2em" width="27vw"></Skeleton>
+                                <Skeleton height="10em" width="36vw"></Skeleton>
+                            </div>
                         </div>
                     </div>
                 </div>
