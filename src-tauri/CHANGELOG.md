@@ -1,5 +1,11 @@
 # Changelog
 
+## \[0.1.1-alpha.11]
+
+### Bug Fixes
+
+- [`afa61d5`](https://github.com/swpu-acm/algohub.git/commit/afa61d5ab6eefd5d334a54593598aaf7eadc06bb) ([#85](https://github.com/swpu-acm/algohub.git/pull/85) by [@fu050409](https://github.com/swpu-acm/algohub.git/../../fu050409)) Fix scroll height of rendered markdown in preview mode.
+
 ## \[0.1.1-alpha.10]
 
 ### New Features
