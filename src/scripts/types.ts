@@ -43,6 +43,7 @@ export interface CreateAsset {
 
 export interface UserContent {
   id: string;
+  name: string;
 }
 
 export enum ProblemVisibility {
