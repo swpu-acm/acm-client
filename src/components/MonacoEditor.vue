@@ -104,7 +104,7 @@ const onSubmit = () => {
     emit(
         'submit',
         rawEditor.value.getValue(),
-        language,
+        language.value,
         (text: string, severity: Severity) => {
             submitting.value = false
             message.value = { text, severity }

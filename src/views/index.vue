@@ -1,20 +1,18 @@
 <script setup lang="ts">
-import { useAccountStore } from '@/scripts/store';
+import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 
 const router = useRouter();
-const accountStore = useAccountStore();
 
-if (accountStore.isLoggedIn) {
-  router.push('/dashboard');
-}
+const loading = ref(true);
 </script>
 
 <template>
-  <div
+  <SplashScreen v-if="loading" v-model="loading" />
+  <div v-if="!loading"
     class="fixed bottom-0 sm:bottom-unset w-full py-2 bg-indigo-600 text-white sm:flex sm:items-center sm:justify-between sm:px-6 lg:px-8">
     <p class="text-center font-medium sm:text-left">
-      AlgoHub is on nightly build now! Want to try it out?
+      AlgoHub is on alpha now! Want to try it out?
       <br class="sm:hidden" />
       See the latest updates!
     </p>
@@ -24,7 +22,7 @@ if (accountStore.isLoggedIn) {
       Releases
     </a>
   </div>
-  <section class="bg-gray-900 text-white h-screen w-full">
+  <section v-if="!loading" class="bg-gray-900 text-white h-screen w-full">
     <div class="mx-auto max-w-screen-xl px-4 py-32 lg:flex lg:h-screen lg:items-center">
       <div class="mx-auto max-w-3xl text-center">
         <h1
