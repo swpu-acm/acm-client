@@ -14,6 +14,7 @@ const accountStore = useAccountStore();
 
 const props = defineProps<{ id?: string }>();
 const loading = ref(props.id ? true : false);
+const path = ref<{ label?: string, link?: string }[]>(props.id ? [] : [{ label: 'New Problem' }])
 onMounted(async () => {
     if (props.id) {
         const res = await api.fetchProblem(props.id, accountStore.auth);
@@ -30,6 +31,9 @@ onMounted(async () => {
         hint.value = data.hint || '';
         testCases.splice(0, testCases.length);
         data.test_cases?.forEach(tc => testCases.push({ input: tc.input, output: tc.output }));
+
+        path.value = [{ label: res.data?.owner.id, link: `/account/${res.data?.owner.id}` }, { label: title.value, link: `/problem/${props.id}` }, { label: 'Edit' }]
+
         loading.value = false;
     }
 })
@@ -83,6 +87,12 @@ const validate = (form: ProblemForm<string, number>): boolean => {
 
 const inProgress = ref(false);
 const onCreateProblem = async () => {
+    if (totalSizePercent.value !== 100) {
+        uploadingTestCases.value = true;
+        await uploadTestCases(() => {
+            uploadingTestCases.value = false;
+        })
+    }
     const problem: ProblemForm<string, number> = {
         title: title.value,
         description: description.value,
@@ -90,7 +100,7 @@ const onCreateProblem = async () => {
         output: output.value || undefined,
         samples: samples.map(sample => ({ input: sample.input, output: sample.output })),
         hint: hint.value || undefined,
-        time_limit: timeLimit.value,
+        time_limit: timeLimit.value * 1024 * 1024,
         memory_limit: memoryLimit.value,
         test_cases: testCases.map(tc => ({ input: tc.input, output: tc.output })),
         owner: {
@@ -106,17 +116,27 @@ const onCreateProblem = async () => {
 
     if (inProgress.value) return;
     inProgress.value = true;
-    const res = await api.createProblem({
-        id: accountStore.account.id!,
-        token: accountStore.account.token!,
-        ...problem,
-    });
+    let res;
+    if (props.id) {
+        res = await api.updateProblem(props.id, {
+            id: accountStore.account.id!,
+            token: accountStore.account.token!,
+            ...problem,
+        });
+    } else {
+        res = await api.createProblem({
+            id: accountStore.account.id!,
+            token: accountStore.account.token!,
+            ...problem,
+        });
+    }
     if (!res.success) {
         inProgress.value = false;
         return toast.add({ severity: 'error', summary: 'Error', detail: res.message, life: 3000 });
     }
     inProgress.value = false;
-    router.push(`/problem/${res.data!.id}`);
+    const id = res.data?.id ?? props.id;
+    router.push(`/problem/${id}`);
 }
 
 const totalSize = ref(0);
@@ -155,9 +175,13 @@ const onSelectedFiles = (event: FileUploadSelectEvent) => {
     event.files.forEach((file: File) => {
         totalSize.value += parseInt(formatSize(file.size));
     });
+
+    totalUploadedSize.value = 0;
 };
 
+const uploadingTestCases = ref(false);
 const uploadTestCases = async (callback: () => void) => {
+    uploadingTestCases.value = true;
     normalizedFiles.value.forEach(async (fileTuple) => {
         if (!fileTuple.input) {
             return toast.add({ severity: 'error', summary: 'Error', detail: 'Input file not found for ' + fileTuple.output?.name, life: 3000 });
@@ -192,6 +216,7 @@ const uploadTestCases = async (callback: () => void) => {
             output: outputRes.data!.id,
         })
         normalizedFiles.value.splice(normalizedFiles.value.indexOf(fileTuple), 1);
+        uploadingTestCases.value = false;
     });
     callback();
 }
@@ -253,8 +278,12 @@ const onRemoveTestCases = async (testCase: TestCase) => {
 </script>
 
 <template>
-    <div class="max-w-full md:max-w-[768px] mx-auto">
-        <Panel v-if="!loading" class="mt-10">
+    <UniversalToolBar :path></UniversalToolBar>
+    <div class="flex flex-col w-full h-full max-w-full md:max-w-[768px] mx-auto">
+        <div v-if="loading" class="w-full h-full flex items-center justify-center">
+            <ProgressSpinner></ProgressSpinner>
+        </div>
+        <Panel v-else class="mt-10">
             <div class="flex flex-col gap-8">
                 <div v-if="!props.id" class="mt-10 text-center">
                     <span class="text-gray-500 mb-4">Share your algorithm problem with the community</span>
@@ -356,8 +385,8 @@ const onRemoveTestCases = async (testCase: TestCase) => {
                                                 <div v-if="testCase.input" class="flex flex-col gap-4 items-center">
                                                     <span
                                                         class="font-semibold text-ellipsis max-w-60 whitespace-nowrap overflow-hidden">{{
-                                                            testCase.input.name }}</span>
-                                                    <div>{{ formatSize(testCase.input.size || 0) }}</div>
+                                                            testCase.input?.name }}</span>
+                                                    <div>{{ formatSize(testCase.input?.size || 0) }}</div>
                                                     <Badge value="Pending" severity="warn" />
                                                     <Button icon="pi pi-times"
                                                         @click="onRemoveTemplatingFile('input', { removeFileCallback, plainFiles: files, normalizedIndex })"
@@ -368,8 +397,8 @@ const onRemoveTestCases = async (testCase: TestCase) => {
                                                 <div v-if="testCase.output" class="flex flex-col gap-4 items-center">
                                                     <span
                                                         class="font-semibold text-ellipsis max-w-60 whitespace-nowrap overflow-hidden">{{
-                                                            testCase.output.name }}</span>
-                                                    <div>{{ formatSize(testCase.output.size || 0) }}</div>
+                                                            testCase.output?.name }}</span>
+                                                    <div>{{ formatSize(testCase.output?.size || 0) }}</div>
                                                     <Badge value="Pending" severity="warn" />
                                                     <Button icon="pi pi-times"
                                                         @click="onRemoveTemplatingFile('output', { removeFileCallback, plainFiles: files, normalizedIndex })"
@@ -399,7 +428,8 @@ const onRemoveTestCases = async (testCase: TestCase) => {
                             </template>
                         </Column>
                     </DataTable>
-                    <Button @click="onCreateProblem" type="submit" label="Save Changes"></Button>
+                    <Button @click="onCreateProblem" type="submit" label="Save Changes" :loading="inProgress"
+                        :disabled="uploadingTestCases"></Button>
                 </div>
             </div>
         </Panel>

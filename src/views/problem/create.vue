@@ -1,10 +1,5 @@
-<script setup lang="ts">
-const path = [{ label: 'New problem' }];
-</script>
-
 <template>
-    <div class="flex-1 flex flex-col">
-        <UniversalToolBar :path></UniversalToolBar>
+    <div class="flex-1 flex flex-col h-full">
         <ProblemEditor></ProblemEditor>
         <UniversalFooter></UniversalFooter>
     </div>
