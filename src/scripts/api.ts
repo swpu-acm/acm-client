@@ -8,6 +8,8 @@ import type {
   Profile,
   UserContent,
   CreateProblem,
+  Language,
+  RecordId,
 } from "./types";
 
 export interface Response<D> {
@@ -79,6 +81,15 @@ export const login = async (form: Login) => {
   }
 };
 
+export const verifyToken = async (auth?: Credentials) => {
+  try {
+    const response = await axios.post("/account/verify", auth);
+    return response.data as Response<Credentials>;
+  } catch (error) {
+    return handleAxiosError(AxiosError.from(error));
+  }
+};
+
 export const fetchProfile = async (id: string) => {
   try {
     const response = await axios.get(`/account/profile/${id}`);
@@ -131,10 +142,34 @@ interface SubmitCodeForm {
   lang: string;
 }
 
+interface Id {
+  id: string;
+}
+
 export const submitCode = async (problem_id: string, form: SubmitCodeForm) => {
   try {
     const response = await axios.post(`/code/submit/${problem_id}`, form);
-    return response.data as Response<undefined>;
+    return response.data as Response<Id>;
+  } catch (error) {
+    return handleAxiosError(AxiosError.from(error));
+  }
+};
+
+interface Submission {
+  id: string;
+  lang: Language;
+  problem: RecordId;
+  code: string;
+  status: 'in_queue' | 'judging' | 'ready';
+  judge_details: { status: any, timeUsed: number, memoryUsed: number }[],
+  judge_result: { status: any, timeUsed: number, memoryUsed: number },
+  // contest
+}
+
+export const fetchSubmission = async (id: string, form?: Credentials) => {
+  try {
+    const response = await axios.post(`/code/get/${id}`, form);
+    return response.data as Response<Submission>;
   } catch (error) {
     return handleAxiosError(AxiosError.from(error));
   }
