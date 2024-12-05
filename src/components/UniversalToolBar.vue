@@ -75,6 +75,16 @@ const createMenuItems = ref([
         command: () => {
             toast.add({ severity: 'info', summary: 'Coming soon...', detail: 'This feature is coming soon...' })
         }
+    },
+    {
+        separator: true
+    },
+    {
+        label: 'New Contest',
+        icon: 'pi pi-calendar',
+        command: () => {
+            router.push("/contest/create");
+        }
     }
 ]);
 const toggleCreateMenu = (event: any) => {

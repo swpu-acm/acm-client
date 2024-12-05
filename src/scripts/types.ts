@@ -140,3 +140,18 @@ export interface Contest {
   created_at: string;
   updated_at: string;
 }
+
+export interface ContestData {
+  name: string;
+  mode: Mode;
+  visibility: Visibility;
+  description: string;
+  start_time: string;
+  end_time: string;
+  owner: RecordId;
+}
+
+export interface CreateContest {
+  auth: Credentials;
+  data: ContestData;
+}
