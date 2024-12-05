@@ -10,6 +10,7 @@ import type {
   CreateProblem,
   Submission,
   Contest,
+  CreateContest,
 } from "./types";
 
 export interface Response<D> {
@@ -204,6 +205,15 @@ export const listAllContests = async (auth: Credentials) => {
   try {
     const response = await axios.post("/contest/list/all", auth);
     return response.data as Response<Contest[]>;
+  } catch (error) {
+    return handleAxiosError(AxiosError.from(error));
+  }
+};
+
+export const createContest = async (data: CreateContest) => {
+  try {
+    const response = await axios.post("/contest/create", data);
+    return response.data as Response<Id>;
   } catch (error) {
     return handleAxiosError(AxiosError.from(error));
   }
