@@ -1,5 +1,11 @@
 # Changelog
 
+## \[0.1.1-alpha.13]
+
+### New Features
+
+- [`763d56d`](https://github.com/swpu-acm/algohub.git/commit/763d56d30627c499837e449814e85ac1d55235dd) ([#90](https://github.com/swpu-acm/algohub.git/pull/90) by [@fu050409](https://github.com/swpu-acm/algohub.git/../../fu050409)) Support create new contest.
+
 ## \[0.1.1-alpha.12]
 
 ### New Features
