@@ -2,6 +2,7 @@
   "tag": "alpha",
   "changes": [
     ".changes/add-icon.md",
+    ".changes/birthday.md",
     ".changes/breadcrumb-bg.md",
     ".changes/breadcrumb.md",
     ".changes/create-panel-bg.md",
@@ -42,6 +43,7 @@
     ".changes/side-panel.md",
     ".changes/signup-panel.md",
     ".changes/splash.md",
+    ".changes/submission.md",
     ".changes/update-icon.md",
     ".changes/update-profile.md",
     ".changes/use-farm.md",
