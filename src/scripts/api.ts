@@ -8,8 +8,8 @@ import type {
   Profile,
   UserContent,
   CreateProblem,
-  Language,
-  RecordId,
+  Submission,
+  Contest,
 } from "./types";
 
 export interface Response<D> {
@@ -175,21 +175,35 @@ export const submitCode = async (problem_id: string, form: SubmitCodeForm) => {
   }
 };
 
-interface Submission {
-  id: string;
-  lang: Language;
-  problem: RecordId;
-  code: string;
-  status: "in_queue" | "judging" | "ready";
-  judge_details: { status: any; timeUsed: number; memoryUsed: number }[];
-  judge_result: { status: any; timeUsed: number; memoryUsed: number };
-  // contest
-}
-
 export const fetchSubmission = async (id: string, form?: Credentials) => {
   try {
     const response = await axios.post(`/code/get/${id}`, form);
     return response.data as Response<Submission>;
+  } catch (error) {
+    return handleAxiosError(AxiosError.from(error));
+  }
+};
+
+export const listSubmissionsByProblemForAccount = async (
+  id: string,
+  account_id: string,
+  auth: Credentials
+) => {
+  try {
+    const response = await axios.post(
+      `/code/list/${id}/account/${account_id}`,
+      auth
+    );
+    return response.data as Response<Submission[]>;
+  } catch (error) {
+    return handleAxiosError(AxiosError.from(error));
+  }
+};
+
+export const listAllContests = async (auth: Credentials) => {
+  try {
+    const response = await axios.post("/contest/list/all", auth);
+    return response.data as Response<Contest[]>;
   } catch (error) {
     return handleAxiosError(AxiosError.from(error));
   }

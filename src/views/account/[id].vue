@@ -181,7 +181,7 @@ onMounted(async () => {
                                                         'Public' }}
                                                     </Badge>
                                                 </div>
-                                                <span class="text-sm">{{ timeAgo(problem.updated_at) }}</span>
+                                                <span class="text-sm">Updated {{ timeAgo(problem.updated_at) }}</span>
                                             </div>
                                         </div>
                                     </template>

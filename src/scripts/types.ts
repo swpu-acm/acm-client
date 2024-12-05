@@ -106,3 +106,37 @@ export enum Language {
   Nodejs = "nodejs",
   Java = "java",
 }
+
+export interface Submission {
+  id: string;
+  lang: Language;
+  problem: RecordId;
+  code: string;
+  status: "in_queue" | "judging" | "ready";
+  judge_details: { status: any; timeUsed: number; memoryUsed: number }[];
+  judge_result: { status: any; timeUsed: number; memoryUsed: number };
+  // contest
+}
+
+export enum Visibility {
+  Public = "public",
+  Private = "private",
+  Internal = "internal",
+}
+
+export interface Contest {
+  id: string;
+  name: string;
+  mode: Mode;
+  visibility: Visibility;
+  description: string;
+  announcement?: string;
+  start_time: string;
+  end_time: string;
+  owner: RecordId;
+  creator: string;
+  updaters: string[];
+  participants: RecordId[];
+  created_at: string;
+  updated_at: string;
+}
