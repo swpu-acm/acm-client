@@ -1,5 +1,12 @@
 # Changelog
 
+## \[0.1.1-alpha.12]
+
+### New Features
+
+- [`00032d9`](https://github.com/swpu-acm/algohub.git/commit/00032d9588c4b33dd3299335f344ebe5274a2966) ([#87](https://github.com/swpu-acm/algohub.git/pull/87) by [@fu050409](https://github.com/swpu-acm/algohub.git/../../fu050409)) Support for Birthday datetime picker in the register page.
+- [`abe70bd`](https://github.com/swpu-acm/algohub.git/commit/abe70bd656bbacdd9eaa222cef36f39b0a32e9e8) ([#89](https://github.com/swpu-acm/algohub.git/pull/89) by [@fu050409](https://github.com/swpu-acm/algohub.git/../../fu050409)) Support auto load submissions in AlgoHub.
+
 ## \[0.1.1-alpha.11]
 
 ### Bug Fixes
