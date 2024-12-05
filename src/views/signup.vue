@@ -153,16 +153,16 @@ const sexOptions = [
   { name: 'Female', value: false },
 ]
 
-interface UpdateProfileForm<T, S> {
+interface UpdateProfileForm<T, S, D> {
   nickname?: T;
   signature?: T;
   sex?: S;
-  birthday?: T;
+  birthday?: D;
   avatar?: T;
 }
 
-const updateProfileResolver = ({ values }: { values: UpdateProfileForm<string, boolean> }) => {
-  const errors: UpdateProfileForm<{ message: string }[], { message: string }[]> = {};
+const updateProfileResolver = ({ values }: { values: UpdateProfileForm<string, boolean, Date> }) => {
+  const errors: UpdateProfileForm<{ message: string }[], { message: string }[], { message: string }[]> = {};
 
   if (values.nickname && values.nickname.length > 16) {
     errors.nickname = [{ message: "Nickname is too long (16 characters max)." }]
@@ -174,7 +174,7 @@ const updateProfileResolver = ({ values }: { values: UpdateProfileForm<string, b
 
 const onUpdateProfile = async ({ valid, states }: {
   valid: boolean,
-  states: UpdateProfileForm<Ref<string>, Ref<boolean>>
+  states: UpdateProfileForm<Ref<string>, Ref<boolean>, Ref<Date>>
 }) => {
   if (!valid) return;
 
@@ -186,21 +186,22 @@ const onUpdateProfile = async ({ valid, states }: {
       nickname: states.nickname!.value,
       signature: states.signature!.value,
       sex: states.sex!.value,
-      // birthday: states.birthday!.value,
+      birthday: states.birthday!.value.toISOString().replace('Z', ''),
       avatar: accountStore.account!.avatar,
     }
   })
   if (!res.success) {
-    toast.add({ severity: "error", summary: "Update failed", detail: res.message });
-  } else {
-    toast.add({ severity: "success", summary: "Profile updated", detail: "Your profile has been updated.", life: 3000 });
-    accountStore.mergeProfile({
-      nickname: states.nickname!.value,
-      signature: states.signature!.value,
-      sex: states.sex!.value,
-      // birthday: states.birthday!.value,
-    })
+    inProgress.value = false;
+    return toast.add({ severity: "error", summary: "Update failed", detail: res.message });
   }
+  toast.add({ severity: "success", summary: "Profile updated", detail: "Your profile has been updated.", life: 3000 });
+  accountStore.mergeProfile({
+    nickname: states.nickname!.value,
+    signature: states.signature!.value,
+    sex: states.sex!.value,
+    birthday: states.birthday!.value.toISOString().replace('Z', ''),
+  })
+
   inProgress.value = false;
 
   activeStep.value = "3";
@@ -394,7 +395,7 @@ const path = [
                     $form.sex.error.message }}</Message>
                 </div>
                 <div class="flex flex-col gap-1 w-full">
-                  <InputText name="birthday" type="text" placeholder="Birthday" fluid :disabled="true" />
+                  <DatePicker name="birthday" placeholder="Birthday" fluid />
                   <Message v-if="$form.birthday?.invalid" severity="error" size="small" variant="simple">{{
                     $form.birthday.error.message }}</Message>
                 </div>
