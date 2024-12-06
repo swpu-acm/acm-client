@@ -162,4 +162,17 @@ export interface ContestProblem {
   solved: boolean;
   submittedCount: number;
   acceptedCount: number;
+  accuracy?: number;
+}
+
+export interface RankData {
+  name: string;
+  problem_id: string;
+  accepted: boolean;
+  wrongs: number;
+}
+
+export interface ContestRank {
+  id: string;
+  details: RankData[];
 }
