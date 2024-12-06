@@ -25,6 +25,9 @@ export default defineConfig({
       },
     },
     treeShaking: false,
+    define: {
+      "process.env.LOCAL": process.env.LOCAL ? true : false,
+    },
   },
   server: {
     port: 1420,
