@@ -12,6 +12,7 @@ import type {
   Contest,
   CreateContest,
   ContestProblem,
+  ContestRank,
 } from "./types";
 
 export interface Response<D> {
@@ -237,3 +238,12 @@ export const fetchContest = async (id: string, auth: Credentials) => {
     return handleAxiosError(AxiosError.from(error));
   }
 };
+
+export const fetchRanks = async (id: string, auth: Credentials) => {
+  try {
+    const response = await axios.post(`/contest/rank/${id}`, auth);
+    return response.data as Response<ContestRank[]>;
+  } catch (error) {
+    return handleAxiosError(AxiosError.from(error));
+  }
+}

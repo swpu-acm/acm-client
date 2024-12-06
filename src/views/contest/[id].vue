@@ -3,7 +3,7 @@ import { onMounted, onUnmounted, ref } from 'vue';
 import * as api from '@/scripts/api';
 import { useRoute } from 'vue-router';
 import { useAccountStore, useThemeStore } from '@/scripts/store';
-import { Contest, ContestProblem } from '@/scripts/types';
+import { Contest, ContestProblem, ContestRank } from '@/scripts/types';
 import { useToast } from 'primevue';
 
 const route = useRoute();
@@ -27,7 +27,7 @@ onMounted(async () => {
     if (!res.success) {
         return toast.add({ severity: 'error', summary: 'Error', detail: res.message });
     }
-    problems.value = res.data;
+    problems.value = res.data?.map((problem) => { return { ...problem, accuracy: problem.acceptedCount / problem.submittedCount } });
     duration.value = calcDateDiff(new Date(contest.value?.start_time!), new Date(contest.value?.end_time!))
 
     loading.value = false;
@@ -43,10 +43,24 @@ const notEnded = () => {
 }
 const path = ref([{ label: 'Contests' }])
 
-const togglePanel = (panel: string) => {
+const selectedPanel = ref('contest')
+const togglePanel = async (panel: string) => {
+    selectedPanel.value = panel
     switch (panel) {
-        case 'problem':
+        case 'ranks':
+            await onToggleRanking();
     }
+}
+
+const ranks = ref<ContestRank[]>();
+const onToggleRanking = async () => {
+    console.log('toggle ranking')
+    const res = await api.fetchRanks(id, accountStore.auth!);
+    if (!res.success) {
+        return toast.add({ severity: 'error', summary: 'Error', detail: res.message });
+    }
+    ranks.value = res.data;
+    console.log(ranks.value)
 }
 
 function calcTimeDiff(start: Date, now: Date) {
@@ -95,16 +109,17 @@ onUnmounted(() => {
         <div class="w-full flex flex-1 flex-row">
             <div class="bg-gray-100 dark:bg-zinc-900 border-r-[1.5px] dark:border-zinc-700">
                 <div class="py-3 flex flex-col gap-4 sticky top-0 bottom-0 z-30 items-center">
-                    <Button @click="togglePanel('problem')" pt:label:class="text-xs" label="Problem" icon="pi pi-code"
+                    <Button @click="togglePanel('contest')" pt:label:class="text-xs" label="Contest" icon="pi pi-code"
                         size="small" iconPos="top" plain text></Button>
-                    <Button @click="togglePanel('records')" pt:label:class="text-xs" label="Records" icon="pi pi-file"
-                        size="small" iconPos="top" plain text></Button>
+                    <!-- <Button @click="togglePanel('records')" pt:label:class="text-xs" label="Records" icon="pi pi-file"
+                        size="small" iconPos="top" plain text disabled></Button> -->
+                    <Button
+                        @click="toast.add({ severity: 'info', summary: 'Coming Soon', detail: 'Ranking is still under beta and never fully tested, this may not work as expected.', life: 3000 });"
+                        pt:label:class="text-xs" label="Ranks" icon="pi pi-chart-line" size="small" iconPos="top" plain
+                        text></Button>
                 </div>
             </div>
-            <div class="flex flex-col w-full h-full p-10 gap-8">
-                <Message severity="warn">This feature is still under <code>beta</code> testing, and may not work as
-                    expected.
-                </Message>
+            <div v-if="selectedPanel === 'contest'" class="flex flex-col w-full h-full p-10 gap-8">
                 <Message v-if="contest?.announcement" severity="info">{{ contest?.announcement }}</Message>
                 <div class="flex flex-row flex-wrap gap-4">
                     <Panel class="hidden sm:flex" pt:header:class="!hidden" pt:content:class="!p-0">
@@ -173,12 +188,34 @@ onUnmounted(() => {
                             </Column>
                             <Column field="acceptedCount" header="Accepted" sortable></Column>
                             <Column field="submittedCount" header="Submitted" sortable></Column>
+                            <Column field="accuracy" header="Accuracy" sortable></Column>
                             <Column field="solved" header="Status" sortable>
                                 <template #body="slotProps">
                                     <div class="flex items-center justify-center rounded-full w-[1.5em] h-[1.5em]"
                                         :class="{ 'bg-green-400': slotProps.data.solved, 'bg-red-400': !slotProps.data.solved }">
                                         <i class="pi" :class="slotProps.data.solved ? 'pi-check' : 'pi-times'"></i>
                                     </div>
+                                </template>
+                            </Column>
+                        </DataTable>
+                    </template>
+                </Panel>
+            </div>
+            <div v-else-if="selectedPanel === 'ranks'" class="flex flex-col w-full h-full p-10 gap-8">
+                <Message severity="warn">Ranking is still under <code>beta</code> and never fully tested, this may not
+                    work as expected.
+                </Message>
+                <Panel class="w-full h-full mt-4">
+                    <template #header>
+                        <div>Ranks</div>
+                    </template>
+                    <template #default>
+                        <DataTable v-if="ranks && ranks.length > 0" :value="ranks">
+                            <Column field="id" header="UserID"></Column>
+                            <Column v-for="detail in ranks[0].details" :key="detail.name" :header="detail.name"
+                                field="details">
+                                <template #body="slotProps">
+                                    {{ slotProps }}
                                 </template>
                             </Column>
                         </DataTable>
