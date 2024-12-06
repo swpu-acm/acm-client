@@ -183,10 +183,10 @@ const onUpdateProfile = async ({ valid, states }: {
     id: accountStore.account!.id!,
     token: accountStore.account!.token!,
     profile: {
-      nickname: states.nickname!.value,
-      signature: states.signature!.value,
-      sex: states.sex!.value,
-      birthday: states.birthday!.value.toISOString().replace('Z', ''),
+      nickname: states.nickname?.value,
+      signature: states.signature?.value,
+      sex: states.sex?.value,
+      birthday: states.birthday?.value.toISOString().replace('Z', ''),
       avatar: accountStore.account!.avatar,
     }
   })
