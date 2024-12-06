@@ -1,5 +1,15 @@
 # Changelog
 
+## \[0.1.1-beta.0]
+
+### New Features
+
+- [`7b6134b`](https://github.com/swpu-acm/algohub.git/commit/7b6134bb678fa29940c0ae87bdaf6f8016fa4bea) ([#62](https://github.com/swpu-acm/algohub.git/pull/62) by [@fu050409](https://github.com/swpu-acm/algohub.git/../../fu050409)) Support for contest page.
+
+### Bug Fixes
+
+- [`7b6134b`](https://github.com/swpu-acm/algohub.git/commit/7b6134bb678fa29940c0ae87bdaf6f8016fa4bea) ([#62](https://github.com/swpu-acm/algohub.git/pull/62) by [@fu050409](https://github.com/swpu-acm/algohub.git/../../fu050409)) Fix upload max size limit.
+
 ## \[0.1.1-alpha.14]
 
 ### New Features
