@@ -351,7 +351,7 @@ const onRemoveTestCases = async (testCase: TestCase) => {
                                 v-model="visibility"></Select>
                         </InputGroup>
                     </div>
-                    <FileUpload customUpload :multiple="true" accept=".in,.out" :maxFileSize="12 * 1024 * 1024"
+                    <FileUpload customUpload :multiple="true" accept=".in,.out" :maxFileSize="64 * 1024 * 1024"
                         @select="onSelectedFiles">
                         <template #header="{ chooseCallback, clearCallback, files }">
                             <div class="flex flex-wrap justify-between items-center flex-1 gap-4">
