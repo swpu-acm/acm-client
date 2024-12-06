@@ -100,8 +100,8 @@ const onCreateProblem = async () => {
         output: output.value || undefined,
         samples: samples.map(sample => ({ input: sample.input, output: sample.output })),
         hint: hint.value || undefined,
-        time_limit: timeLimit.value * 1024 * 1024,
-        memory_limit: memoryLimit.value,
+        time_limit: timeLimit.value,
+        memory_limit: memoryLimit.value * 1024 * 1024,
         test_cases: testCases.map(tc => ({ input: tc.input, output: tc.output })),
         owner: {
             tb: "account",

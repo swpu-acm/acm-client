@@ -99,7 +99,8 @@ onMounted(async () => {
                                 <img v-if="profile?.avatar"
                                     class="w-[8em] h-[8em] sm:w-[18em] sm:h-[18em] rounded-full border-[2px] border-zinc-300 dark:border-zinc-700"
                                     :src="expandAssetUrl(profile.avatar)"></img>
-                                <Avatar pt:label:class="text-4xl sm:text-9xl" :label="(profile?.nickname ?? '?')[0]" v-else
+                                <Avatar v-else pt:label:class="text-4xl sm:text-9xl"
+                                    :label="(profile?.nickname ?? '?')[0]"
                                     class="!w-[8em] !h-[8em] sm:!w-[18em] sm:!h-[18em] !rounded-full border-[2px] border-zinc-300 dark:border-zinc-700">
                                 </Avatar>
                                 <div class="flex flex-col items-start justify-center">
