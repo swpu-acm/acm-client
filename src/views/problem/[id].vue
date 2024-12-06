@@ -15,6 +15,11 @@ const id = route.params.id as string;
 
 const toast = useToast();
 const accountStore = useAccountStore();
+if (!accountStore.isLoggedIn) {
+    toast.add({ severity: 'error', summary: 'Error', detail: 'Please login to access this page.' });
+    router.push('/login');
+}
+
 const themeStore = useThemeStore();
 
 const problem = ref<UserProblem>();
@@ -125,7 +130,8 @@ const fetchSubmissions = async () => {
             :layout="windowWidth > 768 ? 'horizontal' : 'vertical'">
             <SplitterPanel>
                 <div class="flex flex-col gap-2 h-full">
-                    <div class="p-3 flex flex-wrap flex-row items-center justify-between w-full">
+                    <div class="p-3 flex flex-wrap flex-row items-center justify-between w-full"
+                        v-if="problem?.creator === accountStore.account.id">
                         <Button size="small" icon="pi pi-arrow-left" plain outlined></Button>
                         <div class="inline-flex items-center gap-1">
                             <Button @click="router.push(`/problem/edit/${id}`)" icon="pi pi-pencil" size="small" plain

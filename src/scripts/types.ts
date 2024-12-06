@@ -155,3 +155,11 @@ export interface CreateContest {
   auth: Credentials;
   data: ContestData;
 }
+
+export interface ContestProblem {
+  id: string;
+  title: string;
+  solved: boolean;
+  submittedCount: number;
+  acceptedCount: number;
+}
