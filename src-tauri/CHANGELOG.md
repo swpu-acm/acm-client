@@ -1,5 +1,13 @@
 # Changelog
 
+## \[0.1.1-alpha.14]
+
+### New Features
+
+- [`26e6284`](https://github.com/swpu-acm/algohub.git/commit/26e62843da2b34223ce35ae136bfce9370cfe77f) ([#93](https://github.com/swpu-acm/algohub.git/pull/93) by [@fu050409](https://github.com/swpu-acm/algohub.git/../../fu050409)) Fixed the issue of not being able to sign up without a birthday.
+
+  > All fields are now not required.
+
 ## \[0.1.1-alpha.13]
 
 ### New Features
