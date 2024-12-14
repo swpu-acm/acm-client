@@ -1,10 +1,12 @@
 <script setup lang="ts">
-import { useToast } from 'primevue';
 import * as api from "@/scripts/api";
 import { useRouter } from 'vue-router';
 import { useAccountStore } from '@/scripts/store';
 import { ref } from 'vue';
 import { Mode, Visibility } from '@/scripts/types';
+import { reactive } from 'vue';
+import { useToast } from 'primevue/usetoast';
+
 
 const path = [{ label: 'New problem' }];
 
@@ -16,6 +18,46 @@ const accountStore = useAccountStore();
 //     toast.add({ severity: 'error', summary: 'Error', detail: 'Please login first', life: 3000 });
 //     router.push('/login');
 // }
+
+
+const initialValues = reactive({
+    Ogr_name: "",
+    contact_email: "",
+    terms: false,
+});
+
+interface OrgCreateForm<T> {
+  Org_name?: T;
+  contact_email?: T;
+  terms?: T;
+}
+
+const resolver = ({ values }: { values: OrgCreateForm<string> }) => {
+    const errors : OrgCreateForm<{ message: string }[]> = {};
+
+    if (!values.Org_name) {
+        errors.Org_name = [{ message: 'Organization Name is required.' }];
+    }
+
+    if (!values.contact_email) {
+        errors.contact_email = [{ message: 'Your Contact Email is required.' }];
+    }
+
+
+    return {
+        errors
+    };
+};
+
+// const onFormSubmit = ({ valid }) => {
+//     if (valid) {
+//         toast.add({
+//             severity: 'success',
+//             summary: 'Form is submitted.',
+//             life: 3000
+//         });
+//     }
+// };
 
 const name = ref('');
 const description = ref('');
@@ -48,6 +90,9 @@ const onCreateOrg = async () => {
 
 
 <template>
+    <div class="card flex justify-center">
+        <Toast />
+            <Form v-slot="$form" :initialValues :resolver class="flex flex-col gap-4 w-full sm:w-56">
     <div class="flex-1 flex flex-col">
         <UniversalToolBar :path></UniversalToolBar>
         <div class="max-w-full w-[768px] md:max-w-[768px] mx-auto">
@@ -69,20 +114,25 @@ const onCreateOrg = async () => {
                             <label for="name" style="font-size: 20px;">Organization Name *</label>
                             <InputText v-model="name" name="name"></InputText>
                         </div>
+                        <Message v-if="$form.Ogr_name?.invalid" severity="error" size="small" variant="simple">{{
+                        $form.Ogr_name.error.message }}</Message>
                         <div>
                             <span class="text-gray-500 mb-4" style="font-size:13px">This will be the name of your
-                                account on AlgoHub.</span>
+                                organization on AlgoHub.</span>
                         </div>
                         <div class="mt-6 flex flex-col">
                             <label for="name" style="font-size: 20px;">Contact Email *</label>
                             <InputText v-model="name" name="name"></InputText>
                         </div>
+                        <Message v-if="$form.contact_email?.invalid" severity="error" size="small" variant="simple">{{
+                        $form.contact_email.error.message }}</Message>
                     </div>
                     <!-- <MarkdownEditor v-model="description" placeholder="Description"></MarkdownEditor>
                     <div class="flex flex-row gap-4">
                         <DatePicker v-model="start_time" placeholder="Start date" showTime></DatePicker>
                         <DatePicker v-model="end_time" placeholder="End date" showTime></DatePicker>
                     </div> -->
+            
                     <div class="flex flex-col gap-1 w-full">
                         <div class="flex items-center gap-2">
                             <Checkbox inputId="terms" name="terms" binary />
@@ -90,13 +140,15 @@ const onCreateOrg = async () => {
                                     class="underline">Affero
                                     General Public License v3</a>.</label>
                         </div>
-                        <!-- <Message v-if="$form.terms?.invalid" severity="error" size="small" variant="simple">{{
-                        $form.terms.error.message }}</Message> -->
+                        <Message v-if="$form.terms?.invalid" severity="error" size="small" variant="simple">{{
+                        $form.terms.error.message }}</Message>
                     </div>
                     <Button @click="onCreateOrg" :loading="inProgress" label="Next"></Button>
                 </div>
             </Panel>
         </div>
         <UniversalFooter></UniversalFooter>
+    </div>
+    </Form>
     </div>
 </template>
