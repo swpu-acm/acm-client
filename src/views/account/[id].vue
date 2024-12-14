@@ -154,7 +154,7 @@ onMounted(async () => {
                                         <div
                                             class="w-full h-full py-10 gap-4 flex flex-col items-center justify-center">
                                             <img class="w-[16em] h-[16em]" :src="themeStore.logo"></img>
-                                            <span class="text-xl text-gray-500">No Problems yet, <a
+                                            <span class="text-sm md:text-lg text-gray-500">No problems yet, <a
                                                     class="underline cursor-pointer"
                                                     @click="router.push('/problem/create')">Create one?</a></span>
                                         </div>
