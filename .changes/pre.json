@@ -19,6 +19,7 @@
     ".changes/fix-sha256.md",
     ".changes/fix-signup-birthday.md",
     ".changes/fix-tauri-version.md",
+    ".changes/fix-text-size.md",
     ".changes/fix-toast.md",
     ".changes/fix-windows-ci.md",
     ".changes/fix-windows.md",
