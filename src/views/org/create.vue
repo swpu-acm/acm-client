@@ -27,13 +27,13 @@ const initialValues = reactive({
 });
 
 interface OrgCreateForm<T> {
-  Org_name?: T;
-  contact_email?: T;
-  terms?: T;
+    Org_name?: T;
+    contact_email?: T;
+    terms?: T;
 }
 
 const resolver = ({ values }: { values: OrgCreateForm<string> }) => {
-    const errors : OrgCreateForm<{ message: string }[]> = {};
+    const errors: OrgCreateForm<{ message: string }[]> = {};
 
     if (!values.Org_name) {
         errors.Org_name = [{ message: 'Organization Name is required.' }];
@@ -43,6 +43,9 @@ const resolver = ({ values }: { values: OrgCreateForm<string> }) => {
         errors.contact_email = [{ message: 'Your Contact Email is required.' }];
     }
 
+    if (!values.terms) {
+        errors.terms = [{ message: "You must agree to the terms and conditions." }]
+    }
 
     return {
         errors
@@ -90,9 +93,6 @@ const onCreateOrg = async () => {
 
 
 <template>
-    <div class="card flex justify-center">
-        <Toast />
-            <Form v-slot="$form" :initialValues :resolver class="flex flex-col gap-4 w-full sm:w-56">
     <div class="flex-1 flex flex-col">
         <UniversalToolBar :path></UniversalToolBar>
         <div class="max-w-full w-[768px] md:max-w-[768px] mx-auto">
@@ -103,52 +103,42 @@ const onCreateOrg = async () => {
                         <h1 class="text-3xl font-bold">Set up your organization</h1>
                     </div>
                     <div class="flex flex-col">
-                        <!-- <div class="flex flex-col">
-                            <label for="owner">Owner *</label>
-                            <Select name="owner" disabled></Select>
+                        <Form v-slot="$form" :initialValues :resolver class="flex flex-col gap-4 w-full sm:w-56">
+                        <div class="card flex flex-col justify-center">
+                            <div class="flex flex-col">
+                                <label for="name" style="font-size: 20px;">Organization Name *</label>
+                                <InputText v-model="name" name="name"></InputText>
+                            </div>
+                            <Message v-if="$form.Ogr_name?.invalid" severity="error" size="small" variant="simple">{{
+                                $form.Ogr_name.error.message }}</Message>
+                            <div>
+                                <span class="text-gray-500 mb-4" style="font-size:13px">This will be the name of your
+                                    organization on AlgoHub.</span>
+                            </div>
+                            <div class="mt-6 flex flex-col">
+                                <label for="name" style="font-size: 20px;">Contact Email *</label>
+                                <InputText v-model="name" name="name"></InputText>
+                            </div>
+                            <Message v-if="$form.contact_email?.invalid" severity="error" size="small" variant="simple">
+                                {{
+                                    $form.contact_email.error.message }}</Message>
                         </div>
-                        <span class="flex flex-col justify-end">
-                            <span class="text-bold mb-2">/</span>
-                        </span> -->
-                        <div class="flex flex-col">
-                            <label for="name" style="font-size: 20px;">Organization Name *</label>
-                            <InputText v-model="name" name="name"></InputText>
+                        <div class="flex flex-col gap-1 w-full">
+                            <div class="flex items-center gap-2">
+                                <Checkbox inputId="terms" name="terms" binary />
+                                <label for="terms" class="text-sm">I have read and agree to the <a href="#"
+                                        class="underline">Affero
+                                        General Public License v3</a>.</label>
+                            </div>
+                            <Message v-if="$form.terms?.invalid" severity="error" size="small" variant="simple">{{
+                                $form.terms.error.message }}</Message>
                         </div>
-                        <Message v-if="$form.Ogr_name?.invalid" severity="error" size="small" variant="simple">{{
-                        $form.Ogr_name.error.message }}</Message>
-                        <div>
-                            <span class="text-gray-500 mb-4" style="font-size:13px">This will be the name of your
-                                organization on AlgoHub.</span>
-                        </div>
-                        <div class="mt-6 flex flex-col">
-                            <label for="name" style="font-size: 20px;">Contact Email *</label>
-                            <InputText v-model="name" name="name"></InputText>
-                        </div>
-                        <Message v-if="$form.contact_email?.invalid" severity="error" size="small" variant="simple">{{
-                        $form.contact_email.error.message }}</Message>
+                        <Button @click="onCreateOrg" :loading="inProgress" label="Next"></Button>
+                        </Form>
                     </div>
-                    <!-- <MarkdownEditor v-model="description" placeholder="Description"></MarkdownEditor>
-                    <div class="flex flex-row gap-4">
-                        <DatePicker v-model="start_time" placeholder="Start date" showTime></DatePicker>
-                        <DatePicker v-model="end_time" placeholder="End date" showTime></DatePicker>
-                    </div> -->
-            
-                    <div class="flex flex-col gap-1 w-full">
-                        <div class="flex items-center gap-2">
-                            <Checkbox inputId="terms" name="terms" binary />
-                            <label for="terms" class="text-sm">I have read and agree to the <a href="#"
-                                    class="underline">Affero
-                                    General Public License v3</a>.</label>
-                        </div>
-                        <Message v-if="$form.terms?.invalid" severity="error" size="small" variant="simple">{{
-                        $form.terms.error.message }}</Message>
-                    </div>
-                    <Button @click="onCreateOrg" :loading="inProgress" label="Next"></Button>
                 </div>
             </Panel>
         </div>
         <UniversalFooter></UniversalFooter>
-    </div>
-    </Form>
     </div>
 </template>
