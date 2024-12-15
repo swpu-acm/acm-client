@@ -63,6 +63,7 @@ const resolver = ({ values }: { values: OrgCreateForm<string> }) => {
 // };
 
 const name = ref('');
+const email = ref('');
 const description = ref('');
 const start_time = ref<Date>();
 const end_time = ref<Date>();
@@ -103,7 +104,7 @@ const onCreateOrg = async () => {
                         <h1 class="text-3xl font-bold">Set up your organization</h1>
                     </div>
                     <div class="flex flex-col">
-                        <Form v-slot="$form" :initialValues :resolver class="flex flex-col gap-4 w-full sm:w-56">
+                        <Form v-slot="$form" :initialValues :resolver class="flex flex-col gap-4 w-full ">
                         <div class="card flex flex-col justify-center">
                             <div class="flex flex-col">
                                 <label for="name" style="font-size: 20px;">Organization Name *</label>
@@ -116,8 +117,8 @@ const onCreateOrg = async () => {
                                     organization on AlgoHub.</span>
                             </div>
                             <div class="mt-6 flex flex-col">
-                                <label for="name" style="font-size: 20px;">Contact Email *</label>
-                                <InputText v-model="name" name="name"></InputText>
+                                <label for="email" style="font-size: 20px;">Contact Email *</label>
+                                <InputText v-model="email" email="email"></InputText>
                             </div>
                             <Message v-if="$form.contact_email?.invalid" severity="error" size="small" variant="simple">
                                 {{
