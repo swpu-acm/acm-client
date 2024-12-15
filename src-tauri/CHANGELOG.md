@@ -1,5 +1,9 @@
 # Changelog
 
+## \[0.1.1-beta.2]
+
+- [`06d6165`](https://github.com/swpu-acm/algohub.git/commit/06d6165f28f4e07dff17f74b42cec70d370fde26) ([#104](https://github.com/swpu-acm/algohub.git/pull/104) by [@fu050409](https://github.com/swpu-acm/algohub.git/../../fu050409)) Fix text size on small screen at `views/account/[id].vue`.
+
 ## \[0.1.1-beta.1]
 
 ### Bug Fixes
