@@ -174,19 +174,16 @@ const releaseAur = defineCommand({
     execSync(`git -C aur config user.email "fu050409@163.com"`, {
       stdio: "inherit",
       cwd: "aur",
-      env,
     });
-    execSync(`git -C aur config user.name "苏向夜"`, { stdio: "inherit", env });
+    execSync(`git -C aur config user.name "苏向夜"`, { stdio: "inherit",});
     execSync(`git -C aur config user.email "fu050409@163.com"`, {
       stdio: "inherit",
-      env,
     });
 
     // Test AUR package
     execSync("makepkg -f", {
       stdio: "inherit",
       cwd: "aur",
-      env,
     });
 
     // Publish to AUR
