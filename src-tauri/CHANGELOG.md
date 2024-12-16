@@ -1,5 +1,11 @@
 # Changelog
 
+## \[0.1.1-beta.3]
+
+### Chores
+
+- [`03623d0`](https://github.com/swpu-acm/algohub.git/commit/03623d0af8d75ab2671d53cb54b1abe97355a56e) ([#101](https://github.com/swpu-acm/algohub.git/pull/101) by [@fu050409](https://github.com/swpu-acm/algohub.git/../../fu050409)) Update tauri and pnpm
+
 ## \[0.1.1-beta.2]
 
 - [`06d6165`](https://github.com/swpu-acm/algohub.git/commit/06d6165f28f4e07dff17f74b42cec70d370fde26) ([#104](https://github.com/swpu-acm/algohub.git/pull/104) by [@fu050409](https://github.com/swpu-acm/algohub.git/../../fu050409)) Fix text size on small screen at `views/account/[id].vue`.
