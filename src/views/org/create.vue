@@ -14,10 +14,10 @@ const router = useRouter();
 const toast = useToast();
 
 const accountStore = useAccountStore();
-// if (!accountStore.isLoggedIn) {
-//     toast.add({ severity: 'error', summary: 'Error', detail: 'Please login first', life: 3000 });
-//     router.push('/login');
-// }
+if (!accountStore.isLoggedIn) {
+    toast.add({ severity: 'error', summary: 'Error', detail: 'Please login first', life: 3000 });
+    router.push('/login');
+}
 
 
 const initialValues = reactive({
