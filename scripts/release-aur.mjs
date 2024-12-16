@@ -1,3 +1,5 @@
+// @ts-check
+
 import { execSync } from "child_process";
 import {
   createReadStream,
@@ -76,10 +78,11 @@ const releaseAur = defineCommand({
     process.chdir("release");
 
     const basePath = process.cwd();
-    const sshPath = path.resolve(basePath, ".ssh");
-    mkdirSync(sshPath, { recursive: true });
-
-    const env = { ...process.env, HOME: basePath };
+    const homePath = process.env.HOME ?? basePath;
+    const sshPath = path.resolve(homePath, ".ssh");
+    if (!existsSync(sshPath)) {
+      mkdirSync(sshPath, { recursive: true });
+    }
 
     // Check if AUR_SSH_KEY environment variable is set
     const AUR_SSH_KEY = process.env.AUR_SSH_KEY;
@@ -107,13 +110,13 @@ const releaseAur = defineCommand({
       if (!knownHosts.includes("aur.archlinux.org")) {
         execSync(
           `ssh-keyscan -v -t "rsa,ecdsa,ed25519" aur.archlinux.org >> ~/.ssh/known_hosts`,
-          { stdio: "inherit", env }
+          { stdio: "inherit" }
         );
       }
     } else {
       execSync(
         `ssh-keyscan -v -t "rsa,ecdsa,ed25519" aur.archlinux.org > ~/.ssh/known_hosts`,
-        { stdio: "inherit", env }
+        { stdio: "inherit" }
       );
     }
 
@@ -121,12 +124,11 @@ const releaseAur = defineCommand({
     if (!existsSync("aur")) {
       execSync(
         `git -c init.defaultBranch=master -c core.sshCommand="ssh -i ${aurSSHKeyPath}" clone ssh://aur@aur.archlinux.org/algohub.git aur`,
-        { stdio: "inherit", env }
+        { stdio: "inherit" }
       );
     }
     execSync(`git -C aur config core.sshCommand "ssh -i ${aurSSHKeyPath}"`, {
       stdio: "inherit",
-      env,
     });
 
     const { version } = ctx.args;
@@ -167,6 +169,11 @@ const releaseAur = defineCommand({
     execSync("git add .", {
       stdio: "inherit",
       cwd: "aur",
+    });
+    execSync(`git -C aur config user.name "苏向夜"`, { stdio: "inherit" });
+    execSync(`git -C aur config user.email "fu050409@163.com"`, {
+      stdio: "inherit",
+      cwd: "aur",
       env,
     });
     execSync(`git -C aur config user.name "苏向夜"`, { stdio: "inherit", env });
@@ -183,13 +190,13 @@ const releaseAur = defineCommand({
     });
 
     // Publish to AUR
-    execSync(`git -C aur commit -m "release: v${version}"`, {
+    execSync(`git commit -m "release: v${version}"`, {
       stdio: "inherit",
-      env,
+      cwd: "aur",
     });
-    execSync(`git -C aur push origin master`, {
+    execSync(`git push origin master`, {
       stdio: "inherit",
-      env,
+      cwd: "aur",
     });
   },
 });
