@@ -119,108 +119,113 @@ onUnmounted(() => {
                         text></Button>
                 </div>
             </div>
-            <div v-if="selectedPanel === 'contest'" class="flex flex-col w-full h-full p-10 gap-8">
-                <Message v-if="contest?.announcement" severity="info">{{ contest?.announcement }}</Message>
-                <div class="flex flex-row flex-wrap gap-4">
-                    <Panel class="hidden sm:flex" pt:header:class="!hidden" pt:content:class="!p-0">
-                        <Image :src="themeStore.logo" imageClass="w-[10em] h-[10em] md:w-[16em] md:h-[16em]">
-                        </Image>
-                    </Panel>
-                    <Panel class="flex-grow">
-                        <template #header>
-                            <div class="flex justify-center items-center w-full">
-                                <span class="text-2xl font-bold">Time to start</span>
-                            </div>
-                        </template>
-                        <template #default>
-                            <div class="h-full flex items-center justify-center">
-                                <span class="text-center text-3xl md:text-5xl lg:text-6xl font-bold">{{ timeDiff
-                                    }}</span>
-                            </div>
-                        </template>
-                    </Panel>
-                    <Panel class="flex-grow">
-                        <template #header>
-                            <div class="flex justify-between px-8 items-center w-full">
-                                <span class="text-2xl font-bold">Contest Details</span>
-                                <Badge v-if="!hasStarted()" severity="warn" size="large">Not Started</Badge>
-                                <Badge v-else-if="hasStarted() && notEnded()" severity="success" size="large">
-                                    Ongoing
-                                </Badge>
-                                <Badge v-else-if="!notEnded()" severity="danger" size="large">Ended</Badge>
-                            </div>
-                        </template>
-                        <template #default>
-                            <div class="flex flex-col gap-4 px-8">
-                                <div class="flex flex-row items-center gap-4">
-                                    <h1 class="text-3xl font-bold">{{ contest?.name }}</h1>
-                                    <Badge>{{ contest?.mode }}</Badge>
+            <div class="flex flex-1 w-full h-full overflow-hidden">
+                <div v-if="selectedPanel === 'contest'" class="flex flex-col sm:p-6 md:p-10 gap-8">
+                    <Message v-if="contest?.announcement" severity="info">{{ contest?.announcement }}</Message>
+                    <div class="flex flex-row flex-wrap gap-4">
+                        <Panel class="hidden sm:flex" pt:header:class="!hidden" pt:content:class="!p-0">
+                            <Image :src="themeStore.logo" imageClass="w-[10em] h-[10em] md:w-[16em] md:h-[16em]">
+                            </Image>
+                        </Panel>
+                        <Panel class="flex-grow">
+                            <template #header>
+                                <div class="flex justify-center items-center w-full">
+                                    <span class="text-2xl font-bold">Time to start</span>
                                 </div>
-                                <p>
-                                    {{ contest?.description }}
-                                </p>
-                                <div class="flex flex-col gap-2">
-                                    <span class="text-sm">From {{ contest?.start_time }} to {{ contest?.end_time
+                            </template>
+                            <template #default>
+                                <div class="h-full flex items-center justify-center">
+                                    <span class="text-center text-3xl md:text-5xl lg:text-6xl font-bold">{{ timeDiff
                                         }}</span>
-                                    <span class="text-sm">Duration {{ duration }}</span>
                                 </div>
-                            </div>
+                            </template>
+                        </Panel>
+                        <Panel class="flex-grow">
+                            <template #header>
+                                <div
+                                    class="flex flex-wrap justify-between px-4 md:flex-row md:px-8 items-center w-full">
+                                    <span class="text-xl md:text-2xl font-bold text-center">Contest
+                                        Details</span>
+                                    <Badge v-if="!hasStarted()" severity="warn" size="large">Not Started</Badge>
+                                    <Badge v-else-if="hasStarted() && notEnded()" severity="success" size="large">
+                                        Ongoing
+                                    </Badge>
+                                    <Badge v-else-if="!notEnded()" severity="danger" size="large">Ended</Badge>
+                                </div>
+                            </template>
+                            <template #default>
+                                <div class="flex flex-col gap-4 px-8">
+                                    <div class="flex flex-row items-center gap-4">
+                                        <h1 class="text-xl sm:text-2xl md:text-3xl font-bold">{{ contest?.name }}</h1>
+                                        <Badge v-if="contest?.mode">{{ contest?.mode }}</Badge>
+                                        <Skeleton v-else width="50px"></Skeleton>
+                                    </div>
+                                    <p class="text-xs md:text-base text-wrap break-all m-0">
+                                        {{ contest?.description }}
+                                    </p>
+                                    <div class="flex flex-col gap-2">
+                                        <span class="text-sm">From {{ contest?.start_time }} to {{ contest?.end_time
+                                            }}</span>
+                                        <span class="text-sm">Duration {{ duration }}</span>
+                                    </div>
+                                </div>
+                            </template>
+                        </Panel>
+                    </div>
+                    <Panel v-if="!loading && hasStarted() && notEnded()" class="w-full h-full mt-4">
+                        <template #header>
+                            <div></div>
+                        </template>
+                        <template #default>
+                            <DataTable :value="problems" class="h-full w-full">
+                                <template #header>
+                                    <div class="flex flex-wrap items-center justify-between gap-2">
+                                        <span class="text-xl font-bold">Problems</span>
+                                    </div>
+                                </template>
+                                <Column field="title" header="Title">
+                                    <template #body="slotProps">
+                                        <a target="_blank" :href="`#/problem/${slotProps.data.id}`"
+                                            class="cursor-pointer text-blue-500 hover:underline">{{ slotProps.data.title
+                                            }}</a>
+                                    </template>
+                                </Column>
+                                <Column field="acceptedCount" header="Accepted" sortable></Column>
+                                <Column field="submittedCount" header="Submitted" sortable></Column>
+                                <Column field="accuracy" header="Accuracy" sortable></Column>
+                                <Column field="solved" header="Status" sortable>
+                                    <template #body="slotProps">
+                                        <div class="flex items-center justify-center rounded-full w-[1.5em] h-[1.5em]"
+                                            :class="{ 'bg-green-400': slotProps.data.solved, 'bg-red-400': !slotProps.data.solved }">
+                                            <i class="pi" :class="slotProps.data.solved ? 'pi-check' : 'pi-times'"></i>
+                                        </div>
+                                    </template>
+                                </Column>
+                            </DataTable>
                         </template>
                     </Panel>
                 </div>
-                <Panel v-if="!loading && hasStarted() && notEnded()" class="w-full h-full mt-4">
-                    <template #header>
-                        <div></div>
-                    </template>
-                    <template #default>
-                        <DataTable :value="problems" class="h-full w-full">
-                            <template #header>
-                                <div class="flex flex-wrap items-center justify-between gap-2">
-                                    <span class="text-xl font-bold">Problems</span>
-                                </div>
-                            </template>
-                            <Column field="title" header="Title">
-                                <template #body="slotProps">
-                                    <a target="_blank" :href="`#/problem/${slotProps.data.id}`"
-                                        class="cursor-pointer text-blue-500 hover:underline">{{ slotProps.data.title
-                                        }}</a>
-                                </template>
-                            </Column>
-                            <Column field="acceptedCount" header="Accepted" sortable></Column>
-                            <Column field="submittedCount" header="Submitted" sortable></Column>
-                            <Column field="accuracy" header="Accuracy" sortable></Column>
-                            <Column field="solved" header="Status" sortable>
-                                <template #body="slotProps">
-                                    <div class="flex items-center justify-center rounded-full w-[1.5em] h-[1.5em]"
-                                        :class="{ 'bg-green-400': slotProps.data.solved, 'bg-red-400': !slotProps.data.solved }">
-                                        <i class="pi" :class="slotProps.data.solved ? 'pi-check' : 'pi-times'"></i>
-                                    </div>
-                                </template>
-                            </Column>
-                        </DataTable>
-                    </template>
-                </Panel>
-            </div>
-            <div v-else-if="selectedPanel === 'ranks'" class="flex flex-col w-full h-full p-10 gap-8">
-                <Message severity="warn">Ranking is still under <code>beta</code> and never fully tested, this may not
-                    work as expected.
-                </Message>
-                <Panel class="w-full h-full mt-4">
-                    <template #header>
-                        <div>Ranks</div>
-                    </template>
-                    <template #default>
-                        <DataTable v-if="ranks && ranks.length > 0" :value="ranks">
-                            <Column field="id" header="UserID"></Column>
-                            <Column v-for="detail in ranks[0].details" :key="detail.name" :header="detail.name"
-                                field="details">
-                                <template #body="slotProps">
-                                    {{ slotProps }}
-                                </template>
-                            </Column>
-                        </DataTable>
-                    </template>
-                </Panel>
+                <div v-else-if="selectedPanel === 'ranks'" class="flex flex-col w-full h-full p-10 gap-8">
+                    <Message severity="warn">Ranking is still under <code>beta</code> and never fully tested, this may
+                        not work as expected.
+                    </Message>
+                    <Panel class="w-full h-full mt-4">
+                        <template #header>
+                            <div>Ranks</div>
+                        </template>
+                        <template #default>
+                            <DataTable v-if="ranks && ranks.length > 0" :value="ranks">
+                                <Column field="id" header="UserID"></Column>
+                                <Column v-for="detail in ranks[0].details" :key="detail.name" :header="detail.name"
+                                    field="details">
+                                    <template #body="slotProps">
+                                        {{ slotProps }}
+                                    </template>
+                                </Column>
+                            </DataTable>
+                        </template>
+                    </Panel>
+                </div>
             </div>
         </div>
     </div>
