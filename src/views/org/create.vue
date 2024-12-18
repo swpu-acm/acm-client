@@ -8,7 +8,7 @@ import { reactive } from 'vue';
 import { useToast } from 'primevue/usetoast';
 
 
-const path = [{ label: 'New problem' }];
+const path = [{ label: 'New Organization' }];
 
 const router = useRouter();
 const toast = useToast();
