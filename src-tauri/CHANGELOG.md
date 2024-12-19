@@ -1,5 +1,22 @@
 # Changelog
 
+## \[0.1.1-rc.0]
+
+### New Features
+
+- [`0a70c8b`](https://github.com/swpu-acm/algohub.git/commit/0a70c8bda4e2036cf471e3e3ffa0218e53d9cfdc) ([#117](https://github.com/swpu-acm/algohub.git/pull/117) by [@fu050409](https://github.com/swpu-acm/algohub.git/../../fu050409)) Add settings page to edit user profile and education info.
+
+### Bug Fixes
+
+- [`a4bfddd`](https://github.com/swpu-acm/algohub.git/commit/a4bfdddc33819df278a4ac563c79545784aae2b1) ([#115](https://github.com/swpu-acm/algohub.git/pull/115) by [@fu050409](https://github.com/swpu-acm/algohub.git/../../fu050409)) Fix avatar size is invalid in user profile page if user avatar is not uploaded.
+
+## \[0.1.1-beta.4]
+
+### New Features
+
+- [`68a0529`](https://github.com/swpu-acm/algohub.git/commit/68a0529b62872f37044a80d433ec249cda1ec8df) ([#112](https://github.com/swpu-acm/algohub.git/pull/112) by [@fu050409](https://github.com/swpu-acm/algohub.git/../../fu050409)) Fix long content in contest will stretch the outer box of the card.
+- [`4aac4a3`](https://github.com/swpu-acm/algohub.git/commit/4aac4a374cf1274803f9d5f05b0691703bf6e78b) ([#110](https://github.com/swpu-acm/algohub.git/pull/110) by [@fu050409](https://github.com/swpu-acm/algohub.git/../../fu050409)) Support for updating profile in user overview page.
+
 ## \[0.1.1-beta.3]
 
 ### Chores
