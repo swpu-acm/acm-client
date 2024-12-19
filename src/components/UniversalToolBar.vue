@@ -51,6 +51,16 @@ const userPanelItems = ref<{
         separator: true
     },
     {
+        icon: 'pi pi-cog',
+        label: 'Settings',
+        command: () => {
+            router.push("/settings/profile");
+        }
+    },
+    {
+        separator: true
+    },
+    {
         icon: 'pi pi-sign-out',
         label: 'Sign out',
         command: () => {
@@ -135,7 +145,8 @@ const toString = (value: any) => {
     <div class="bg-gray-100 dark:bg-zinc-900 flex flex-row items-center justify-between w-full py-3 px-5 flex-wrap"
         :class="{ 'border-b-[1.2px] border-zinc-300 dark:border-zinc-600 shadow-sm': separateBottom ?? true }">
         <div class="inline-flex justify-center items-center">
-            <img @click="router.push('/')" class="cursor-pointer" :src="themeStore.dark ? '/acm-light.png' : '/acm.png'" width="40"></img>
+            <img @click="router.push('/')" class="cursor-pointer" :src="themeStore.dark ? '/acm-light.png' : '/acm.png'"
+                width="40"></img>
             <Breadcrumb v-if="path?.length" :model="path" class="!bg-transparent !p-0">
                 <template #item="{ item }">
                     <Button v-if="item.link" v-ripple @click="router.push(item.link)" :icon="item.icon"
