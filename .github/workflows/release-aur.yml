@@ -1,0 +1,39 @@
+name: Release AUR
+
+on:
+  push:
+    branches:
+      - fix/aur
+
+permissions:
+  # required for npm provenance
+  id-token: write
+  # required to create the GitHub Release
+  contents: write
+  # required for creating the Version Packages Release
+  pull-requests: write
+
+jobs:
+  test-release-aur:
+    name: Publish to AUR
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        name: Install pnpm
+        with:
+          version: 9
+          run_install: false
+      - name: Setup Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: "pnpm"
+      - name: Install dependencies
+        run: pnpm install
+      - name: Install Makepkg
+        run: sudo apt-get update && sudo apt-get install -y makepkg pacman
+      - name: Publish to AUR
+        run: pnpm publish:aur --version 0.1.1-rc.1 --ci
+        env:
+          AUR_SSH_KEY: ${{ secrets.AUR_SSH_KEY }}

@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+      - fix/aur
 
 permissions:
   # required for npm provenance
@@ -162,6 +163,6 @@ jobs:
       - name: Install Makepkg
         run: sudo apt-get update && sudo apt-get install -y makepkg pacman
       - name: Publish to AUR
-        run: pnpm publish:aur --version ${{ needs.version-or-publish.outputs.version }}
+        run: pnpm publish:aur --version ${{ needs.version-or-publish.outputs.version }} --ci
         env:
           AUR_SSH_KEY: ${{ secrets.AUR_SSH_KEY }}
