@@ -4,8 +4,8 @@ import { useAccountStore, useThemeStore } from "@/scripts/store";
 import { timeAgo } from "@/scripts/time";
 import { UserProblem, type Profile } from "@/scripts/types";
 import { expandAssetUrl } from "@/scripts/utils";
-import { Avatar, useToast } from "primevue";
-import { onMounted, ref, watch } from "vue";
+import { useToast } from "primevue";
+import { onMounted, reactive, Ref, ref, watch } from "vue";
 import { useRoute, useRouter } from "vue-router";
 
 const toast = useToast();
@@ -76,6 +76,51 @@ onMounted(async () => {
     loading.value = false;
     await toggleTab(route.query.tab as string || 'overview');
 })
+
+const editingProfile = ref(false);
+const sexOptions = [
+    { label: 'He/Him', value: true },
+    { label: 'She/Her', value: false }
+]
+const initialValues = reactive<Profile | {}>({
+    sex: profile.value?.sex || false,
+});
+const onEditProfile = () => {
+    editingProfile.value = true;
+    Object.assign(initialValues, profile.value);
+}
+
+type Form<T> = {
+    [P in keyof T]: Ref<T[P]>;
+};
+
+const inProgress = ref(false);
+const onSaveProfile = async ({ states }: { states: Form<Profile> }) => {
+    if (inProgress.value) return;
+    inProgress.value = true;
+    const data: Partial<Profile> = {
+        nickname: states.nickname?.value?.trim() || '',
+        signature: states.signature?.value?.trim() || '',
+        sex: states.sex?.value || false,
+        school: states.school?.value?.trim() || '',
+        college: states.college?.value?.trim() || '',
+        major: states.major?.value?.trim() || '',
+    };
+    const res = await api.updateProfile({
+        id: accountStore.account.id!,
+        token: accountStore.account.token!,
+        profile: data,
+    });
+    if (!res.success) {
+        inProgress.value = false;
+        return toast.add({ severity: "error", summary: "Error", detail: res.message });
+    }
+    Object.assign(profile.value!, data);
+    Object.assign(accountStore.account, profile.value);
+    editingProfile.value = false;
+    inProgress.value = false;
+    toast.add({ severity: "success", summary: "Profile updated", detail: "Your profile has been updated." });
+}
 </script>
 
 <template>
@@ -94,42 +139,86 @@ onMounted(async () => {
                 </TabList>
                 <TabPanel :value="tab" as="div" class="h-full w-full flex justify-center mx-auto">
                     <div class="w-full max-w-[1200px] flex flex-col md:flex-row my-[2em] gap-6 mx-8">
-                        <div v-if="!loading && profile" class="flex flex-col h-full">
-                            <div class="flex gap-4 sm:flex-col sm:gap-1">
-                                <img v-if="profile?.avatar"
-                                    class="w-[8em] h-[8em] sm:w-[18em] sm:h-[18em] rounded-full border-[2px] border-zinc-300 dark:border-zinc-700"
-                                    :src="expandAssetUrl(profile.avatar)"></img>
-                                <Avatar v-else pt:label:class="text-4xl sm:text-9xl"
-                                    :label="(profile?.nickname ?? '?')[0]"
-                                    class="!w-[8em] !h-[8em] sm:!w-[18em] sm:!h-[18em] !rounded-full border-[2px] border-zinc-300 dark:border-zinc-700">
-                                </Avatar>
-                                <div class="flex flex-col items-start justify-center">
+                        <div v-if="!loading && profile" class="flex flex-col h-full md:w-[18em]">
+                            <div class="flex w-full flex-row md:flex-col gap-4">
+                                <div class="flex-shrink-0 w-[8em] md:w-[18em]"
+                                    @click="accountStore.account?.username === profile.username && router.push('/settings/profile')">
+                                    <img v-if="profile?.avatar"
+                                        class="rounded-full border-[2px] border-zinc-300 dark:border-zinc-700"
+                                        :class="{ 'cursor-pointer': accountStore.account?.username === profile.username }"
+                                        :src="expandAssetUrl(profile.avatar!)"></img>
+                                    <Avatar v-else pt:root:class="!w-[8em] md:!w-[18em] !h-[8em] md:!h-[18em]"
+                                        pt:label:class="text-4xl md:text-9xl" :label="(profile?.nickname ?? '?')[0]"
+                                        :class="{ 'cursor-pointer': accountStore.account?.username === profile.username }"
+                                        shape="circle" class="border-[2px] border-zinc-300 dark:border-zinc-700">
+                                    </Avatar>
+                                </div>
+                                <div v-if="!editingProfile" class="flex items-start justify-center gap-1 flex-col">
                                     <h3 class="text-2xl font-bold">{{ profile.nickname }}</h3>
                                     <span class="text-lg text-gray-500">{{ profile.username }} · {{ profile.sex ?
                                         'he/him' : 'she/her' }}</span>
                                 </div>
                             </div>
-                            <span class="my-1">{{ profile.signature }}</span>
-                            <Button class="my-4" size="small" v-if="accountStore.account?.username === profile.username"
-                                label="Edit Profile" severity="secondary" disabled fluid></Button>
-                            <div class="flex flex-col gap-2 my-2">
-                                <div class="inline-flex items-center gap-2">
-                                    <i class="pi pi-envelope text-gray-500"></i>
-                                    <span>{{ profile.email }}</span>
-                                </div>
-                                <div v-if="profile.school" class="inline-flex items-center gap-2">
-                                    <i class="pi pi-building text-gray-500"></i>
-                                    <span>{{ profile.school }}</span>
-                                </div>
-                                <div v-if="profile.college" class="inline-flex items-center gap-2">
-                                    <i class="pi pi-building-columns text-gray-500"></i>
-                                    <span>{{ profile.college }}</span>
-                                </div>
-                                <div v-if="profile.major" class="inline-flex items-center gap-2">
-                                    <i class="pi pi-graduation-cap text-gray-500"></i>
-                                    <span>{{ profile.major }}</span>
+
+                            <div v-if="!editingProfile" class="mt-4 flex flex-col">
+                                <span v-if="profile.signature" class="my-1">{{ profile.signature }}</span>
+                                <Button @click="onEditProfile" class="my-4" size="small"
+                                    v-if="accountStore.account?.username === profile.username" label="Edit Profile"
+                                    severity="secondary" fluid></Button>
+                                <div class="flex flex-col gap-2 my-2">
+                                    <div v-if="profile.school" class="inline-flex items-center gap-2">
+                                        <i class="pi pi-building text-gray-500"></i>
+                                        <span>{{ profile.school }}</span>
+                                    </div>
+                                    <div v-if="profile.college" class="inline-flex items-center gap-2">
+                                        <i class="pi pi-building-columns text-gray-500"></i>
+                                        <span>{{ profile.college }}</span>
+                                    </div>
+                                    <div v-if="profile.major" class="inline-flex items-center gap-2">
+                                        <i class="pi pi-graduation-cap text-gray-500"></i>
+                                        <span>{{ profile.major }}</span>
+                                    </div>
                                 </div>
                             </div>
+                            <Form v-else :initialValues @submit="onSaveProfile" class="mt-4 flex flex-col gap-4">
+                                <div class="flex flex-col gap-1">
+                                    <label for="nickname" class="text-sm">Nickname</label>
+                                    <InputText size="small" placeholder="Nickname" name="nickname" />
+                                </div>
+                                <div class="flex flex-col gap-1">
+                                    <label class="text-sm">Bio</label>
+                                    <!-- Should be `bio` instead of `signature` later -->
+                                    <Textarea size="small" placeholder="Add a bio" name="signature"></Textarea>
+                                    <span class="text-xs">You can <span class="font-bold">@mention</span> other users
+                                        and organizations to link to them.</span>
+                                </div>
+                                <div class="flex flex-col gap-2">
+                                    <label class="text-sm">Pronouns</label>
+                                    <Select size="small" :options="sexOptions" optionLabel="label" optionValue="value"
+                                        name="sex"></Select>
+                                </div>
+                                <div class="flex flex-col gap-1">
+                                    <div class="inline-flex items-center gap-2">
+                                        <i class="pi pi-building text-gray-500"></i>
+                                        <InputText size="small" placeholder="School" name="school" fluid>
+                                        </InputText>
+                                    </div>
+                                    <div class="inline-flex items-center gap-2">
+                                        <i class="pi pi-building-columns text-gray-500"></i>
+                                        <InputText size="small" placeholder="College" name="college" fluid>
+                                        </InputText>
+                                    </div>
+                                    <div class="inline-flex items-center gap-2">
+                                        <i class="pi pi-graduation-cap text-gray-500"></i>
+                                        <InputText size="small" placeholder="Major" name="major" fluid></InputText>
+                                    </div>
+                                </div>
+                                <div class="flex flex-row flex-wrap gap-2">
+                                    <Button size="small" label="Save" type="submit" :loading="inProgress"></Button>
+                                    <Button size="small" label="Cancel" @click="editingProfile = false"
+                                        severity="secondary"></Button>
+                                </div>
+                            </Form>
                         </div>
                         <div class="flex-1 h-full w-full">
                             <Panel v-if="tab === 'overview' && !loading" header="Profile"

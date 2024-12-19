@@ -71,6 +71,7 @@ const disposeEditor = () => {
     if (editor.value) {
         toRaw(editor.value).dispose();
     }
+    self.MonacoEnvironment = undefined;
 }
 
 onUnmounted(disposeEditor)
