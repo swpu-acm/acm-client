@@ -23,6 +23,7 @@
         "makepkg",
         "msvc",
         "Nsis",
+        "pacman",
         "pango",
         "patchelf",
         "persistedstate",

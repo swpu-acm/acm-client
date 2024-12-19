@@ -72,6 +72,11 @@ const releaseAur = defineCommand({
       parser: "string",
       required: true,
     },
+    ci: {
+      type: "option",
+      parser: "boolean",
+      action: "store",
+    },
   },
   callback: async (ctx) => {
     execSync("mkdir -p release", { stdio: "inherit" });
@@ -176,11 +181,13 @@ const releaseAur = defineCommand({
       cwd: "aur",
     });
 
-    // Test AUR package
-    execSync("makepkg -f", {
-      stdio: "inherit",
-      cwd: "aur",
-    });
+    // Test AUR package (skip in CI)
+    if (!ctx.args.ci) {
+      execSync("makepkg -f", {
+        stdio: "inherit",
+        cwd: "aur",
+      });
+    }
 
     // Publish to AUR
     execSync(`git commit -m "release: v${version}"`, {
