@@ -15,6 +15,7 @@ permissions:
 
 jobs:
   version-or-publish:
+    name: Covector
     runs-on: ubuntu-latest
     timeout-minutes: 65
     outputs:
@@ -75,7 +76,7 @@ jobs:
     if: needs.version-or-publish.outputs.releaseId
     permissions:
       contents: write
-    name: Release ${{ needs.version-or-publish.outputs.version }} on ${{ matrix.platform }}
+    name: ${{ needs.version-or-publish.outputs.releaseId && format('Release {0} on {1}', needs.version-or-publish.outputs.version, matrix.platform) || 'Skip Release' }}
     strategy:
       fail-fast: false
       matrix:
