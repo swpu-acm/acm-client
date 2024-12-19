@@ -1,5 +1,18 @@
 # Changelog
 
+## \[0.1.1-rc.2]
+
+### Bug Fixes
+
+- [`6df3dda`](https://github.com/swpu-acm/algohub.git/commit/6df3dda2c83bcf4c6dec3bc09625c54dea818a3c) ([#122](https://github.com/swpu-acm/algohub.git/pull/122) by [@fu050409](https://github.com/swpu-acm/algohub.git/../../fu050409)) Fix avatar update, add profile update calling.
+- [`e6c31d8`](https://github.com/swpu-acm/algohub.git/commit/e6c31d8f6bd57acf39655226d6ae28690f185825) ([#120](https://github.com/swpu-acm/algohub.git/pull/120) by [@fu050409](https://github.com/swpu-acm/algohub.git/../../fu050409)) Skip checks in CI while publishing to AUR.
+
+## \[0.1.1-rc.1]
+
+### New Features
+
+- [`f8a875e`](https://github.com/swpu-acm/algohub.git/commit/f8a875ea2b18038d194e188ff6119ad520629fa5) ([#118](https://github.com/swpu-acm/algohub.git/pull/118) by [@fu050409](https://github.com/swpu-acm/algohub.git/../../fu050409)) Add settings route in the side menu of toolbar.
+
 ## \[0.1.1-rc.0]
 
 ### New Features
