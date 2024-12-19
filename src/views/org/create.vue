@@ -3,7 +3,6 @@ import * as api from "@/scripts/api";
 import { useRouter } from 'vue-router';
 import { useAccountStore } from '@/scripts/store';
 import { ref } from 'vue';
-import { Mode, Visibility } from '@/scripts/types';
 import { reactive } from 'vue';
 import { useToast } from 'primevue/usetoast';
 
@@ -21,13 +20,13 @@ if (!accountStore.isLoggedIn) {
 
 
 const initialValues = reactive({
-    Ogr_name: "",
+    org_name: "",
     contact_email: "",
     terms: false,
 });
 
 interface OrgCreateForm<T> {
-    Org_name?: T;
+    org_name?: T;
     contact_email?: T;
     terms?: T;
 }
@@ -35,8 +34,8 @@ interface OrgCreateForm<T> {
 const resolver = ({ values }: { values: OrgCreateForm<string> }) => {
     const errors: OrgCreateForm<{ message: string }[]> = {};
 
-    if (!values.Org_name) {
-        errors.Org_name = [{ message: 'Organization Name is required.' }];
+    if (!values.org_name) {
+        errors.org_name = [{ message: 'Organization Name is required.' }];
     }
 
     if (!values.contact_email) {
@@ -52,42 +51,26 @@ const resolver = ({ values }: { values: OrgCreateForm<string> }) => {
     };
 };
 
-// const onFormSubmit = ({ valid }) => {
-//     if (valid) {
-//         toast.add({
-//             severity: 'success',
-//             summary: 'Form is submitted.',
-//             life: 3000
-//         });
-//     }
-// };
-
 const name = ref('');
 const email = ref('');
 const description = ref('');
-const start_time = ref<Date>();
-const end_time = ref<Date>();
+const display_name = ref('');
 
 const inProgress = ref(false);
 const onCreateOrg = async () => {
     inProgress.value = true;
-    const res = await api.createContest({
-        auth: accountStore.auth!,
-        data: {
+    const res = await api.createOrganization(
+        accountStore.auth!,
+        {
             name: name.value,
             description: description.value,
-            start_time: start_time.value!.toISOString().replace('Z', ''),
-            end_time: end_time.value!.toISOString().replace('Z', ''),
-            mode: Mode.ICPC,
-            visibility: Visibility.Public,
-            owner: accountStore.recordId
-        }
-    })
+            display_name: display_name.value,
+        })
     if (!res.success) {
         toast.add({ severity: 'error', summary: 'Error', detail: res.message, life: 3000 });
     };
     inProgress.value = false;
-    router.push('/contest/' + res.data!.id);
+    router.push("/org/create" + res.data!.id);
 }
 </script>
 
@@ -105,36 +88,39 @@ const onCreateOrg = async () => {
                     </div>
                     <div class="flex flex-col">
                         <Form v-slot="$form" :initialValues :resolver class="flex flex-col gap-4 w-full ">
-                        <div class="card flex flex-col justify-center">
-                            <div class="flex flex-col">
-                                <label for="name" style="font-size: 20px;">Organization Name *</label>
-                                <InputText v-model="name" name="name"></InputText>
+                            <div class="card flex flex-col justify-center">
+                                <div class="flex flex-col">
+                                    <label for="name" style="font-size: 20px;">Organization Name *</label>
+                                    <InputText v-model="name" name="name"></InputText>
+                                </div>
+                                <Message v-if="$form.org_name?.invalid" severity="error" size="small" variant="simple">
+                                    {{
+                                        $form.org_name.error.message }}</Message>
+                                <div>
+                                    <span class="text-gray-500 mb-4" style="font-size:13px">This will be the name of
+                                        your
+                                        organization on AlgoHub.</span>
+                                </div>
+                                <div class="mt-6 flex flex-col">
+                                    <label for="email" style="font-size: 20px;">Contact Email *</label>
+                                    <InputText v-model="email" email="email"></InputText>
+                                </div>
+                                <Message v-if="$form.contact_email?.invalid" severity="error" size="small"
+                                    variant="simple">
+                                    {{
+                                        $form.contact_email.error.message }}</Message>
                             </div>
-                            <Message v-if="$form.Ogr_name?.invalid" severity="error" size="small" variant="simple">{{
-                                $form.Ogr_name.error.message }}</Message>
-                            <div>
-                                <span class="text-gray-500 mb-4" style="font-size:13px">This will be the name of your
-                                    organization on AlgoHub.</span>
+                            <div class="flex flex-col gap-1 w-full">
+                                <div class="flex items-center gap-2">
+                                    <Checkbox inputId="terms" name="terms" binary />
+                                    <label for="terms" class="text-sm">I have read and agree to the <a href="#"
+                                            class="underline">Affero
+                                            General Public License v3</a>.</label>
+                                </div>
+                                <Message v-if="$form.terms?.invalid" severity="error" size="small" variant="simple">{{
+                                    $form.terms.error.message }}</Message>
                             </div>
-                            <div class="mt-6 flex flex-col">
-                                <label for="email" style="font-size: 20px;">Contact Email *</label>
-                                <InputText v-model="email" email="email"></InputText>
-                            </div>
-                            <Message v-if="$form.contact_email?.invalid" severity="error" size="small" variant="simple">
-                                {{
-                                    $form.contact_email.error.message }}</Message>
-                        </div>
-                        <div class="flex flex-col gap-1 w-full">
-                            <div class="flex items-center gap-2">
-                                <Checkbox inputId="terms" name="terms" binary />
-                                <label for="terms" class="text-sm">I have read and agree to the <a href="#"
-                                        class="underline">Affero
-                                        General Public License v3</a>.</label>
-                            </div>
-                            <Message v-if="$form.terms?.invalid" severity="error" size="small" variant="simple">{{
-                                $form.terms.error.message }}</Message>
-                        </div>
-                        <Button @click="onCreateOrg" :loading="inProgress" label="Next"></Button>
+                            <Button @click="onCreateOrg" :loading="inProgress" label="Next"></Button>
                         </Form>
                     </div>
                 </div>

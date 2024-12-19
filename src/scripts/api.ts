@@ -254,7 +254,7 @@ interface OrganizationData {
   description: string;
 }
 
-export const CreateOrganization = async (auth: Credentials, form: OrganizationData) => {
+export const createOrganization = async (auth: Credentials, form: OrganizationData) => {
   try {
     const response = await axios.post("/org/create", {
       id: auth.id,
