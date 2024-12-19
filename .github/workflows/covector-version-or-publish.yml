@@ -159,7 +159,7 @@ jobs:
       - name: Install dependencies
         run: pnpm install
       - name: Install Makepkg
-        run: sudo apt-get update && sudo apt-get install -y makepkg
+        run: sudo apt-get update && sudo apt-get install -y makepkg pacman
       - name: Publish to AUR
         run: pnpm publish:aur --version ${{ needs.version-or-publish.outputs.version }}
         env:
