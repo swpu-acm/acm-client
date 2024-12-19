@@ -1,5 +1,11 @@
 # Changelog
 
+## \[0.1.1-rc.1]
+
+### New Features
+
+- [`f8a875e`](https://github.com/swpu-acm/algohub.git/commit/f8a875ea2b18038d194e188ff6119ad520629fa5) ([#118](https://github.com/swpu-acm/algohub.git/pull/118) by [@fu050409](https://github.com/swpu-acm/algohub.git/../../fu050409)) Add settings route in the side menu of toolbar.
+
 ## \[0.1.1-rc.0]
 
 ### New Features

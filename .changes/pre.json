@@ -48,6 +48,7 @@
     ".changes/resize-toolbar.md",
     ".changes/rust-nightly.md",
     ".changes/rust-stable.md",
+    ".changes/settings-side.md",
     ".changes/settings.md",
     ".changes/side-panel.md",
     ".changes/signup-panel.md",
