@@ -108,6 +108,17 @@ const selectAvatar = async (event: FileUploadSelectEvent) => {
                         uploadingAvatar.value = false
                         return toast.add({ severity: "error", summary: "Upload failed", detail: res.message });
                     }
+                    const profileRes = await api.updateProfile({
+                        id: accountStore.account!.id!,
+                        token: accountStore.account!.token!,
+                        profile: {
+                            avatar: res.data!.id,
+                        },
+                    })
+                    if (!profileRes.success) {
+                        uploadingAvatar.value = false
+                        return toast.add({ severity: "error", summary: "Update failed", detail: profileRes.message });
+                    }
                     accountStore.account!.avatar = res.data!.id;
                     toast.add({ severity: "success", summary: "Avatar uploaded", detail: "Your new avatar has been saved.", life: 3000 });
                 } else {
