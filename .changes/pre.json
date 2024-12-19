@@ -2,6 +2,7 @@
   "tag": "rc",
   "changes": [
     ".changes/add-icon.md",
+    ".changes/avatar-update.md",
     ".changes/birthday.md",
     ".changes/breadcrumb-bg.md",
     ".changes/breadcrumb.md",
@@ -52,6 +53,7 @@
     ".changes/settings.md",
     ".changes/side-panel.md",
     ".changes/signup-panel.md",
+    ".changes/skip-ci-check.md",
     ".changes/splash.md",
     ".changes/submission.md",
     ".changes/update-icon.md",
