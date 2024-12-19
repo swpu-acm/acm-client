@@ -1,5 +1,5 @@
 {
-  "tag": "beta",
+  "tag": "rc",
   "changes": [
     ".changes/add-icon.md",
     ".changes/birthday.md",

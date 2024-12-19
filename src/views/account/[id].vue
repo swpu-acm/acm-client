@@ -4,7 +4,7 @@ import { useAccountStore, useThemeStore } from "@/scripts/store";
 import { timeAgo } from "@/scripts/time";
 import { UserProblem, type Profile } from "@/scripts/types";
 import { expandAssetUrl } from "@/scripts/utils";
-import { Avatar, useToast } from "primevue";
+import { useToast } from "primevue";
 import { onMounted, reactive, Ref, ref, watch } from "vue";
 import { useRoute, useRouter } from "vue-router";
 
@@ -116,6 +116,7 @@ const onSaveProfile = async ({ states }: { states: Form<Profile> }) => {
         return toast.add({ severity: "error", summary: "Error", detail: res.message });
     }
     Object.assign(profile.value!, data);
+    Object.assign(accountStore.account, profile.value);
     editingProfile.value = false;
     inProgress.value = false;
     toast.add({ severity: "success", summary: "Profile updated", detail: "Your profile has been updated." });
@@ -139,14 +140,17 @@ const onSaveProfile = async ({ states }: { states: Form<Profile> }) => {
                 <TabPanel :value="tab" as="div" class="h-full w-full flex justify-center mx-auto">
                     <div class="w-full max-w-[1200px] flex flex-col md:flex-row my-[2em] gap-6 mx-8">
                         <div v-if="!loading && profile" class="flex flex-col h-full md:w-[18em]">
-                            <div class="flex w-full flex-row md:flex-col gap-4 sm:gap-1">
-                                <div class="flex-shrink-0 w-[8em] md:w-[18em]">
+                            <div class="flex w-full flex-row md:flex-col gap-4">
+                                <div class="flex-shrink-0 w-[8em] md:w-[18em]"
+                                    @click="accountStore.account?.username === profile.username && router.push('/settings/profile')">
                                     <img v-if="profile?.avatar"
                                         class="rounded-full border-[2px] border-zinc-300 dark:border-zinc-700"
-                                        :src="expandAssetUrl(profile.avatar)"></img>
-                                    <Avatar v-else pt:label:class="text-4xl sm:text-9xl"
-                                        :label="(profile?.nickname ?? '?')[0]"
-                                        class="!rounded-full border-[2px] border-zinc-300 dark:border-zinc-700">
+                                        :class="{ 'cursor-pointer': accountStore.account?.username === profile.username }"
+                                        :src="expandAssetUrl(profile.avatar!)"></img>
+                                    <Avatar v-else pt:root:class="!w-[8em] md:!w-[18em] !h-[8em] md:!h-[18em]"
+                                        pt:label:class="text-4xl md:text-9xl" :label="(profile?.nickname ?? '?')[0]"
+                                        :class="{ 'cursor-pointer': accountStore.account?.username === profile.username }"
+                                        shape="circle" class="border-[2px] border-zinc-300 dark:border-zinc-700">
                                     </Avatar>
                                 </div>
                                 <div v-if="!editingProfile" class="flex items-start justify-center gap-1 flex-col">
