@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - main
-      - fix/aur
 
 permissions:
   # required for npm provenance
@@ -77,7 +76,7 @@ jobs:
     if: needs.version-or-publish.outputs.releaseId
     permissions:
       contents: write
-    name: ${{ needs.version-or-publish.outputs.releaseId && format('Release {0} on {1}', needs.version-or-publish.outputs.version, matrix.platform) || 'Skip Release' }}
+    name: Release ${{ needs.version-or-publish.outputs.version }} on ${{ matrix.platform }}
     strategy:
       fail-fast: false
       matrix:
