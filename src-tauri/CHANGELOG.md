@@ -1,5 +1,15 @@
 # Changelog
 
+## \[0.1.1-rc.0]
+
+### New Features
+
+- [`0a70c8b`](https://github.com/swpu-acm/algohub.git/commit/0a70c8bda4e2036cf471e3e3ffa0218e53d9cfdc) ([#117](https://github.com/swpu-acm/algohub.git/pull/117) by [@fu050409](https://github.com/swpu-acm/algohub.git/../../fu050409)) Add settings page to edit user profile and education info.
+
+### Bug Fixes
+
+- [`a4bfddd`](https://github.com/swpu-acm/algohub.git/commit/a4bfdddc33819df278a4ac563c79545784aae2b1) ([#115](https://github.com/swpu-acm/algohub.git/pull/115) by [@fu050409](https://github.com/swpu-acm/algohub.git/../../fu050409)) Fix avatar size is invalid in user profile page if user avatar is not uploaded.
+
 ## \[0.1.1-beta.4]
 
 ### New Features
