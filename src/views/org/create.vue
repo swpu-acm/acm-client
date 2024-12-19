@@ -70,7 +70,8 @@ const onCreateOrg = async () => {
         toast.add({ severity: 'error', summary: 'Error', detail: res.message, life: 3000 });
     };
     inProgress.value = false;
-    router.push("/org/create" + res.data!.id);
+//    router.push("/org/create" + res.data!.id);
+// TODO: redirect to organization home page
 }
 </script>
 
