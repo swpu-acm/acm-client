@@ -173,7 +173,6 @@ const releaseAur = defineCommand({
     // Setup Git repository
     execSync("git add .", {
       stdio: "inherit",
-      cwd: "aur",
     });
     execSync(`git -C aur config user.name "苏向夜"`, { stdio: "inherit" });
     execSync(`git -C aur config user.email "fu050409@163.com"`, {
