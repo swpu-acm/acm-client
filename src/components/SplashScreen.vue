@@ -71,7 +71,7 @@ onMounted(async () => {
     <div @click="onChange" class="bg-gray-900 flex flex-col items-center justify-center h-full w-full">
         <div class="flex flex-col items-center justify-center h-full w-full max-w-[700px] gap-[2em]">
             <div class="flex flex-col items-center justify-center">
-                <img src="/acm-light.png" class="w-48" />
+                <img src="/algohub-day.svg" class="w-48" />
                 <div class=" text-white text-center font-bold text-4xl w-full">AlgoHub
                 </div>
             </div>
