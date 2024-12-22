@@ -1,5 +1,12 @@
 # Changelog
 
+## \[0.1.1-rc.3]
+
+### New Features
+
+- [`7ab4f7a`](https://github.com/swpu-acm/algohub.git/commit/7ab4f7a6be82b07987dcbe7a9c8bd3949c70a164) ([#125](https://github.com/swpu-acm/algohub.git/pull/125) by [@luo0602141017](https://github.com/swpu-acm/algohub.git/../../luo0602141017)) Created a new org create page.
+- [`e78ad49`](https://github.com/swpu-acm/algohub.git/commit/e78ad49294d808fdc1eaedee5e0fddcb9af96d24) ([#128](https://github.com/swpu-acm/algohub.git/pull/128) by [@sunyuxi4](https://github.com/swpu-acm/algohub.git/../../sunyuxi4)) Update logo to use `.svg` file instead of `.png`.
+
 ## \[0.1.1-rc.2]
 
 ### Bug Fixes
