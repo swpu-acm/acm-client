@@ -1,5 +1,11 @@
 # Changelog
 
+## \[0.1.1-rc.5]
+
+### Hot Fixes
+
+- [`2f9db8c`](https://github.com/swpu-acm/algohub.git/commit/2f9db8c8541bccc9bd3757aa1afeb37552b9358a) ([#131](https://github.com/swpu-acm/algohub.git/pull/131) by [@fu050409](https://github.com/swpu-acm/algohub.git/../../fu050409)) Bump farm version to `v1.6.0` and bump worker plugin to `v0.0.7`.
+
 ## \[0.1.1-rc.4]
 
 ### Hot Fixes
