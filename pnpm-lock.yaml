@@ -76,8 +76,8 @@ importers:
         specifier: ^1.11.0
         version: 1.11.0(@farmfe/core@1.6.0)(postcss@8.4.49)
       '@farmfe/plugin-worker':
-        specifier: ^0.0.6
-        version: 0.0.6
+        specifier: ^0.0.7
+        version: 0.0.7
       '@primevue/auto-import-resolver':
         specifier: ^4.2.5
         version: 4.2.5
@@ -620,8 +620,8 @@ packages:
       '@farmfe/core': ^1.6.0
       postcss: '>=8.0.0'
 
-  '@farmfe/plugin-worker@0.0.6':
-    resolution: {integrity: sha512-eCZcloccm0KYZ0wMvJr/HY/AxL7o1kq/X55Z0YRJKW/PxmXiDTD+/q2VBDL6ZARWpbeEbseJRqnW5dea0VuqvA==}
+  '@farmfe/plugin-worker@0.0.7':
+    resolution: {integrity: sha512-aop7JaBaLoGXHG/PuaPTgyQDhqLkRMGHvqqVeDb4AvL+rVjKgQBmphC6Z6DIkMYmcDOKOMZ1kmQ/JMzHfKDKKQ==}
 
   '@farmfe/runtime-plugin-hmr@3.5.10':
     resolution: {integrity: sha512-ZFwAGDJ1sNuwX77ADdPSO+PoMImrGl0k+nvW/TnzOy72k8JxC8OwaeOiuPgNkYxDGldp55l9mPE9NvcoxR8uzQ==}
@@ -1772,56 +1772,56 @@ packages:
   farm-plugin-replace-dirname@0.2.1:
     resolution: {integrity: sha512-aJ4euQzxoq0sVu4AwXrNQflHJrSZdrdApGEyVRtN6KiCop3CHXnTg9ydlyCNXN2unQB283aNjojvCd5E/32KgA==}
 
-  farmfe-plugin-worker-darwin-arm64@0.0.6:
-    resolution: {integrity: sha512-8ZqgVMrnb6X0wk4/X2joVF8pSmEFJBA9Z9jYJZ5XZ3D8RMriW0ZWmczzCzVNXhn31zjwSamUXbFTHhk5lg51AQ==}
+  farmfe-plugin-worker-darwin-arm64@0.0.7:
+    resolution: {integrity: sha512-nXTul5llUNHwbIH9C1iMBIg25xyZdTxxh0F6HEA5+DUQkC0HYOfycWUaokpwod+wtfSpY+/WZlZ1NbpU4uhvrw==}
     engines: {node: '>= 10'}
     cpu: [arm64]
     os: [darwin]
 
-  farmfe-plugin-worker-darwin-x64@0.0.6:
-    resolution: {integrity: sha512-hcxs+BGVVJdXVPbUaLRyIzvhzUGt+XrMPopoVuXwzCYxG3RgXV2CH5fq7+OsgbMpf2O5+FjpLD0CcsUtyFlsBg==}
+  farmfe-plugin-worker-darwin-x64@0.0.7:
+    resolution: {integrity: sha512-kyVtjTmLrvDR9fyNWHlP2pc8zsHB9R4ROyURy0paNgglKhGTNMa2mptgnOtmU2eIUqEQvyh0T7T2vUDHv/ngkA==}
     engines: {node: '>= 10'}
     cpu: [x64]
     os: [darwin]
 
-  farmfe-plugin-worker-linux-arm64-gnu@0.0.6:
-    resolution: {integrity: sha512-+u8b8H6rWcPEL7rfLx9gfpETPYLo4cPp9OuLlK14bQePek6Hln8qmdxOw1srtdrx11q56V4YxyiZwkRLZjbIqA==}
+  farmfe-plugin-worker-linux-arm64-gnu@0.0.7:
+    resolution: {integrity: sha512-7JO9RbBGKavil8mnxvyeoJhkfSQvu6VjJtl8G9W2/2H1/oWgExH+0+hQdavuPLf12PAAm2Kpi29k6Iw2zz/cMA==}
     engines: {node: '>= 10'}
     cpu: [arm64]
     os: [linux]
 
-  farmfe-plugin-worker-linux-arm64-musl@0.0.6:
-    resolution: {integrity: sha512-bsxu0Wbbd8Hp4kl8XsG/g7A5CtbEtlBjjkr9nXePeO3gIvbAxX6DI1ASkzGKpMiVLtn/foR5DUsmuUpN9vZTMw==}
+  farmfe-plugin-worker-linux-arm64-musl@0.0.7:
+    resolution: {integrity: sha512-jw7DnXNdc/TxwCKWKn8CXhHHvIIZYG6Q6R316D06Mg8bHGuOpAHwb31FN9Rbv4dXKGV6oLb5seG+VtC+6ZJtTw==}
     engines: {node: '>= 10'}
     cpu: [arm64]
     os: [linux]
 
-  farmfe-plugin-worker-linux-x64-gnu@0.0.6:
-    resolution: {integrity: sha512-0N/qfn1KzqsxAFy4SMHfCZOO0PNAgmtCPYfkuMFFY/haItusEZfJIo/qnhyOy/jgEN2Jn+cz2n8SbAUD9fH/Wg==}
+  farmfe-plugin-worker-linux-x64-gnu@0.0.7:
+    resolution: {integrity: sha512-t2V1FUkL9i6+787Dk/cWinubBDi70JWcgmuMIHf/AoQQVPUvwd7NZd1WPgXE2/Mr81RePXDROe+mgJhTNfV8wg==}
     engines: {node: '>= 10'}
     cpu: [x64]
     os: [linux]
 
-  farmfe-plugin-worker-linux-x64-musl@0.0.6:
-    resolution: {integrity: sha512-HvOU5PmU4slGdui1Njc1WP0oAKLhaZeOzNdLhBzEMRlcwafyeYQRtHyDpftfMfAfzg8YchSTsM3yE82WBh8CXQ==}
+  farmfe-plugin-worker-linux-x64-musl@0.0.7:
+    resolution: {integrity: sha512-rro7kwpb224zKsvF3sZXcluoS/6W/uYdyqqYH/JAGz9KHy9B7f65y5Ur0kTU73aH6wwyRMQ9Ab+B/ns0TIzgHg==}
     engines: {node: '>= 10'}
     cpu: [x64]
     os: [linux]
 
-  farmfe-plugin-worker-win32-arm64-msvc@0.0.6:
-    resolution: {integrity: sha512-VdOhjlibrpaDWcNhfX2bA8mmtvr4ttp8shg/VnrQ0D68on+Ww4ONzbBntcMyVqhkbbj9C4LJCriQgoil+7iPoA==}
+  farmfe-plugin-worker-win32-arm64-msvc@0.0.7:
+    resolution: {integrity: sha512-7ncFctRCrNqU3E7fGfJVVjfIS2T7V+6YPAFu4eTkKEDFTQuY0UniJbDWjugn7UhYjrpQtjGIUEf9d7oqtYF5rg==}
     engines: {node: '>= 10'}
     cpu: [arm64]
     os: [win32]
 
-  farmfe-plugin-worker-win32-ia32-msvc@0.0.6:
-    resolution: {integrity: sha512-ET/K8F/lwV+/MNW/nlo9K0Z6hz7TV6at0qrLG8GL/wpx6WF1A3QReBFrMaLEqSVqIU73qGU14lXsGlReQBeRrw==}
+  farmfe-plugin-worker-win32-ia32-msvc@0.0.7:
+    resolution: {integrity: sha512-AxICHrH7RpyvxKP3QD+pJVyu3A1TZeM2KP1rNDtGQs6MCM7Iq4/TWIIbVCIrw7kWuGzVY30tS4SBMc5Z4X510g==}
     engines: {node: '>= 10'}
     cpu: [ia32]
     os: [win32]
 
-  farmfe-plugin-worker-win32-x64-msvc@0.0.6:
-    resolution: {integrity: sha512-IDvwzckDFppAOik31b88tDGUjElpkK7OWd5qLgbeau2u52EaUeGW+8Ii2XQ1hXUTQ2HfRR3OqJoKcvzlVhGd6A==}
+  farmfe-plugin-worker-win32-x64-msvc@0.0.7:
+    resolution: {integrity: sha512-Ra3/eLNVdPFuRWmSFIZYRYu7rZhHJSnuQRmcNQxUM5/syEwiLAaMuIjpKcErER6+XJYxWYGuFgAHVwfcBLqsXw==}
     engines: {node: '>= 10'}
     cpu: [x64]
     os: [win32]
@@ -4144,17 +4144,17 @@ snapshots:
       '@farmfe/core': 1.6.0
       postcss: 8.4.49
 
-  '@farmfe/plugin-worker@0.0.6':
+  '@farmfe/plugin-worker@0.0.7':
     optionalDependencies:
-      farmfe-plugin-worker-darwin-arm64: 0.0.6
-      farmfe-plugin-worker-darwin-x64: 0.0.6
-      farmfe-plugin-worker-linux-arm64-gnu: 0.0.6
-      farmfe-plugin-worker-linux-arm64-musl: 0.0.6
-      farmfe-plugin-worker-linux-x64-gnu: 0.0.6
-      farmfe-plugin-worker-linux-x64-musl: 0.0.6
-      farmfe-plugin-worker-win32-arm64-msvc: 0.0.6
-      farmfe-plugin-worker-win32-ia32-msvc: 0.0.6
-      farmfe-plugin-worker-win32-x64-msvc: 0.0.6
+      farmfe-plugin-worker-darwin-arm64: 0.0.7
+      farmfe-plugin-worker-darwin-x64: 0.0.7
+      farmfe-plugin-worker-linux-arm64-gnu: 0.0.7
+      farmfe-plugin-worker-linux-arm64-musl: 0.0.7
+      farmfe-plugin-worker-linux-x64-gnu: 0.0.7
+      farmfe-plugin-worker-linux-x64-musl: 0.0.7
+      farmfe-plugin-worker-win32-arm64-msvc: 0.0.7
+      farmfe-plugin-worker-win32-ia32-msvc: 0.0.7
+      farmfe-plugin-worker-win32-x64-msvc: 0.0.7
 
   '@farmfe/runtime-plugin-hmr@3.5.10':
     dependencies:
@@ -5338,31 +5338,31 @@ snapshots:
       farm-plugin-replace-dirname-win32-ia32-msvc: 0.2.1
       farm-plugin-replace-dirname-win32-x64-msvc: 0.2.1
 
-  farmfe-plugin-worker-darwin-arm64@0.0.6:
+  farmfe-plugin-worker-darwin-arm64@0.0.7:
     optional: true
 
-  farmfe-plugin-worker-darwin-x64@0.0.6:
+  farmfe-plugin-worker-darwin-x64@0.0.7:
     optional: true
 
-  farmfe-plugin-worker-linux-arm64-gnu@0.0.6:
+  farmfe-plugin-worker-linux-arm64-gnu@0.0.7:
     optional: true
 
-  farmfe-plugin-worker-linux-arm64-musl@0.0.6:
+  farmfe-plugin-worker-linux-arm64-musl@0.0.7:
     optional: true
 
-  farmfe-plugin-worker-linux-x64-gnu@0.0.6:
+  farmfe-plugin-worker-linux-x64-gnu@0.0.7:
     optional: true
 
-  farmfe-plugin-worker-linux-x64-musl@0.0.6:
+  farmfe-plugin-worker-linux-x64-musl@0.0.7:
     optional: true
 
-  farmfe-plugin-worker-win32-arm64-msvc@0.0.6:
+  farmfe-plugin-worker-win32-arm64-msvc@0.0.7:
     optional: true
 
-  farmfe-plugin-worker-win32-ia32-msvc@0.0.6:
+  farmfe-plugin-worker-win32-ia32-msvc@0.0.7:
     optional: true
 
-  farmfe-plugin-worker-win32-x64-msvc@0.0.6:
+  farmfe-plugin-worker-win32-x64-msvc@0.0.7:
     optional: true
 
   fast-glob@3.3.2:
