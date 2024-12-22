@@ -1,5 +1,11 @@
 # Changelog
 
+## \[0.1.1-rc.4]
+
+### Hot Fixes
+
+- [`2f701ea`](https://github.com/swpu-acm/algohub.git/commit/2f701ea62a1dcfbb44827c166ab48de0978648c8) ([#129](https://github.com/swpu-acm/algohub.git/pull/129) by [@fu050409](https://github.com/swpu-acm/algohub.git/../../fu050409)) Fix logo paths in `index.html` and `SplashScreen.vue`.
+
 ## \[0.1.1-rc.3]
 
 ### New Features
