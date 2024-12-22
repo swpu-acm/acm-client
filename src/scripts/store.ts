@@ -31,7 +31,7 @@ export const useThemeStore = defineStore(
       }
     };
     const icon = computed(() => (dark.value ? "pi pi-moon" : "pi pi-sun"));
-    const logo = computed(() => (dark.value ? "/acm-light.png" : "/acm.png"));
+    const logo = computed(() => (dark.value ? "/algohub-night.svg" : "/algohub-day.svg"));
     return { dark, toggle, init, icon, logo };
   },
   {

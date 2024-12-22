@@ -69,7 +69,7 @@ const onLogin = async ({ valid, states }: { valid: boolean, states: LoginForm<Re
   <div class="flex flex-row h-full">
     <div class="hidden md:flex flex-col items-center justify-center h-full w-full">
       <div class="flex flex-1 flex-col items-center justify-center w-full h-full">
-        <Image class="hidden md:flex" :src="themeStore.dark ? '/acm-light.png' : '/acm.png'" alt="Image" width="250" />
+        <Image class="hidden md:flex" :src="themeStore.logo" alt="Image" width="250" />
         <h1 class="text-3xl md:text-4xl font-bold mt-6 md:m-0">ACM Algorithm Hub</h1>
       </div>
       <footer class="flex flex-row items-start w-full">
