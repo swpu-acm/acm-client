@@ -41,7 +41,7 @@
     "@farmfe/cli": "^1.0.4",
     "@farmfe/core": "^1.6.0",
     "@farmfe/js-plugin-postcss": "^1.11.0",
-    "@farmfe/plugin-worker": "^0.0.6",
+    "@farmfe/plugin-worker": "^0.0.7",
     "@primevue/auto-import-resolver": "^4.2.5",
     "@tauri-apps/cli": "^2.1.0",
     "@types/node": "^22.10.2",
