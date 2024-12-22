@@ -60,4 +60,4 @@ jobs:
         run: pnpm install
 
       - name: Build Tauri app
-        run: pnpm run build:tauri -- ${{ matrix.args }}
+        run: pnpm tauri build ${{ matrix.args }}
