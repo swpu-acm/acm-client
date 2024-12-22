@@ -3,6 +3,7 @@
   "changeTags": {
     "feat": "New Features",
     "fix": "Bug Fixes",
+    "hotfix": "Hot Fixes",
     "perf": "Performance Improvements",
     "chore": "Chores",
     "refactor": "Refactors"
