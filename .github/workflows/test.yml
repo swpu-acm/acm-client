@@ -59,8 +59,5 @@ jobs:
       - name: Install frontend dependencies
         run: pnpm install
 
-      - name: Bump Tauri version
-        run: pnpm version:bump tauri --version ${{ needs.version-or-publish.outputs.version }}
-
       - name: Build Tauri app
         run: pnpm run build:tauri -- ${{ matrix.args }}
