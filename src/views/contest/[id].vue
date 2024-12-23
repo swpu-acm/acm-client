@@ -130,7 +130,11 @@ onUnmounted(() => {
                         <Panel class="flex-grow">
                             <template #header>
                                 <div class="flex justify-center items-center w-full">
-                                    <span class="text-2xl font-bold">Time to start</span>
+                                    <span class="text-2xl font-bold" >
+                                        <p v-if="!hasStarted()">Time to start</p>
+                                        <p v-else-if="hasStarted() && notEnded()">Contest is ongoing</p>
+                                        <p v-else-if="!notEnded()">Contest has ended</p>
+                                    </span>
                                 </div>
                             </template>
                             <template #default>
