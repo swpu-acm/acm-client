@@ -1,5 +1,11 @@
 # Changelog
 
+## \[0.1.1-rc.6]
+
+### Bug Fixes
+
+- [`6936b96`](https://github.com/swpu-acm/algohub.git/commit/6936b96baad0a677c73c7e3d28148e8d8f9b22c8) ([#137](https://github.com/swpu-acm/algohub.git/pull/137) by [@fu050409](https://github.com/swpu-acm/algohub.git/../../fu050409)) Fix student id and name updates in settings page.
+
 ## \[0.1.1-rc.5]
 
 ### Hot Fixes
