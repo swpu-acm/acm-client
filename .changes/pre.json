@@ -22,6 +22,7 @@
     ".changes/fix-login.md",
     ".changes/fix-logo.md",
     ".changes/fix-md-preview.md",
+    ".changes/fix-profile-update.md",
     ".changes/fix-sha256.md",
     ".changes/fix-signup-birthday.md",
     ".changes/fix-tauri-version.md",
