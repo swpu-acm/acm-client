@@ -42,6 +42,9 @@ Type=Application
 }
 `;
 
+/**
+ * @param {import("fs").PathLike} filePath
+ */
 function generateSHA256(filePath) {
   return new Promise((resolve, reject) => {
     const hash = createHash("sha256");

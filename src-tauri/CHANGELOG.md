@@ -1,5 +1,24 @@
 # Changelog
 
+## \[0.1.1-rc.5]
+
+### Hot Fixes
+
+- [`2f9db8c`](https://github.com/swpu-acm/algohub.git/commit/2f9db8c8541bccc9bd3757aa1afeb37552b9358a) ([#131](https://github.com/swpu-acm/algohub.git/pull/131) by [@fu050409](https://github.com/swpu-acm/algohub.git/../../fu050409)) Bump farm version to `v1.6.0` and bump worker plugin to `v0.0.7`.
+
+## \[0.1.1-rc.4]
+
+### Hot Fixes
+
+- [`2f701ea`](https://github.com/swpu-acm/algohub.git/commit/2f701ea62a1dcfbb44827c166ab48de0978648c8) ([#129](https://github.com/swpu-acm/algohub.git/pull/129) by [@fu050409](https://github.com/swpu-acm/algohub.git/../../fu050409)) Fix logo paths in `index.html` and `SplashScreen.vue`.
+
+## \[0.1.1-rc.3]
+
+### New Features
+
+- [`7ab4f7a`](https://github.com/swpu-acm/algohub.git/commit/7ab4f7a6be82b07987dcbe7a9c8bd3949c70a164) ([#125](https://github.com/swpu-acm/algohub.git/pull/125) by [@luo0602141017](https://github.com/swpu-acm/algohub.git/../../luo0602141017)) Created a new org create page.
+- [`e78ad49`](https://github.com/swpu-acm/algohub.git/commit/e78ad49294d808fdc1eaedee5e0fddcb9af96d24) ([#128](https://github.com/swpu-acm/algohub.git/pull/128) by [@sunyuxi4](https://github.com/swpu-acm/algohub.git/../../sunyuxi4)) Update logo to use `.svg` file instead of `.png`.
+
 ## \[0.1.1-rc.2]
 
 ### Bug Fixes
