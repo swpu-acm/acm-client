@@ -43,6 +43,8 @@ const onUpdatingProfile = async ({ states }: { states: any }) => {
         school: states.school?.value?.trim() || '',
         college: states.college?.value?.trim() || '',
         major: states.major?.value?.trim() || '',
+        name: states.name?.value?.trim() || '',
+        student_id: states.student_id?.value?.trim() || '',
     };
     const res = await api.updateProfile({
         id: accountStore.account.id!,
