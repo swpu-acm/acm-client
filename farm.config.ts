@@ -1,5 +1,5 @@
 /*****************************************************************************
- * AlgoHub: Cross-platform online judge cilent based on Tauri
+ * AlgoHub: Cross-platform online judge client based on Tauri
  * Copyright (C) 2024 Association of Computing Machinery affiliated SWPU
  *
  * This program is free software: you can redistribute it and/or modify
