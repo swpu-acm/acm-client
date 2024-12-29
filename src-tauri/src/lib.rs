@@ -1,3 +1,21 @@
+/*****************************************************************************
+ * AlgoHub: Cross-platform online judge client based on Tauri
+ * Copyright (C) 2024 Association of Computing Machinery affiliated SWPU
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ *****************************************************************************/
+
 use serde::{Deserialize, Serialize};
 use std::fs;
 use tokio::fs::File;
@@ -61,7 +79,7 @@ async fn get_latest_versions() -> Result<LatestVersions, Error> {
         .await
         .map_err(|e| e.to_string())?;
 
-    
+
     let tags = response
         .json::<Vec<TagResponse>>()
         .await
@@ -69,10 +87,10 @@ async fn get_latest_versions() -> Result<LatestVersions, Error> {
 
     let mut latest_versions = LatestVersions::default();
 
- 
+
     for item in tags.into_iter().rev() {
         if let Some(tag) = item.r#ref.as_str().strip_prefix("refs/tags/algohub-v") {
-   
+
             let tag = tag.to_string();
             if tag.contains("nightly") {
                 if latest_versions.nightly.is_none()
@@ -102,7 +120,7 @@ async fn get_latest_versions() -> Result<LatestVersions, Error> {
                 }
 
 
-       
+
             if latest_versions.nightly.is_some()
                 && latest_versions.alpha.is_some()
                 && latest_versions.stable.is_some()
@@ -136,7 +154,7 @@ impl Default for DownloadResult {
 #[tauri::command]
 async fn download_release(version: &str) -> Result<DownloadResult, Error> {
     let os = std::env::consts::OS;
-    let arch = std::env::consts::ARCH; 
+    let arch = std::env::consts::ARCH;
 
     let mut result = DownloadResult::default();
 
@@ -195,8 +213,8 @@ async fn download_release(version: &str) -> Result<DownloadResult, Error> {
 
     if !response.status().is_success() {
         return Err(format!(
-            "Failed to download release from {}. HTTP Status: {}", 
-            url, 
+            "Failed to download release from {}. HTTP Status: {}",
+            url,
             response.status()
         )
         .into());
@@ -204,13 +222,13 @@ async fn download_release(version: &str) -> Result<DownloadResult, Error> {
 
     let content = response
         .bytes()
-        .await 
+        .await
         .map_err(|e| format!("Failed to read response content: {}", e).to_string())?;
 
 
 
     let mut file = File::create(&file_name)
-        .await 
+        .await
         .map_err(|e| format!("Failed to create file {}: {}", file_name, e).to_string())?;
 
     file.write_all(&content)

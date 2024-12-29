@@ -4,6 +4,7 @@ version = "0.1.1-rc.6"
 description = "ACM Algorithm Hub"
 repository = "https://github.com/swpu-acm/algohub"
 readme = "../README.md"
+license = "AGPL-3.0-only"
 authors = ["苏向夜 <fu050409@163.com>"]
 edition = "2021"
 
