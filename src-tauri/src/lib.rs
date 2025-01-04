@@ -59,12 +59,10 @@ impl<T: AsRef<str>> From<T> for Error {
     }
 }
 
-
 #[derive(Deserialize)]
 struct TagResponse {
     pub r#ref: String,
 }
-
 
 #[tauri::command]
 async fn get_latest_versions() -> Result<LatestVersions, Error> {
@@ -79,7 +77,6 @@ async fn get_latest_versions() -> Result<LatestVersions, Error> {
         .await
         .map_err(|e| e.to_string())?;
 
-
     let tags = response
         .json::<Vec<TagResponse>>()
         .await
@@ -87,10 +84,8 @@ async fn get_latest_versions() -> Result<LatestVersions, Error> {
 
     let mut latest_versions = LatestVersions::default();
 
-
     for item in tags.into_iter().rev() {
         if let Some(tag) = item.r#ref.as_str().strip_prefix("refs/tags/algohub-v") {
-
             let tag = tag.to_string();
             if tag.contains("nightly") {
                 if latest_versions.nightly.is_none()
@@ -99,14 +94,12 @@ async fn get_latest_versions() -> Result<LatestVersions, Error> {
                     latest_versions.nightly = Some(tag.to_string());
                 }
             } else if tag.contains("alpha") {
-                if latest_versions.alpha.is_none()
-                    || latest_versions.alpha.as_ref().unwrap() < &tag
+                if latest_versions.alpha.is_none() || latest_versions.alpha.as_ref().unwrap() < &tag
                 {
                     latest_versions.alpha = Some(tag.to_string());
                 }
             } else if tag.contains("beta") {
-                if latest_versions.beta.is_none() || latest_versions.beta.as_ref().unwrap() < &tag
-                {
+                if latest_versions.beta.is_none() || latest_versions.beta.as_ref().unwrap() < &tag {
                     latest_versions.beta = Some(tag.to_string());
                 }
             } else if tag.contains("rc") {
@@ -114,12 +107,10 @@ async fn get_latest_versions() -> Result<LatestVersions, Error> {
                     latest_versions.rc = Some(tag.to_string());
                 }
             } else if latest_versions.stable.is_none()
-                    || latest_versions.stable.as_ref().unwrap() < &tag
-                {
-                    latest_versions.stable = Some(tag.to_string());
-                }
-
-
+                || latest_versions.stable.as_ref().unwrap() < &tag
+            {
+                latest_versions.stable = Some(tag.to_string());
+            }
 
             if latest_versions.nightly.is_some()
                 && latest_versions.alpha.is_some()
@@ -134,7 +125,6 @@ async fn get_latest_versions() -> Result<LatestVersions, Error> {
 
     Ok(latest_versions)
 }
-
 
 #[derive(Serialize)]
 struct DownloadResult {
@@ -161,12 +151,11 @@ async fn download_release(version: &str) -> Result<DownloadResult, Error> {
     if os == "linux" {
         if let Ok(content) = fs::read_to_string("/etc/os-release") {
             if content.contains("Arch Linux") {
-                result.message=Some("Please install the latest version manually".to_string());
-                return Ok(result)
+                result.message = Some("Please install the latest version manually".to_string());
+                return Ok(result);
             }
         }
     }
-
 
     let file_name = match (os, arch) {
         ("macos", "x86_64") => format!("algohub_{}_x64.dmg", version),
@@ -186,16 +175,14 @@ async fn download_release(version: &str) -> Result<DownloadResult, Error> {
                 format!("algohub_{}_x64-setup.exe", version)
             }
         }
-        _ =>  {
+        _ => {
             return Err(format!(
                 "Unsupported OS or architecture: OS = {}, ARCH = {}",
                 os, arch
             )
             .into())
         }
-
     };
-
 
     let url = format!(
         "https://github.com/swpu-acm/algohub/releases/download/{}/{}",
@@ -209,7 +196,6 @@ async fn download_release(version: &str) -> Result<DownloadResult, Error> {
         .send()
         .await
         .map_err(|e| format!("Failed to send request to {}: {}", url, e).to_string())?;
-
 
     if !response.status().is_success() {
         return Err(format!(
@@ -225,8 +211,6 @@ async fn download_release(version: &str) -> Result<DownloadResult, Error> {
         .await
         .map_err(|e| format!("Failed to read response content: {}", e).to_string())?;
 
-
-
     let mut file = File::create(&file_name)
         .await
         .map_err(|e| format!("Failed to create file {}: {}", file_name, e).to_string())?;
@@ -241,10 +225,10 @@ async fn download_release(version: &str) -> Result<DownloadResult, Error> {
     })
 }
 
-
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
     tauri::Builder::default()
+       // .plugin(tauri_plugin_updater::Builder::new().build())
         .plugin(tauri_plugin_shell::init())
         .invoke_handler(tauri::generate_handler![
             get_latest_versions,
